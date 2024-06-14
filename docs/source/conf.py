@@ -38,7 +38,7 @@ release = "0.0.3"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-autodoc_mock_imports = ["torch", "torchvision"]
+autodoc_mock_imports = ["torch", "torchvision", "openslide"]
 extensions = ["sphinx.ext.autodoc", "sphinx_multiversion", "sphinx.ext.napoleon", "autoparam"]
 templates_path = ["_templates"]
 exclude_patterns = []
