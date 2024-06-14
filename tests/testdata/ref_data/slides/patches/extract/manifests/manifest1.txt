@@ -1,0 +1,73 @@
+Manifest ID:            t8mzd2i2
+Manifest file path:     /tmp/dplabtools/tests/testdata/saved_data/manifests/manifests/manifest__t8mzd2i2__board-multi-layer-no-compression-mpp.txt
+Date created:           2023-Feb-28 16:24:46
+Hostname:               linux0
+--------------------------------------------------
+Patch class:            WholeImageGridPatches
+Patch class params:
+                        foreground_ratio: 0.88
+                        level_or_mpp: 0
+                        mask_data: testdata/mask/board-clean-mask-inner.npy
+                        overlap_ratio: 0.77
+                        patch_size: 256
+                        patch_stride: 1
+                        polygon_buffer: 0
+                        weak_label: XYZ
+                        wsi_file: testdata/wsi/board-multi-layer-no-compression-mpp.tif
+Patch count:            40
+Patch labels:           {'XYZ': 40}
+Extractor class:        DiskPatchExtractor
+Extractor class params:
+                        create_subdirs: True
+                        excluded_labels: []
+                        filename_comment: testcomment
+                        filename_separator: __
+                        image_type: tif
+                        included_labels: []
+                        mp_chunksize: 1
+                        num_workers: 4
+                        output_dir: testdata/saved_data/manifests
+                        pool_mode: False
+                        resampling_mode: None
+Saved patches:
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x256__y256.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x768__y256.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1280__y256.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1792__y256.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x512__y512.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1024__y512.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1536__y512.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x2048__y512.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x256__y768.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x768__y768.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1280__y768.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1792__y768.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x512__y1024.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1024__y1024.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1536__y1024.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x2048__y1024.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x256__y1280.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x768__y1280.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1280__y1280.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1792__y1280.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x512__y1536.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1024__y1536.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1536__y1536.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x2048__y1536.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x256__y1792.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x768__y1792.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1280__y1792.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1792__y1792.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x512__y2048.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1024__y2048.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1536__y2048.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x2048__y2048.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x256__y2304.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x768__y2304.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1280__y2304.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1792__y2304.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x512__y2560.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1024__y2560.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x1536__y2560.tif
+                        testdata/saved_data/manifests/XYZ/board-multi-layer-no-compression-mpp__t8mzd2i2__testcomment__XYZ__x2048__y2560.tif
+Disk file count:        40

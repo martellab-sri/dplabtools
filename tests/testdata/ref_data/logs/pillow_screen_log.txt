@@ -1,0 +1,43 @@
+wsi-flat.jpg: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+wsi-flat.jpg: Embedded label image is not available
+wsi-flat.jpg: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+wsi-flat.jpg: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+wsi-flat.jpg: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+wsi-flat.jpg: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+wsi-flat.jpg: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+wsi-flat.jpg: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+wsi-flat.jpg: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+wsi-flat.jpg: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-flat.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-flat.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-flat.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-flat.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-flat.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-flat.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-flat.tif: MPP values matching WSI levels (resampling skipped): [0.5]
+board-flat.tif: Resampling file at MPP=[0.75]
+board-flat.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-flat.tif: Resampling file at MPP=[0.5, 0.75, 0.88]
+board-flat.tif: Padding background of extracted region: location=(-67, -67)
+board-flat.tif: Padding background of extracted region: location=(189, -67)
+board-flat.tif: Padding background of extracted region: location=(445, -67)
+board-flat.tif: Padding background of extracted region: location=(-67, 189)
+board-flat.tif: Padding background of extracted region: location=(-67, 445)
+board-flat.tif: Attempting to pad background of extracted region: location=(1024, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-flat.tif: Attempting to pad background of extracted region: location=(957, 2237), requested patch size=(256, 256), level0 scaled patch size=(901, 901)
+board-flat.tif: Attempting to pad background of extracted region: location=(1536, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-flat.tif: Attempting to pad background of extracted region: location=(1280, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-flat.tif: Attempting to pad background of extracted region: location=(1469, 2237), requested patch size=(256, 256), level0 scaled patch size=(901, 901)
+board-flat.tif: Attempting to pad background of extracted region: location=(1213, 2237), requested patch size=(256, 256), level0 scaled patch size=(901, 901)
+board-flat.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-flat.tif: Attempting to pad background of extracted region: location=(1725, 2237), requested patch size=(256, 256), level0 scaled patch size=(901, 901)
+board-flat.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-flat.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+wsi-flat.jpg: Using externally provided MPP value of 0.666
+wsi-flat.jpg: Using externally provided MPP value of 0.888
+board-flat.tif: Using externally provided MPP value of 0.128
+board-flat.tif: Using externally provided MPP value of 0.115
+board-flat.tif: Using externally provided MPP value of 0.5
+board-flat.tif: Using externally provided MPP value of 0.5
+board-flat.tif: Using externally provided MPP value of 0.25
+board-flat.tif: Using externally provided MPP value of 0.25

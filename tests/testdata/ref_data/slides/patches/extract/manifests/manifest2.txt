@@ -1,0 +1,53 @@
+Manifest ID:            ha6v38ok
+Manifest file path:     /tmp/dplabtools/tests/testdata/saved_data/manifests/manifests/manifest__ha6v38ok__board-multi-layer-no-compression-mpp.txt
+Date created:           2023-Feb-28 12:08:27
+Hostname:               linux0
+--------------------------------------------------
+Patch class:            PolygonRegionGridPatches
+Patch class params:
+                        check_polygons: True
+                        excluded_labels: []
+                        foreground_ratio: 0.89
+                        included_labels: []
+                        level_or_mpp: 0
+                        mask_data: testdata/mask/board-clean-mask-inner.npy
+                        overlap_ratio: 0.66
+                        patch_size: 256
+                        patch_stride: [1, 0.5, 0.5]
+                        polygon_buffer: 0
+                        polygon_data: [[[(256, 0), (256, 768), (2304, 768), (2304, 0)], 'area1', []], [[(128, 1280), (128, 2816), (1600, 2816)], 'area2', []], [[(1920, 896), (1920, 2650), (2304, 2400), (2304, 900)], 'area3', []]]
+                        wsi_file: testdata/wsi/board-multi-layer-no-compression-mpp.tif
+Patch count:            17
+Patch labels:           {'area1': 8, 'area2': 6, 'area3': 3}
+Extractor class:        DiskPatchExtractor
+Extractor class params:
+                        create_subdirs: True
+                        excluded_labels: []
+                        filename_comment: testcomment
+                        filename_separator: __
+                        image_type: tif
+                        included_labels: []
+                        mp_chunksize: 1
+                        num_workers: 4
+                        output_dir: testdata/saved_data/manifests
+                        pool_mode: False
+                        resampling_mode: None
+Saved patches:
+                        testdata/saved_data/manifests/area1/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area1__x256__y256.tif
+                        testdata/saved_data/manifests/area1/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area1__x768__y256.tif
+                        testdata/saved_data/manifests/area1/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area1__x1280__y256.tif
+                        testdata/saved_data/manifests/area1/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area1__x1792__y256.tif
+                        testdata/saved_data/manifests/area1/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area1__x512__y512.tif
+                        testdata/saved_data/manifests/area1/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area1__x1024__y512.tif
+                        testdata/saved_data/manifests/area1/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area1__x1536__y512.tif
+                        testdata/saved_data/manifests/area1/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area1__x2048__y512.tif
+                        testdata/saved_data/manifests/area2/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area2__x256__y1792.tif
+                        testdata/saved_data/manifests/area2/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area2__x512__y2048.tif
+                        testdata/saved_data/manifests/area2/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area2__x256__y2304.tif
+                        testdata/saved_data/manifests/area2/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area2__x768__y2304.tif
+                        testdata/saved_data/manifests/area2/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area2__x512__y2560.tif
+                        testdata/saved_data/manifests/area2/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area2__x1024__y2560.tif
+                        testdata/saved_data/manifests/area3/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area3__x2048__y1024.tif
+                        testdata/saved_data/manifests/area3/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area3__x2048__y1536.tif
+                        testdata/saved_data/manifests/area3/board-multi-layer-no-compression-mpp__ha6v38ok__testcomment__area3__x2048__y2048.tif
+Disk file count:        17

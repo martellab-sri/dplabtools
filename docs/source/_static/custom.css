@@ -1,0 +1,57 @@
+.highlight {
+    font-size: 130%;
+}
+
+div.sphinxsidebar {
+    width: 400px;
+}
+
+div.bodywrapper {
+    margin: 0 0 0 400px;
+}
+
+code.docutils.literal.notranslate {
+    font-size: 130%;
+}
+
+div.body {
+    max-width: 1000px;
+    text-align: left;
+}
+
+/*
+dt[id^="dplabtoolshiddenclass"] {
+    display: none;
+}
+*/
+
+/*
+The two rules below are required to make autoparam work.
+The order of the rules is important.
+*/
+
+dt.sig.sig-object.py{
+    display: none;
+}
+
+dt[id^="dplabtools"].sig.sig-object.py{
+    display: inline;
+}
+
+h3 {
+    font-size: 110% !important;
+}
+
+/*
+table.indextable.genindextable tbody tr td {
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+
+table.indextable.genindextable {
+
+}
+
+*/
+
