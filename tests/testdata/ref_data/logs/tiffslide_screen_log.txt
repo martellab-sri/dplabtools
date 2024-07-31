@@ -1,0 +1,549 @@
+TUPAC-TE-234.svs: Resampling file at MPP=[7.5]
+TUPAC-TE-234.svs: Resampling skipped, all requested MPP values [0.252] match WSI levels [0] [MPP margin is 0.003]
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(27700, 21000), requested patch size=(512, 256), level0 scaled patch size=(2048, 1024)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(10000, 31300), requested patch size=(1024, 512), level0 scaled patch size=(1024, 512)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(27700, 31300), requested patch size=(256, 128), level0 scaled patch size=(4097, 2048)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2304, 1792), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(512, 768), requested patch size=(128, 128), level0 scaled patch size=(2048, 2048)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(10000, 31300), requested patch size=(1024, 512), level0 scaled patch size=(1024, 512)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(27700, 21000), requested patch size=(512, 256), level0 scaled patch size=(2048, 1024)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(27700, 31300), requested patch size=(256, 128), level0 scaled patch size=(4097, 2048)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(10000, 31300), requested patch size=(1024, 512), level0 scaled patch size=(1024, 512)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(27700, 21000), requested patch size=(512, 256), level0 scaled patch size=(2048, 1024)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(27700, 31300), requested patch size=(256, 128), level0 scaled patch size=(4097, 2048)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(10000, 31300), requested patch size=(1024, 512), level0 scaled patch size=(1024, 512)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(27700, 21000), requested patch size=(512, 256), level0 scaled patch size=(2048, 1024)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(27700, 31300), requested patch size=(256, 128), level0 scaled patch size=(4097, 2048)
+TUPAC-TE-234.svs: Attempting to pad background of extracted region: location=(26660, 24500), requested patch size=(512, 512), level0 scaled patch size=(2048, 2048)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2531, 100), requested patch size=(20, 25), level0 scaled patch size=(20, 25)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2511, 3013), requested patch size=(40, 50), level0 scaled patch size=(40, 50)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(100, 3033), requested patch size=(35, 30), level0 scaled patch size=(35, 30)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2304, 256), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2304, 768), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2304, 1280), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2304, 1792), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2304, 2304), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(768, 2816), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1280, 2816), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(256, 2816), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2816), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2304, 2816), requested patch size=(256, 256), level0 scaled patch size=(256, 256)
+board-multi-layer-no-compression.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-no-compression.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-no-compression.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-no-compression.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-no-compression-mpp.tif: Embedded label image is not available
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+slide1.svs: Setting max magnification to 15 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 23 in MPP range checking [GenericSlide.range_max_magnification]
+TUPAC-TE-234.svs: Resampling skipped, all requested MPP values [0.252, 1.008, 4.032] match WSI levels [0, 1, 2] [MPP margin is 0.003]
+TUPAC-TE-234.svs: Resampling file at MPP=[6.5, 8.55]
+TUPAC-TE-234.svs: MPP values matching WSI levels (resampling skipped): [0.252, 1.008, 4.032]
+TUPAC-TE-234.svs: Resampling file at MPP=[8.8, 5.5, 7.9, 9.5]
+TUPAC-TE-234.svs: MPP values matching WSI levels (resampling skipped): [0.252]
+TUPAC-TE-234.svs: Resampling file at MPP=[5.5, 6.6, 7.7, 8.8]
+board-multi-layer-no-compression.tif: Magnification is not available
+board-multi-layer-no-compression.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression.tif: Resampling file at MPP=[0.1, 0.4, 1.6, 6.4]
+board-multi-layer-no-compression.tif: Attempting to pad background of extracted region: location=(256, 256), requested patch size=(256, 512), level0 scaled patch size=(4096, 8192)
+board-multi-layer-no-compression.tif: Attempting to pad background of extracted region: location=(256, 256), requested patch size=(256, 512), level0 scaled patch size=(2048, 4096)
+board-multi-layer-no-compression.tif: Attempting to pad background of extracted region: location=(256, 256), requested patch size=(256, 512), level0 scaled patch size=(8192, 16384)
+board-multi-layer-no-compression.tif: Magnification is not available
+board-multi-layer-no-compression.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression.tif: Resampling file at MPP=[0.4, 1.6, 6.4]
+board-multi-layer-no-compression.tif: Magnification is not available
+board-multi-layer-no-compression.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression.tif: MPP values matching WSI levels (resampling skipped): [0.2]
+board-multi-layer-no-compression.tif: Resampling file at MPP=[1.6, 6.4]
+board-multi-layer-no-compression.tif: Magnification is not available
+board-multi-layer-no-compression.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression.tif: MPP values matching WSI levels (resampling skipped): [0.2, 0.8]
+board-multi-layer-no-compression.tif: Resampling file at MPP=[6.4]
+board-multi-layer-no-compression-mpp.tif: Number of duplicate patches found and excluded: 16
+wsi_duplicates1.svs: Number of duplicate patches found and excluded: 8
+wsi_duplicates2.svs: Number of duplicate patches found and excluded: 9
+wsi_duplicates5.svs: Number of duplicate patches found and excluded: 4
+board-multi-layer-no-compression-mpp.tif: Number of duplicate patches found and excluded: 12
+TUPAC-TE-234.svs: Padding background of extracted region: location=(-99, -99)
+TUPAC-TE-234.svs: Padding background of extracted region: location=(-99, -99)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-282, 2278)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(2300, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-282, 2278)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(2300, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1664, -384)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1152, -384)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(640, -384)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(128, -384)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(384, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-128, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(896, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1408, -128)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1664, 128), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-128, 1920)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-128, 1408)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(640, 2176), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(128, 2176), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1664, 1152), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1664, 640), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1664, 1664), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.5, 0.75, 1.25]
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-128, 1408)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-256, 1280)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.3, 0.4, 0.6, 0.7, 0.8]
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(2022, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(998, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(486, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1510, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1971, -77)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(947, -77)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(435, -77)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1459, -77)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1869, -179)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(845, -179)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(333, -179)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1357, -179)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1818, -230)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(794, -230)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(282, -230)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1306, -230)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1766, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(742, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(230, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1254, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-26, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(486, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(998, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1510, -26)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1766, 230), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-26, 1510)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-26, 2022)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(230, 2278), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(742, 2278), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1766, 742), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1766, 1254), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1766, 1766), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: MPP values matching WSI levels (resampling skipped): [1.0, 0.25]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.8, 0.75, 0.6, 0.5, 0.4, 0.3]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.5, 0.75]
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(384, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1408, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(256, -256)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1280, -256)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(896, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1920, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(768, -256)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1792, -256)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 256), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(256, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 768), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 1792), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(768, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 1280), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(128, -384)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1152, -384)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-128, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(896, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(640, -384)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1664, -384)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1408, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(384, -128)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-128, 1408)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-128, 1920)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1664, 128), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(128, 2176), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1664, 640), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1664, 1664), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(640, 2176), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1664, 1152), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+slide3: Polygon 0 overlaps with polygon 1, overlapping area: 450.000000 patches
+slide3: Polygon 0 overlaps with polygon 2, overlapping area: 150.000000 patches
+slide3: Polygon 1 overlaps with polygon 2, overlapping area: 450.000000 patches
+slide3: Polygon 1 overlaps with polygon 3, overlapping area: 150.000000 patches
+slide3: Polygon 2 overlaps with polygon 3, overlapping area: 450.000000 patches
+board-multi-layer-no-compression-mpp.tif: Polygon 0 overlaps with polygon 1, overlapping area: 0.595093 patches
+board-multi-layer-no-compression-mpp.tif: Polygon 1 overlaps with polygon 2, overlapping area: 0.595093 patches
+board-multi-layer-no-compression-mpp.tif: Polygon 2 overlaps with polygon 3, overlapping area: 0.595093 patches
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-10, -10)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.75]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.75]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.75]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.75]
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-10, -10)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.75]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.75]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.75]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.75]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.75]
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-10, -10)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-10, -10)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-10, -10)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.3]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(2022, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(998, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1510, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(486, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1971, -77)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(947, -77)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1459, -77)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(435, -77)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1869, -179)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(845, -179)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(333, -179)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1357, -179)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1818, -230)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(794, -230)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(282, -230)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1306, -230)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1766, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(742, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1254, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(230, -282)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-26, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(486, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(998, -26)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(1510, -26)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1766, 230), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-26, 1510)
+board-multi-layer-no-compression-mpp.tif: Padding background of extracted region: location=(-26, 2022)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(230, 2278), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(742, 2278), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1766, 742), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1766, 1254), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1766, 1766), requested patch size=(256, 256), level0 scaled patch size=(819, 819)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.5]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.3, 0.35, 0.4]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Resampling file at MPP=[0.3]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Resampling file at MPP=[0.3]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Resampling file at MPP=[0.3]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Resampling file at MPP=[0.3]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Resampling file at MPP=[0.6, 0.4]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Resampling file at MPP=[0.6, 0.4]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Resampling file at MPP=[0.6, 0.4]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Resampling file at MPP=[0.6, 0.4]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Resampling file at MPP=[0.37]
+board-multi-layer-no-compression-mpp-color4.tif: Resampling file at MPP=[0.37]
+board-multi-layer-no-compression-mpp-color3.tif: Resampling file at MPP=[0.37]
+board-multi-layer-no-compression-mpp-color2.tif: Resampling file at MPP=[0.37]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Resampling file at MPP=[0.36, 0.42, 0.54]
+board-multi-layer-no-compression-mpp-color1.tif: Resampling file at MPP=[0.36, 0.42, 0.54]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Resampling file at MPP=[0.36, 0.42, 0.54]
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Resampling file at MPP=[0.36, 0.42, 0.54]
+board-multi-layer-no-compression-mpp-color1.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color2.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color1.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color2.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color3.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color4.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-color3.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-color4.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 256), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 768), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 1280), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 1792), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(256, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(768, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1280, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 256), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(768, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(256, 2304), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 768), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 1280), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 1792), requested patch size=(256, 256), level0 scaled patch size=(768, 768)
+TCGA-OL-A5RX-01Z-00-DX1.15A0D4F4-2744-4D44-8883-27FF83D9C824.svs: Using externally provided MPP value of 0.345
+TCGA-OL-A5RX-01Z-00-DX1.15A0D4F4-2744-4D44-8883-27FF83D9C824.svs: Using externally provided MPP value of 1.111
+TCGA-OL-A5RX-01Z-00-DX1.15A0D4F4-2744-4D44-8883-27FF83D9C824.svs: Using externally provided MPP value of 1.222
+TCGA-OL-A5RX-01Z-00-DX1.15A0D4F4-2744-4D44-8883-27FF83D9C824.svs: Using externally provided MPP value of 1.333
+board-multi-layer-no-compression.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.3]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.3, 0.35]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 1280), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(768, 2304), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-compression-clean.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-compression-clean.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-compression-clean.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-compression-clean.tif: MPP data is not available, external MPP value can be set using 'GenericSlide.set_external_mpp'
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.7]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.7]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.7]
+board-multi-layer-no-compression-mpp.tif: Magnification is not available
+board-multi-layer-no-compression-mpp.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp.tif: Resampling file at MPP=[0.7]
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2536, 100), requested patch size=(20, 25), level0 scaled patch size=(20, 25)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(100, 3038), requested patch size=(35, 30), level0 scaled patch size=(35, 30)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(2516, 3018), requested patch size=(40, 50), level0 scaled patch size=(40, 50)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)

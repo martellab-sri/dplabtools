@@ -1,0 +1,231 @@
+﻿<?xml version="1.0"?>
+<session software="PathCore Session Printer" version="0.1.0">
+    <image identifier="TUPAC-TE-234.svs">
+        <dimensions>27818,31316</dimensions>
+        <pixel-size units="um">0.252000,0.252000</pixel-size>
+        <transform>
+            <translation units="um">0.000000,0.000000</translation>
+            <center units="um">3505.068000,3945.816000</center>
+            <rotation unit="degrees">0.000000</rotation>
+            <scale>1.000000,1.000000</scale>
+        </transform>
+        <overlays>
+            <graphic type="polygon" name="Region 0" description="test 0">
+                <pen color="#00ff00ff" width="3" style="Solid"/>
+                <font>Arial;12</font>
+                <point-list>
+                    <point>5493.000000,23178.000000</point>
+                    <point>4757.000000,25322.000000</point>
+                    <point>7189.000000,26026.000000</point>
+                    <point>8149.000000,23914.000000</point>
+                    <point>6005.000000,22506.000000</point>
+                </point-list>
+            </graphic>
+            <graphic type="rectangle" name="Region 1" description="test 1">
+                <pen color="#00ff00ff" width="3" style="Solid"/>
+                <font>Arial;12</font>
+                <point-list>
+                    <point>10709.000000,24842.000000</point>
+                    <point>13461.000000,24842.000000</point>
+                    <point>13461.000000,26954.000000</point>
+                    <point>10709.000000,26954.000000</point>
+                </point-list>
+            </graphic>
+            <graphic type="ellipse" name="Region 2" description="test 2">
+                <pen color="#00ff00ff" width="3" style="Solid"/>
+                <font>Arial;12</font>
+                <point-list>
+                    <point>7893.000000,20074.000000</point>
+                    <point>9493.000000,20074.000000</point>
+                    <point>9493.000000,22058.000000</point>
+                    <point>7893.000000,22058.000000</point>
+                </point-list>
+            </graphic>
+            <graphic type="polygon" name="Region 3" description="test 3">
+                <pen color="#00ff00ff" width="3" style="Solid"/>
+                <font>Arial;12</font>
+                <point-list>
+                    <point>11765.000000,21642.000000</point>
+                    <point>11797.000000,21642.000000</point>
+                    <point>11829.000000,21642.000000</point>
+                    <point>11861.000000,21706.000000</point>
+                    <point>11893.000000,21706.000000</point>
+                    <point>11925.000000,21674.000000</point>
+                    <point>12085.000000,21610.000000</point>
+                    <point>12181.000000,21610.000000</point>
+                    <point>12213.000000,21610.000000</point>
+                    <point>12245.000000,21610.000000</point>
+                    <point>12277.000000,21578.000000</point>
+                    <point>12309.000000,21578.000000</point>
+                    <point>12341.000000,21546.000000</point>
+                    <point>12373.000000,21546.000000</point>
+                    <point>12405.000000,21514.000000</point>
+                    <point>12437.000000,21514.000000</point>
+                    <point>12437.000000,21482.000000</point>
+                    <point>12501.000000,21450.000000</point>
+                    <point>12533.000000,21418.000000</point>
+                    <point>12597.000000,21386.000000</point>
+                    <point>12629.000000,21354.000000</point>
+                    <point>12693.000000,21290.000000</point>
+                    <point>12725.000000,21258.000000</point>
+                    <point>12725.000000,21226.000000</point>
+                    <point>12757.000000,21194.000000</point>
+                    <point>12757.000000,21162.000000</point>
+                    <point>12757.000000,21130.000000</point>
+                    <point>12789.000000,21066.000000</point>
+                    <point>12821.000000,21066.000000</point>
+                    <point>12821.000000,21034.000000</point>
+                    <point>12821.000000,21002.000000</point>
+                    <point>12821.000000,20970.000000</point>
+                    <point>12821.000000,20938.000000</point>
+                    <point>12821.000000,20874.000000</point>
+                    <point>12821.000000,20842.000000</point>
+                    <point>12821.000000,20778.000000</point>
+                    <point>12821.000000,20746.000000</point>
+                    <point>12789.000000,20714.000000</point>
+                    <point>12757.000000,20650.000000</point>
+                    <point>12725.000000,20586.000000</point>
+                    <point>12693.000000,20586.000000</point>
+                    <point>12629.000000,20522.000000</point>
+                    <point>12597.000000,20490.000000</point>
+                    <point>12565.000000,20458.000000</point>
+                    <point>12501.000000,20458.000000</point>
+                    <point>12501.000000,20426.000000</point>
+                    <point>12469.000000,20426.000000</point>
+                    <point>12437.000000,20426.000000</point>
+                    <point>12405.000000,20394.000000</point>
+                    <point>12373.000000,20394.000000</point>
+                    <point>12309.000000,20394.000000</point>
+                    <point>12245.000000,20394.000000</point>
+                    <point>12181.000000,20394.000000</point>
+                    <point>12149.000000,20394.000000</point>
+                    <point>12085.000000,20394.000000</point>
+                    <point>11989.000000,20426.000000</point>
+                    <point>11957.000000,20426.000000</point>
+                    <point>11765.000000,20458.000000</point>
+                    <point>11733.000000,20458.000000</point>
+                    <point>11669.000000,20458.000000</point>
+                    <point>11605.000000,20458.000000</point>
+                    <point>11541.000000,20490.000000</point>
+                    <point>11509.000000,20522.000000</point>
+                    <point>11477.000000,20554.000000</point>
+                    <point>11445.000000,20554.000000</point>
+                    <point>11413.000000,20618.000000</point>
+                    <point>11413.000000,20650.000000</point>
+                    <point>11381.000000,20682.000000</point>
+                    <point>11349.000000,20746.000000</point>
+                    <point>11317.000000,20810.000000</point>
+                    <point>11317.000000,20842.000000</point>
+                    <point>11317.000000,20874.000000</point>
+                    <point>11317.000000,20938.000000</point>
+                    <point>11285.000000,20970.000000</point>
+                    <point>11285.000000,21002.000000</point>
+                    <point>11285.000000,21034.000000</point>
+                    <point>11285.000000,21098.000000</point>
+                    <point>11285.000000,21194.000000</point>
+                    <point>11285.000000,21226.000000</point>
+                    <point>11317.000000,21290.000000</point>
+                    <point>11317.000000,21322.000000</point>
+                    <point>11349.000000,21354.000000</point>
+                    <point>11381.000000,21354.000000</point>
+                    <point>11413.000000,21354.000000</point>
+                </point-list>
+            </graphic>
+            <graphic type="polyline" name="Region 4" description="test 4">
+                <pen color="#00ff00ff" width="3" style="Solid"/>
+                <font>Arial;12</font>
+                <point-list>
+                    <point>10261.000000,23626.000000</point>
+                    <point>10229.000000,23594.000000</point>
+                    <point>10229.000000,23530.000000</point>
+                    <point>10229.000000,23434.000000</point>
+                    <point>10261.000000,23338.000000</point>
+                    <point>10293.000000,23210.000000</point>
+                    <point>10325.000000,23146.000000</point>
+                    <point>10389.000000,23050.000000</point>
+                    <point>10421.000000,22986.000000</point>
+                    <point>10485.000000,22954.000000</point>
+                    <point>10517.000000,22922.000000</point>
+                    <point>10549.000000,22890.000000</point>
+                    <point>10613.000000,22858.000000</point>
+                    <point>10677.000000,22826.000000</point>
+                    <point>10741.000000,22826.000000</point>
+                    <point>10773.000000,22794.000000</point>
+                    <point>10837.000000,22794.000000</point>
+                    <point>10901.000000,22762.000000</point>
+                    <point>11029.000000,22762.000000</point>
+                    <point>11061.000000,22762.000000</point>
+                    <point>11093.000000,22762.000000</point>
+                    <point>11125.000000,22762.000000</point>
+                    <point>11157.000000,22762.000000</point>
+                    <point>11285.000000,22762.000000</point>
+                    <point>11349.000000,22762.000000</point>
+                    <point>11413.000000,22762.000000</point>
+                    <point>11477.000000,22794.000000</point>
+                    <point>11573.000000,22826.000000</point>
+                    <point>11637.000000,22858.000000</point>
+                    <point>11701.000000,22858.000000</point>
+                    <point>11733.000000,22890.000000</point>
+                    <point>11797.000000,22922.000000</point>
+                    <point>11861.000000,22922.000000</point>
+                    <point>11925.000000,22954.000000</point>
+                    <point>11989.000000,22986.000000</point>
+                    <point>12053.000000,23018.000000</point>
+                    <point>12085.000000,23050.000000</point>
+                    <point>12149.000000,23082.000000</point>
+                    <point>12181.000000,23114.000000</point>
+                    <point>12213.000000,23114.000000</point>
+                    <point>12245.000000,23146.000000</point>
+                    <point>12277.000000,23178.000000</point>
+                    <point>12341.000000,23178.000000</point>
+                    <point>12405.000000,23242.000000</point>
+                    <point>12437.000000,23274.000000</point>
+                    <point>12469.000000,23274.000000</point>
+                    <point>12501.000000,23274.000000</point>
+                    <point>12501.000000,23306.000000</point>
+                    <point>12533.000000,23338.000000</point>
+                    <point>12597.000000,23338.000000</point>
+                    <point>12629.000000,23338.000000</point>
+                    <point>12629.000000,23370.000000</point>
+                    <point>12661.000000,23370.000000</point>
+                </point-list>
+            </graphic>
+            <graphic type="text" name="Region 5" description="test 5">
+                <pen color="#00ff00ff" width="3" style="Solid"/>
+                <font>MS Shell Dlg 2;448;bold</font>
+                <fill pattern="SolidFill" color="#000000ff"/>
+                <point-list>
+                    <point>3797.000000,20330.000000</point>
+                    <point>5237.000000,20330.000000</point>
+                    <point>5237.000000,21674.000000</point>
+                    <point>3797.000000,21674.000000</point>
+                </point-list>
+            </graphic>
+            <graphic type="point" name="Region 6" description="test 6">
+                <pen color="#00ff00ff" width="3" style="Solid"/>
+                <font>Arial;12</font>
+                <point-list>
+                    <point>3445.000000,22218.000000</point>
+                    <point>4181.000000,22026.000000</point>
+                    <point>3893.000000,22730.000000</point>
+                </point-list>
+            </graphic>
+            <graphic type="ruler" name="Region 7" description="test 7">
+                <pen color="#00ff00ff" width="3" style="Solid"/>
+                <font>Arial;320</font>
+                <point-list>
+                    <point>8501.000000,27018.000000</point>
+                    <point>9365.000000,24010.000000</point>
+                </point-list>
+            </graphic>
+            <graphic type="arrow" name="Region 8" description="test 8">
+                <pen color="#00ff00ff" width="3" style="Solid"/>
+                <font>Arial;320</font>
+                <point-list>
+                    <point>3669.000000,22890.000000</point>
+                    <point>4853.000000,23210.000000</point>
+                </point-list>
+            </graphic>
+        </overlays>
+    </image>
+</session>

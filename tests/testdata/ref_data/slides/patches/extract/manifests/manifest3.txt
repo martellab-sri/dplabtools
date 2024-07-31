@@ -1,0 +1,155 @@
+Manifest ID:            cbfly4wx
+Manifest file path:     /tmp/dplabtools/tests/testdata/saved_data/manifests/manifests/manifest__cbfly4wx__board-multi-layer-no-compression-mpp.txt
+Date created:           2023-Feb-28 13:55:55
+Hostname:               linux0
+--------------------------------------------------
+Patch class:            WholeImageGridPatches
+Patch class params:
+                        foreground_ratio: 0.84
+                        level_or_mpp: 0
+                        mask_data: testdata/mask/board-clean-mask-inner.npy
+                        overlap_ratio: 0.74
+                        patch_size: 256
+                        patch_stride: 1
+                        polygon_buffer: 0
+                        weak_label: ABC
+                        wsi_file: testdata/wsi/board-multi-layer-no-compression-mpp.tif
+Patch count:            40
+Patch labels:           {'ABC': 40}
+Extractor class:        MultiResDiskPatchExtractor
+Extractor class params:
+                        create_subdirs: True
+                        excluded_labels: []
+                        filename_comment: 
+                        filename_separator: _
+                        global_counter: 1
+                        image_type: tif
+                        included_labels: []
+                        levels_or_mpps: [0, 0.5, 0.75]
+                        mp_chunksize: 1
+                        num_workers: 3
+                        output_dir: testdata/saved_data/manifests
+                        pool_mode: False
+                        resampling_mode: tile
+Saved patches:
+                        testdata/saved_data/manifests/ABC/set1/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x256_y256.tif
+                        testdata/saved_data/manifests/ABC/set1/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x128_y128.tif
+                        testdata/saved_data/manifests/ABC/set1/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x0_y0.tif
+                        testdata/saved_data/manifests/ABC/set2/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x768_y256.tif
+                        testdata/saved_data/manifests/ABC/set2/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x640_y128.tif
+                        testdata/saved_data/manifests/ABC/set2/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x512_y0.tif
+                        testdata/saved_data/manifests/ABC/set3/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1280_y256.tif
+                        testdata/saved_data/manifests/ABC/set3/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1152_y128.tif
+                        testdata/saved_data/manifests/ABC/set3/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1024_y0.tif
+                        testdata/saved_data/manifests/ABC/set4/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1792_y256.tif
+                        testdata/saved_data/manifests/ABC/set4/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1664_y128.tif
+                        testdata/saved_data/manifests/ABC/set4/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1536_y0.tif
+                        testdata/saved_data/manifests/ABC/set5/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x512_y512.tif
+                        testdata/saved_data/manifests/ABC/set5/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x384_y384.tif
+                        testdata/saved_data/manifests/ABC/set5/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x256_y256.tif
+                        testdata/saved_data/manifests/ABC/set6/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1024_y512.tif
+                        testdata/saved_data/manifests/ABC/set6/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x896_y384.tif
+                        testdata/saved_data/manifests/ABC/set6/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x768_y256.tif
+                        testdata/saved_data/manifests/ABC/set7/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1536_y512.tif
+                        testdata/saved_data/manifests/ABC/set7/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1408_y384.tif
+                        testdata/saved_data/manifests/ABC/set7/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1280_y256.tif
+                        testdata/saved_data/manifests/ABC/set8/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x2048_y512.tif
+                        testdata/saved_data/manifests/ABC/set8/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1920_y384.tif
+                        testdata/saved_data/manifests/ABC/set8/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1792_y256.tif
+                        testdata/saved_data/manifests/ABC/set9/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x256_y768.tif
+                        testdata/saved_data/manifests/ABC/set9/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x128_y640.tif
+                        testdata/saved_data/manifests/ABC/set9/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x0_y512.tif
+                        testdata/saved_data/manifests/ABC/set10/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x768_y768.tif
+                        testdata/saved_data/manifests/ABC/set10/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x640_y640.tif
+                        testdata/saved_data/manifests/ABC/set10/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x512_y512.tif
+                        testdata/saved_data/manifests/ABC/set11/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1280_y768.tif
+                        testdata/saved_data/manifests/ABC/set11/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1152_y640.tif
+                        testdata/saved_data/manifests/ABC/set11/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1024_y512.tif
+                        testdata/saved_data/manifests/ABC/set12/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1792_y768.tif
+                        testdata/saved_data/manifests/ABC/set12/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1664_y640.tif
+                        testdata/saved_data/manifests/ABC/set12/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1536_y512.tif
+                        testdata/saved_data/manifests/ABC/set13/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x512_y1024.tif
+                        testdata/saved_data/manifests/ABC/set13/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x384_y896.tif
+                        testdata/saved_data/manifests/ABC/set13/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x256_y768.tif
+                        testdata/saved_data/manifests/ABC/set14/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1024_y1024.tif
+                        testdata/saved_data/manifests/ABC/set14/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x896_y896.tif
+                        testdata/saved_data/manifests/ABC/set14/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x768_y768.tif
+                        testdata/saved_data/manifests/ABC/set15/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1536_y1024.tif
+                        testdata/saved_data/manifests/ABC/set15/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1408_y896.tif
+                        testdata/saved_data/manifests/ABC/set15/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1280_y768.tif
+                        testdata/saved_data/manifests/ABC/set16/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x2048_y1024.tif
+                        testdata/saved_data/manifests/ABC/set16/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1920_y896.tif
+                        testdata/saved_data/manifests/ABC/set16/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1792_y768.tif
+                        testdata/saved_data/manifests/ABC/set17/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x256_y1280.tif
+                        testdata/saved_data/manifests/ABC/set17/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x128_y1152.tif
+                        testdata/saved_data/manifests/ABC/set17/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x0_y1024.tif
+                        testdata/saved_data/manifests/ABC/set18/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x768_y1280.tif
+                        testdata/saved_data/manifests/ABC/set18/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x640_y1152.tif
+                        testdata/saved_data/manifests/ABC/set18/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x512_y1024.tif
+                        testdata/saved_data/manifests/ABC/set19/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1280_y1280.tif
+                        testdata/saved_data/manifests/ABC/set19/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1152_y1152.tif
+                        testdata/saved_data/manifests/ABC/set19/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1024_y1024.tif
+                        testdata/saved_data/manifests/ABC/set20/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1792_y1280.tif
+                        testdata/saved_data/manifests/ABC/set20/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1664_y1152.tif
+                        testdata/saved_data/manifests/ABC/set20/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1536_y1024.tif
+                        testdata/saved_data/manifests/ABC/set21/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x512_y1536.tif
+                        testdata/saved_data/manifests/ABC/set21/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x384_y1408.tif
+                        testdata/saved_data/manifests/ABC/set21/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x256_y1280.tif
+                        testdata/saved_data/manifests/ABC/set22/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1024_y1536.tif
+                        testdata/saved_data/manifests/ABC/set22/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x896_y1408.tif
+                        testdata/saved_data/manifests/ABC/set22/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x768_y1280.tif
+                        testdata/saved_data/manifests/ABC/set23/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1536_y1536.tif
+                        testdata/saved_data/manifests/ABC/set23/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1408_y1408.tif
+                        testdata/saved_data/manifests/ABC/set23/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1280_y1280.tif
+                        testdata/saved_data/manifests/ABC/set24/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x2048_y1536.tif
+                        testdata/saved_data/manifests/ABC/set24/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1920_y1408.tif
+                        testdata/saved_data/manifests/ABC/set24/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1792_y1280.tif
+                        testdata/saved_data/manifests/ABC/set25/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x256_y1792.tif
+                        testdata/saved_data/manifests/ABC/set25/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x128_y1664.tif
+                        testdata/saved_data/manifests/ABC/set25/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x0_y1536.tif
+                        testdata/saved_data/manifests/ABC/set26/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x768_y1792.tif
+                        testdata/saved_data/manifests/ABC/set26/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x640_y1664.tif
+                        testdata/saved_data/manifests/ABC/set26/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x512_y1536.tif
+                        testdata/saved_data/manifests/ABC/set27/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1280_y1792.tif
+                        testdata/saved_data/manifests/ABC/set27/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1152_y1664.tif
+                        testdata/saved_data/manifests/ABC/set27/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1024_y1536.tif
+                        testdata/saved_data/manifests/ABC/set28/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1792_y1792.tif
+                        testdata/saved_data/manifests/ABC/set28/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1664_y1664.tif
+                        testdata/saved_data/manifests/ABC/set28/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1536_y1536.tif
+                        testdata/saved_data/manifests/ABC/set29/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x512_y2048.tif
+                        testdata/saved_data/manifests/ABC/set29/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x384_y1920.tif
+                        testdata/saved_data/manifests/ABC/set29/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x256_y1792.tif
+                        testdata/saved_data/manifests/ABC/set30/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1024_y2048.tif
+                        testdata/saved_data/manifests/ABC/set30/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x896_y1920.tif
+                        testdata/saved_data/manifests/ABC/set30/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x768_y1792.tif
+                        testdata/saved_data/manifests/ABC/set31/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1536_y2048.tif
+                        testdata/saved_data/manifests/ABC/set31/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1408_y1920.tif
+                        testdata/saved_data/manifests/ABC/set31/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1280_y1792.tif
+                        testdata/saved_data/manifests/ABC/set32/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x2048_y2048.tif
+                        testdata/saved_data/manifests/ABC/set32/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1920_y1920.tif
+                        testdata/saved_data/manifests/ABC/set32/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1792_y1792.tif
+                        testdata/saved_data/manifests/ABC/set33/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x256_y2304.tif
+                        testdata/saved_data/manifests/ABC/set33/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x128_y2176.tif
+                        testdata/saved_data/manifests/ABC/set33/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x0_y2048.tif
+                        testdata/saved_data/manifests/ABC/set34/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x768_y2304.tif
+                        testdata/saved_data/manifests/ABC/set34/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x640_y2176.tif
+                        testdata/saved_data/manifests/ABC/set34/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x512_y2048.tif
+                        testdata/saved_data/manifests/ABC/set35/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1280_y2304.tif
+                        testdata/saved_data/manifests/ABC/set35/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1152_y2176.tif
+                        testdata/saved_data/manifests/ABC/set35/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1024_y2048.tif
+                        testdata/saved_data/manifests/ABC/set36/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1792_y2304.tif
+                        testdata/saved_data/manifests/ABC/set36/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1664_y2176.tif
+                        testdata/saved_data/manifests/ABC/set36/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1536_y2048.tif
+                        testdata/saved_data/manifests/ABC/set37/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x512_y2560.tif
+                        testdata/saved_data/manifests/ABC/set37/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x384_y2432.tif
+                        testdata/saved_data/manifests/ABC/set37/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x256_y2304.tif
+                        testdata/saved_data/manifests/ABC/set38/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1024_y2560.tif
+                        testdata/saved_data/manifests/ABC/set38/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x896_y2432.tif
+                        testdata/saved_data/manifests/ABC/set38/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x768_y2304.tif
+                        testdata/saved_data/manifests/ABC/set39/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x1536_y2560.tif
+                        testdata/saved_data/manifests/ABC/set39/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1408_y2432.tif
+                        testdata/saved_data/manifests/ABC/set39/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1280_y2304.tif
+                        testdata/saved_data/manifests/ABC/set40/board-multi-layer-no-compression-mpp_cbfly4wx_level0_ABC_x2048_y2560.tif
+                        testdata/saved_data/manifests/ABC/set40/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.5_ABC_x1920_y2432.tif
+                        testdata/saved_data/manifests/ABC/set40/board-multi-layer-no-compression-mpp_cbfly4wx_mpp0.75_ABC_x1792_y2304.tif
+Disk file count:        120

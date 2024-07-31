@@ -1,0 +1,3 @@
+include *.md *.txt
+recursive-include dplabtools *.py
+exclude README-dev.md
