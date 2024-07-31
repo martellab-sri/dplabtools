@@ -59,19 +59,20 @@ class BasePatchesPool(ABC):
             List of WSIs (files names or paths).
 
         mask_data_list : list of str or objects
-            List of masks for WSIs, which can be: mask file name or path, or NumPy array object, or Pillow image object.
+            List of masks for WSIs. Each mask is: file name or path, NumPy array object, or Pillow image object.
 
         patches_args : dict
             Dictionary object with arguments for the patches class.
 
         proc_num_workers : int
-            Number of process workers in parallel processing.
+            Number of processes in the pool. This value corresponds directly to the number of WSIs to be processed
+            simultaneously.
 
         mp_chunksize : int, default=1
             Data chunk size used in parallel processing.
 
         save_preview_image_args : dict, optional
-            Dictionary object with arguments for ``save_preview_image`` function.
+            Dictionary object with arguments for ``save_preview_image``.
         """
         self._wsi_file_list = wsi_file_list
         self._mask_data_list = mask_data_list
@@ -185,7 +186,7 @@ class BasePatchesPool(ABC):
 
     @property
     def patch_count(self):
-        """Return combined patch count for all processed WSIs."""
+        """Return the combined patch count for all processed WSIs."""
         counter = 0
         for patches in self._patches_pool:
             counter += patches.patch_count
@@ -193,7 +194,7 @@ class BasePatchesPool(ABC):
 
     @property
     def patch_info(self):
-        """Return combined patch information for all processed WSIs."""
+        """Return the combined patch information for all processed WSIs."""
         counter = Counter()
         for patches in self._patches_pool:
             counter.update(patches.patch_info)
@@ -201,7 +202,7 @@ class BasePatchesPool(ABC):
 
     @property
     def patch_labels(self):
-        """Return distinct polygon labels for all processed WSIs."""
+        """Return the distinct polygon labels for all processed WSIs."""
         labels = []
         for patches in self._patches_pool:
             labels.extend(patches.patch_labels)
@@ -209,7 +210,7 @@ class BasePatchesPool(ABC):
 
     @property
     def patch_details(self):
-        """Return detailed patch information for all processed WSIs."""
+        """Return the combined patch details for all processed WSIs."""
         info_details = []
         for patches in self._patches_pool:
             info_details.append((patches.wsi_file, patches.patch_info))
@@ -217,7 +218,7 @@ class BasePatchesPool(ABC):
 
     @property
     def pids(self):
-        """Return process IDs for all executed processes."""
+        """Return the IDs of the executed processes."""
         return self._pids
 
 
@@ -245,8 +246,9 @@ class WholeImageInvertedPatchesPoolBase(BasePatchesPool):
 
         Parameters
         ----------
-        polygon_data_list : list of lists of AnnotationPolygon objects of JSON files/strings
-            List of polygons representing excluded regions for different WSIs.
+        polygon_data_list : list of objects
+        Polygon data representing excluded regions for different WSIs. Each data element
+        is a list of `AnnotationPolygon` objects or a JSON file/string.
         """
         self._polygon_data_list = polygon_data_list
         super().__init__(**kwargs)
@@ -269,8 +271,9 @@ class PolygonRegionPatchesPoolBase(BasePatchesPool):
 
         Parameters
         ----------
-        polygon_data_list : list of lists of AnnotationPolygon objects of JSON files/strings
-            List of polygons representing regions of interest for different WSIs.
+        polygon_data_list : list of objects
+        Polygon data representing regions of interest for different WSIs. Each data element
+        is a list of `AnnotationPolygon` objects or a JSON file/string.
         """
         self._polygon_data_list = polygon_data_list
         super().__init__(**kwargs)
@@ -322,72 +325,72 @@ class CustomPatchesMixin:
 
 
 class WholeImageRandomPatchesPool(WholeImagePatchesPoolBase):
-    """Patches pool implementation for WholeImageRandomPatches."""
+    """Patches pool implementation for `WholeImageRandomPatches`."""
 
     _patches_class = WholeImageRandomPatches
 
 
 class WholeImagePoissonDiskPatchesPool(WholeImagePatchesPoolBase):
-    """Patches pool implementation for WholeImagePoissonDiskPatches."""
+    """Patches pool implementation for `WholeImagePoissonDiskPatches`."""
 
     _patches_class = WholeImagePoissonDiskPatches
 
 
 class WholeImageGridPatchesPool(WholeImagePatchesPoolBase):
-    """Patches pool implementation for WholeImageGridPatches."""
+    """Patches pool implementation for `WholeImageGridPatches`."""
 
     _patches_class = WholeImageGridPatches
 
 
 class WholeImageInvertedRandomPatchesPool(WholeImageInvertedPatchesPoolBase):
-    """Patches pool implementation for WholeImageInvertedRandomPatches."""
+    """Patches pool implementation for `WholeImageInvertedRandomPatches`."""
 
     _patches_class = WholeImageInvertedRandomPatches
 
 
 class WholeImageInvertedPoissonDiskPatchesPool(WholeImageInvertedPatchesPoolBase):
-    """Patches pool implementation for WholeImageInvertedPoissonDiskPatches."""
+    """Patches pool implementation for `WholeImageInvertedPoissonDiskPatches`."""
 
     _patches_class = WholeImageInvertedPoissonDiskPatches
 
 
 class WholeImageInvertedGridPatchesPool(WholeImageInvertedPatchesPoolBase):
-    """Patches pool implementation for WholeImageInvertedGridPatches."""
+    """Patches pool implementation for `WholeImageInvertedGridPatches`."""
 
     _patches_class = WholeImageInvertedGridPatches
 
 
 class PolygonRegionRandomPatchesPool(PolygonRegionPatchesPoolBase):
-    """Patches pool implementation for PolygonRegionRandomPatches."""
+    """Patches pool implementation for `PolygonRegionRandomPatches`."""
 
     _patches_class = PolygonRegionRandomPatches
 
 
 class PolygonRegionPoissonDiskPatchesPool(PolygonRegionPatchesPoolBase):
-    """Patches pool implementation for PolygonRegionPoissonDiskPatches."""
+    """Patches pool implementation for `PolygonRegionPoissonDiskPatches`."""
 
     _patches_class = PolygonRegionPoissonDiskPatches
 
 
 class PolygonRegionGridPatchesPool(PolygonRegionPatchesPoolBase):
-    """Patches pool implementation for PolygonRegionGridPatches."""
+    """Patches pool implementation for `PolygonRegionGridPatches`."""
 
     _patches_class = PolygonRegionGridPatches
 
 
 class WholeImageCustomPatchesPool(CustomPatchesMixin, WholeImagePatchesPoolBase):
-    """Patches pool implementation for WholeImageCustomPatches."""
+    """Patches pool implementation for `WholeImageCustomPatches`."""
 
     _patches_class = WholeImageCustomPatches
 
 
 class WholeImageInvertedCustomPatchesPool(CustomPatchesMixin, WholeImageInvertedPatchesPoolBase):
-    """Patches pool implementation for WholeImageInvertedCustomPatches."""
+    """Patches pool implementation for `WholeImageInvertedCustomPatches`."""
 
     _patches_class = WholeImageInvertedCustomPatches
 
 
 class PolygonRegionCustomPatchesPool(CustomPatchesMixin, PolygonRegionPatchesPoolBase):
-    """Patches pool implementation for PolygonRegionCustomPatches."""
+    """Patches pool implementation for `PolygonRegionCustomPatches`."""
 
     _patches_class = PolygonRegionCustomPatches

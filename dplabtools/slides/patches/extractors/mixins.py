@@ -31,34 +31,34 @@ class AbstractDiskPatchMixin(ABC):
     """
 
     def __init__(
-        self, *, output_dir, image_type, filename_comment="", create_subdirs=False, filename_separator="_", **kwargs
+        self, *, output_dir, image_type, filename_comment="", filename_separator="_", create_subdirs=False, **kwargs
     ):
         """Init method for AbstractDiskPatchMixin and derived classes.
 
         Parameters
         ----------
         output_dir : str
-            Directory name of path for saving extracted patches.
+            Directory name or path for saving the extracted patches.
 
         image_type : str
-            Image type of saved files (PNG, JPG, etc.).
+            Image type of the saved files (PNG, JPG, etc.).
 
         filename_comment : str, optional
-            Comment to be added to saved file names.
+            Comment to be added to the saved file names.
+
+        filename_separator : str, default="_"
+            Separator used in the saved file names.
 
         create_subdirs : bool, default=False
             Whether to create label specific subdirectories inside `output_dir` or not.
-
-        filename_separator : str, default="_"
-            Separator used in saved file names.
         """
         super().__init__(**kwargs)
         self._abstract_params = locals()
         self._output_dir = output_dir
         self._image_type = image_type
         self._filename_comment = filename_comment
-        self._create_subdirs = create_subdirs
         self._filename_separator = filename_separator
+        self._create_subdirs = create_subdirs
         self._patch_file_list = []
         self._manifest_dir_name = "manifests"
         self._manifest_file_template = "manifest__%s__%s.txt"
@@ -251,7 +251,7 @@ class AbstractDiskPatchMixin(ABC):
 
     @property
     def manifest_id(self):
-        """Return current manifest id."""
+        """Return the current manifest ID."""
         return self._manifest_id
 
 
@@ -312,8 +312,9 @@ class MultiResDiskPatchExtractorMixin(AbstractDiskPatchMixin):
         Parameters
         ----------
         global_counter : int, default=1
-            Initial counter value for enumerating patch set directories, setting value to ``None`` will
-            disable the counter.
+            Initial counter value for enumerating patch set directories (`set1`, `set2`, `set3`, ...) for an entire
+            collection of WSIs. Setting this value to `None` will cause the patch set counter to be reset for
+            each WSI (`wsi1_set1`, `wsi1_set2`, ... `wsi2_set1`, `wsi2_set2`, ...).
 
         pool_mode : bool, default=False
             See DiskPatchExtractorMixin class.
@@ -422,7 +423,7 @@ class MultiResDiskPatchExtractorMixin(AbstractDiskPatchMixin):
 
     @property
     def patchset_counter(self):
-        """Return last used value for global patch counter."""
+        """Return the last used value for the global patch counter."""
         return self._patchset_counter
 
 
@@ -466,7 +467,7 @@ class AbstractMemPatchMixin(ABC):
 
     @property
     def patch_stream(self):
-        """Return stream of memory images (handled by iterator object)."""
+        """Return a stream of memory images (an iterable object)."""
         return self._patch_data_iterator
 
 

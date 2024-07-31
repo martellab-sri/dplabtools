@@ -72,7 +72,7 @@ class BasePatches(ABC):
             WSI file name or path.
 
         mask_data : str or object
-            Mask file name or path, or NumPy array object, or Pillow image object.
+            Mask file name or path, NumPy array object, or Pillow image object.
 
         patch_size : int, default=256
             Size of calculated patches.
@@ -84,7 +84,7 @@ class BasePatches(ABC):
             Minimum percentage of tissue in each calculated patch.
 
         overlap_ratio : float, default=0.95
-            Minimum percentage of overlapping between each calculated patch and the image or polygon region.
+            Minimum percentage of overlap between each calculated patch and the image or polygon region.
 
         polygon_buffer : int, default=0
             Additional buffer to increase or decrease the image or polygon region.
@@ -828,37 +828,37 @@ class BasePatches(ABC):
 
     @property
     def patch_data(self):
-        """Return patch data (location, size, label) for all calculated patches at level 0."""
+        """Return the patch data (location, size, label) for all calculated patches at level 0."""
         return self._level0_patches
 
     @property
     def patch_data_mask_level(self):
-        """Return patch data (location, size, label) for all calculated patches at the mask level."""
+        """Return the patch data (location, size, label) for all calculated patches at the mask level."""
         return self._mask_level_patches
 
     @property
     def patch_info(self):
-        """Return patch information (counts and labels) for all calculated patches."""
+        """Return the patch information (counts and labels) for all calculated patches."""
         return dict(sorted(self._patch_info.items()))
 
     @property
     def patch_labels(self):
-        """Return distinct polygon labels used in patch calculations."""
+        """Return the distinct polygon labels used in patch calculations."""
         return sorted(list(set(self._polygon_labels)))
 
     @property
     def param_info(self):
-        """Return parameter information used in patch calculations."""
+        """Return the parameter information used in patch calculations."""
         return self._param_info
 
     @property
     def level_or_mpp(self):
-        """Return level or MPP value used in patch calculations."""
+        """Return the level or MPP value used in patch calculations."""
         return self._level_or_mpp
 
     @property
     def shapely_polygons(self):
-        """Return Shapely polygon objects representing polygons in patch calculations."""
+        """Return the Shapely polygon objects representing polygons in patch calculations."""
         return self._shapely_polygons
 
     @property
@@ -868,22 +868,22 @@ class BasePatches(ABC):
 
     @property
     def patch_size(self):
-        """Return provided patch size."""
+        """Return the provided patch size."""
         return self._patch_size
 
     @property
     def mask_shape(self):
-        """Return provided mask shape."""
+        """Return the shape of the used mask."""
         return self._mask_array.shape
 
     @property
     def wsi_file(self):
-        """Return provided WSI file name."""
+        """Return the provided WSI file name."""
         return self._wsi_file
 
     @property
     def wsi_slide(self):
-        """Return WSI slide object created during patch calculations."""
+        """Return the WSI slide object created during patch calculations."""
         return self._wsi_slide
 
     @property

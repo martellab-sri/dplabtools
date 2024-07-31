@@ -21,6 +21,7 @@ from collections import OrderedDict
 import numpy as np
 import PIL
 from PIL import Image
+from skimage import io
 
 from dplabtools.slides import GenericSlide
 from testconfig import fast_tests_only
@@ -105,7 +106,7 @@ class TestGenericSlideBasicProperties(TestCase):
 
 
 class TestGenericSlideFileAndObjectProperties(TestCase):
-    """Tests for basic slide properties."""
+    """Tests for basic file related properties."""
 
     def setUp(self):
         self.wsi_file_svs = make_test_path("wsi/TUPAC-TE-234.svs")
@@ -129,6 +130,28 @@ class TestGenericSlideFileAndObjectProperties(TestCase):
     def test_property_slide_object(self):
         result_object = self.wsi_slide_svs.slide_object
         self.assertIsNotNone(result_object)
+
+
+class TestGenericSlideClassAttributesProperties(TestCase):
+    """Tests for properties implemented as class attributes."""
+
+    def setUp(self):
+        self.wsi_file_svs = make_test_path("wsi/TUPAC-TE-234.svs")
+        self.wsi_slide_svs = GenericSlide(wsi_file=self.wsi_file_svs)
+        self.wsi_slide_svs.set_external_mpp(1.3)
+
+    def tearDown(self):
+        self.wsi_slide_svs.set_external_mpp(None)
+
+    def test_class_attributes_properties(self):
+        self.assertIsNotNone(self.wsi_slide_svs.external_mpp)
+        self.assertIsNotNone(self.wsi_slide_svs.mpp_round_decimal_places)
+        self.assertIsNotNone(self.wsi_slide_svs.range_min_mpp)
+        self.assertIsNotNone(self.wsi_slide_svs.range_max_magnification)
+        self.assertIsNotNone(self.wsi_slide_svs.resampling_filter)
+        self.assertIsNotNone(self.wsi_slide_svs.mpp_level_margin)
+        self.assertIsNotNone(self.wsi_slide_svs.padding_margin_pixels)
+        self.assertIsNotNone(self.wsi_slide_svs.level_zero_resampling)
 
 
 class TestGenericSlideExternalMPPProperty(TestCase):
@@ -379,22 +402,22 @@ class TestGenericSlideGetRegionLocationCheckSpanWholeImage(TestCase):
         location = (-282, 2278)
         size = (819, 819)
         region = self.wsi_slide_tif.get_region(location, level_or_mpp, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         #
         location = (2300, -282)
         size = (819, 819)
         region = self.wsi_slide_tif.get_region(location, level_or_mpp, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         #
         location = (-282, 2278)
         size = (819, 5819)
         region = self.wsi_slide_tif.get_region(location, level_or_mpp, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         #
         location = (2300, -282)
         size = (5819, 819)
         region = self.wsi_slide_tif.get_region(location, level_or_mpp, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         #
         location = (-100, 2000)
         size = (20, 2000)
@@ -422,7 +445,7 @@ class TestGenericSlideGetRegionWithoutMPP(TestCase):
         #
         location = (10000, 10000)
         region = self.wsi_slide_svs.get_region(location, level_or_mpp, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         #
         location = (100000, 100000)
         with self.assertRaises(ValueError):
@@ -487,13 +510,13 @@ class TestGenericSlideGetRegionWithoutMPP(TestCase):
             size = (100, 100)
             location = (-99, -99)
             region = self.wsi_slide_svs.get_region(location, level_or_mpp, size)
-            self.assertIsNotNone(region)
+            self.assertEqual(region.size, size)
             #
             level_or_mpp = 1
             size = (25, 25)
             location = (-99, -99)
             region = self.wsi_slide_svs.get_region(location, level_or_mpp, size)
-            self.assertIsNotNone(region)
+            self.assertEqual(region.size, size)
 
     def test_get_region0_no_padding(self):
         result_region_tif = make_test_path("saved_data/libs/test_region0.tif")
@@ -699,23 +722,27 @@ class TestGenericSlideGetRegionWithMPP(TestCase):
         self.assertEqual(cached_dict_rounded, output_cache_dict)
 
     def test_get_region_different_levels_at_once_with_padding_mpp(self):
-        # this will also test if caching (_mpplevel_target_resample_factor_cache) works, all tests done in memory
+        # this will also test if caching (_resample_cache) works, all tests done in memory
         # so we have to read two patches per level, to test adding and retrieving from cache
-        output_cache_dict_step1 = {0.252: 1.0, 1.008036: 4.000144, 4.032983: 16.003899}
+        output_cache_dict_step1 = {
+            "0.252": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1.008036288": {"L": 0, "B": 4.000144, "Z": 4.000144},
+            "4.032982548": {"L": 0, "B": 16.003899, "Z": 16.003899},
+        }
         output_cache_dict_step2 = {
-            0.252: 1.0,
-            1.008036: 4.000144,
-            4.032983: 16.003899,
-            0: 1.0,
-            1: 4.000144,
-            2: 16.003899,
+            "0.252": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1.008036288": {"L": 0, "B": 4.000144, "Z": 4.000144},
+            "4.032982548": {"L": 0, "B": 16.003899, "Z": 16.003899},
+            "0": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1": {"L": 1, "B": 1.0, "Z": 4.000144},
+            "2": {"L": 2, "B": 1.0, "Z": 16.003899},
         }
         location0 = (10000, 31300)
         location1 = (27700, 21000)
         location2 = (27700, 31300)
-        level_or_mpp0 = 0.252 * 1
-        level_or_mpp1 = 0.252 * 4.000144
-        level_or_mpp2 = 0.252 * 16.003899
+        level_or_mpp0 = 0.252  # 0.252 * 1
+        level_or_mpp1 = 1.008036288  # 0.252 * 4.000144
+        level_or_mpp2 = 4.032982548  # 0.252 * 16.003899
         size0 = (1024, 512)
         size1 = (512, 256)
         size2 = (256, 128)
@@ -725,7 +752,8 @@ class TestGenericSlideGetRegionWithMPP(TestCase):
         region_via_mpp2 = self.wsi_slide_svs.get_region(location2, level_or_mpp2, size2)
         # compare cache
         cached_dict_rounded = {
-            round(k, 6): round(v, 6) for k, v in self.wsi_slide_svs._prop_mpplevel_target_resample_factor_cache.items()
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()}
+            for k1, v1 in self.wsi_slide_svs._prop_resample_cache.items()
         }
         self.assertEqual(cached_dict_rounded, output_cache_dict_step1)
         # read patches using level
@@ -734,7 +762,8 @@ class TestGenericSlideGetRegionWithMPP(TestCase):
         region_via_level2 = self.wsi_slide_svs.get_region(location2, 2, size2)
         # compare cache again
         cached_dict_rounded = {
-            round(k, 6): round(v, 6) for k, v in self.wsi_slide_svs._prop_mpplevel_target_resample_factor_cache.items()
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()}
+            for k1, v1 in self.wsi_slide_svs._prop_resample_cache.items()
         }
         self.assertEqual(cached_dict_rounded, output_cache_dict_step2)
         # compare patches
@@ -747,7 +776,8 @@ class TestGenericSlideGetRegionWithMPP(TestCase):
         region_via_mpp2 = self.wsi_slide_svs.get_region(location2, level_or_mpp2, size2)
         # compare cache again
         cached_dict_rounded = {
-            round(k, 6): round(v, 6) for k, v in self.wsi_slide_svs._prop_mpplevel_target_resample_factor_cache.items()
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()}
+            for k1, v1 in self.wsi_slide_svs._prop_resample_cache.items()
         }
         self.assertEqual(cached_dict_rounded, output_cache_dict_step2)
 
@@ -1129,12 +1159,12 @@ class TestGenericSlideBackgroundPadding(TestCase):
         location_x = 2560 - (10 + size[0])
         location = (location_x, 100)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # padding triggered: location_x exceeds margin by one pixel
         location_x = 2560 - (10 + size[0]) + 1
         location = (location_x, 100)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
 
     def test_padding_y_default(self):
         # no padding action: location_y does not exceed margin
@@ -1142,12 +1172,12 @@ class TestGenericSlideBackgroundPadding(TestCase):
         location_y = 3072 - (10 + size[1])
         location = (100, location_y)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # padding triggered: margin exceeded by one pixel
         location_y = 3072 - (10 + size[1]) + 1
         location = (100, location_y)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
 
     def test_padding_xy_defult(self):
         # no padding action: no dimension exceeds margin
@@ -1156,13 +1186,13 @@ class TestGenericSlideBackgroundPadding(TestCase):
         location_y = 3072 - (10 + size[1])
         location = (location_x, location_y)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # padding triggered: margin exceeded by one pixel in both dimensions
         location_x = 2560 - (10 + size[0]) + 1
         location_y = 3072 - (10 + size[1]) + 1
         location = (location_x, location_y)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
 
     def test_padding_x_custom(self):
         GenericSlide.set_padding_margin_pixels(5)
@@ -1171,12 +1201,12 @@ class TestGenericSlideBackgroundPadding(TestCase):
         location_x = 2560 - (5 + size[0])
         location = (location_x, 100)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # padding triggered: location_x exceeds margin by one pixel
         location_x = 2560 - (5 + size[0]) + 1
         location = (location_x, 100)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
 
     def test_padding_y_custom(self):
         GenericSlide.set_padding_margin_pixels(5)
@@ -1185,12 +1215,12 @@ class TestGenericSlideBackgroundPadding(TestCase):
         location_y = 3072 - (5 + size[1])
         location = (100, location_y)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # padding triggered: margin exceeded by one pixel
         location_y = 3072 - (5 + size[1]) + 1
         location = (100, location_y)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
 
     def test_padding_xy_custom(self):
         GenericSlide.set_padding_margin_pixels(5)
@@ -1200,13 +1230,13 @@ class TestGenericSlideBackgroundPadding(TestCase):
         location_y = 3072 - (5 + size[1])
         location = (location_x, location_y)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # padding triggered: margin exceeded by one pixel in both dimensions
         location_x = 2560 - (5 + size[0]) + 1
         location_y = 3072 - (5 + size[1]) + 1
         location = (location_x, location_y)
         region = self.wsi_slide_tif.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
 
 
 class TestGenericSlideMPPMargin(TestCase):
@@ -1238,7 +1268,7 @@ class TestGenericSlideMPPMargin(TestCase):
         level_or_mpp = 0.252 + 0.002
         size = (256, 256)
         region = self.wsi_slide_svs.get_region(location, level_or_mpp, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
 
     def test_mpp_margin_above_custom(self):
         GenericSlide.set_mpp_level_margin(0.1)
@@ -1262,7 +1292,7 @@ class TestGenericSlideMPPMargin(TestCase):
         level_or_mpp = 0.252 + 0.05
         size = (256, 256)
         region = self.wsi_slide_svs.get_region(location, level_or_mpp, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
 
     def test_mpp_match_no_extra_level_present(self):
         # test for MPP match (part I)
@@ -1322,14 +1352,14 @@ class TestGenericSlideResamplingOneLevel(TestCase):
         size = (25, 25)
         # level 0
         region = wsi_slide_svs_mpp.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # level 0 via mpp
         region = wsi_slide_svs_mpp.get_region(location, 0.252, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         output_cache.update({0.252: 0})
         # extra level mpp
         region = wsi_slide_svs_mpp.get_region(location, 7.5, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         output_cache.update({7.5: -1})
         # not present mpp (part II of MPP match)
         with self.assertRaises(ValueError):
@@ -1412,40 +1442,40 @@ class TestGenericSlideResamplingMultiLevel(TestCase):
         size = (35, 35)
         # level 0
         region = wsi_slide_svs_mpp.get_region(location, 0, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # level 1
         region = wsi_slide_svs_mpp.get_region(location, 1, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # level 2
         region = wsi_slide_svs_mpp.get_region(location, 2, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         # level 0 via mpp
         region = wsi_slide_svs_mpp.get_region(location, 0.252 * 1, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         output_cache.update({0.252: 0})
         # level 1 via mpp
         region = wsi_slide_svs_mpp.get_region(location, 0.252 * 4, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         output_cache.update({0.252 * 4: 1})
         # level 2 via mpp
         region = wsi_slide_svs_mpp.get_region(location, 0.252 * 16, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         output_cache.update({0.252 * 16: 2})
         # extra level mpp
         region = wsi_slide_svs_mpp.get_region(location, 9.5, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         output_cache.update({9.5: -1})
         # extra level mpp
         region = wsi_slide_svs_mpp.get_region(location, 7.9, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         output_cache.update({9.5: -1})
         # extra level mpp
         region = wsi_slide_svs_mpp.get_region(location, 8.8, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         output_cache.update({8.8: -1})
         # extra level mpp
         region = wsi_slide_svs_mpp.get_region(location, 5.5, size)
-        self.assertIsNotNone(region)
+        self.assertEqual(region.size, size)
         output_cache.update({5.5: -1})
         # not present mpp
         with self.assertRaises(ValueError):
@@ -1476,46 +1506,55 @@ class TestGenericSlideResamplingMultiLevel(TestCase):
 class TestGenericSlideGetRegionMPPMultiLevel(TestCase):
     """More advanced tests for reading regions from multiple levels."""
 
+    def tearDown(self):
+        GenericSlide.set_level_zero_resampling(True)
+
     @skipIf(fast_tests_only, "Skipping resampling test, running fast tests only")
-    def test_get_region_different_levels_at_once_mpp(self):
-        # this will also test if caching (_mpplevel_target_resample_factor_cache) works, all tests done in memory
+    def test_get_region_different_levels_at_once_mpp_level_zero_resampling_wsi_mode(self):
+        # this will also test if caching (_resample_cache) works, all tests done in memory
         # so we have to read two patches per level, to test adding and retrieving from cache
+        GenericSlide.set_level_zero_resampling(True)
         wsi_file_svs = make_test_path("wsi/TUPAC-TE-234.svs")
         wsi_slide_svs = GenericSlide(wsi_file=wsi_file_svs, resampling_mode="wsi", extra_mpps=[5.5, 6.6, 7.7, 8.8])
         #
         # test 1: testing cache only
-        output_cache_dict = {5.5: 21.825397, 6.6: 26.190476, 7.7: 30.555556, 8.8: 34.920635}
+        output_cache_dict = {
+            "5.5": {"L": 0, "B": 21.825397, "Z": 21.825397},
+            "6.6": {"L": 0, "B": 26.190476, "Z": 26.190476},
+            "7.7": {"L": 0, "B": 30.555556, "Z": 30.555556},
+            "8.8": {"L": 0, "B": 34.920635, "Z": 34.920635},
+        }
         location = (15000, 17300)
         size = (250, 250)
         region_via_mpp1 = wsi_slide_svs.get_region(location, 5.5, size)
         region_via_mpp2 = wsi_slide_svs.get_region(location, 6.6, size)
         region_via_mpp3 = wsi_slide_svs.get_region(location, 7.7, size)
         region_via_mpp4 = wsi_slide_svs.get_region(location, 8.8, size)
-        self.assertIsNotNone(region_via_mpp1)
-        self.assertIsNotNone(region_via_mpp2)
-        self.assertIsNotNone(region_via_mpp3)
-        self.assertIsNotNone(region_via_mpp4)
+        self.assertEqual(region_via_mpp1.size, (250, 250))
+        self.assertEqual(region_via_mpp2.size, (250, 250))
+        self.assertEqual(region_via_mpp3.size, (250, 250))
+        self.assertEqual(region_via_mpp4.size, (250, 250))
         cached_dict_rounded = {
-            round(k, 6): round(v, 6) for k, v in wsi_slide_svs._prop_mpplevel_target_resample_factor_cache.items()
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
         }
         self.assertEqual(cached_dict_rounded, output_cache_dict)
         #
         # test 2: test cache and patches (read WSI levels using MPP and level)
         output_cache_dict = {
-            0.252: 1.0,
-            1.008036: 4.000144,
-            4.032983: 16.003899,
-            0: 1.0,
-            1: 4.000144,
-            2: 16.003899,
-            5.5: 21.825397,
-            6.6: 26.190476,
-            7.7: 30.555556,
-            8.8: 34.920635,
+            "0.252": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1.008036288": {"L": 0, "B": 4.000144, "Z": 4.000144},
+            "4.032982548": {"L": 0, "B": 16.003899, "Z": 16.003899},
+            "0": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1": {"L": 1, "B": 1.0, "Z": 4.000144},
+            "2": {"L": 2, "B": 1.0, "Z": 16.003899},
+            "5.5": {"L": 0, "B": 21.825397, "Z": 21.825397},
+            "6.6": {"L": 0, "B": 26.190476, "Z": 26.190476},
+            "7.7": {"L": 0, "B": 30.555556, "Z": 30.555556},
+            "8.8": {"L": 0, "B": 34.920635, "Z": 34.920635},
         }
-        level_or_mpp0 = 0.252 * 1
-        level_or_mpp1 = 0.252 * 4.000144
-        level_or_mpp2 = 0.252 * 16.003899
+        level_or_mpp0 = 0.252  # 0.252 * 1
+        level_or_mpp1 = 1.008036288  # 0.252 * 4.000144
+        level_or_mpp2 = 4.032982548  # 0.252 * 16.003899
         region_via_mpp0 = wsi_slide_svs.get_region(location, level_or_mpp0, size)
         region_via_mpp1 = wsi_slide_svs.get_region(location, level_or_mpp1, size)
         region_via_mpp2 = wsi_slide_svs.get_region(location, level_or_mpp2, size)
@@ -1524,24 +1563,275 @@ class TestGenericSlideGetRegionMPPMultiLevel(TestCase):
         region_via_level2 = wsi_slide_svs.get_region(location, 2, size)
         # compare cache
         cached_dict_rounded = {
-            round(k, 6): round(v, 6) for k, v in wsi_slide_svs._prop_mpplevel_target_resample_factor_cache.items()
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
         }
         self.assertEqual(cached_dict_rounded, output_cache_dict)
         # compare patches
         np.testing.assert_equal(np.asarray(region_via_mpp0), np.asarray(region_via_level0))
         np.testing.assert_equal(np.asarray(region_via_mpp1), np.asarray(region_via_level1))
         np.testing.assert_equal(np.asarray(region_via_mpp2), np.asarray(region_via_level2))
-        # read more patches using mpp
+        # read more patches using mpp/level
         region_via_mpp0 = wsi_slide_svs.get_region(location, 5.5, size)
         region_via_mpp1 = wsi_slide_svs.get_region(location, 6.6, size)
         region_via_mpp2 = wsi_slide_svs.get_region(location, 7.7, size)
-        region_via_mpp2 = wsi_slide_svs.get_region(location, 8.8, size)
+        region_via_mpp3 = wsi_slide_svs.get_region(location, 8.8, size)
         region_via_level0 = wsi_slide_svs.get_region(location, 0, size)
         region_via_level1 = wsi_slide_svs.get_region(location, 1, size)
         region_via_level2 = wsi_slide_svs.get_region(location, 2, size)
         # compare cache again
         cached_dict_rounded = {
-            round(k, 6): round(v, 6) for k, v in wsi_slide_svs._prop_mpplevel_target_resample_factor_cache.items()
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
+        }
+        self.assertEqual(cached_dict_rounded, output_cache_dict)
+        # test extra images created in resampling
+        self.assertEqual(len(wsi_slide_svs.level_images_extra), 4)
+
+    @skipIf(fast_tests_only, "Skipping resampling test, running fast tests only")
+    def test_get_region_different_levels_at_once_mpp_variable_resampling_wsi_mode(self):
+        # MPP 6.6 is not read via get_region but should still be present in the created cache.
+        GenericSlide.set_level_zero_resampling(False)
+        wsi_file_svs = make_test_path("wsi/TUPAC-TE-234.svs")
+        wsi_slide_svs = GenericSlide(
+            wsi_file=wsi_file_svs, resampling_mode="wsi", extra_mpps=[0.7, 1.0, 1.1, 2.2, 3.3, 4.4, 5.5, 6.6]
+        )
+        #
+        # test 1: testing cache only
+        output_cache_dict = {
+            "0.7": {"L": 0, "B": 2.777778, "Z": 2.777778},
+            "1.0": {"L": 0, "B": 3.968254, "Z": 3.968254},
+            "1.1": {"L": 1, "B": 1.091231, "Z": 4.365079},
+            "2.2": {"L": 1, "B": 2.182461, "Z": 8.730159},
+            "3.3": {"L": 1, "B": 3.273692, "Z": 13.095238},
+            "4.4": {"L": 2, "B": 1.091004, "Z": 17.460317},
+            "5.5": {"L": 2, "B": 1.363755, "Z": 21.825397},
+            "6.6": {"L": 2, "B": 1.636506, "Z": 26.190476},
+        }
+        location = (15000, 17300)
+        size = (250, 250)
+        region_via_mpp1 = wsi_slide_svs.get_region(location, 0.7, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, 1.0, size)
+        region_via_mpp3 = wsi_slide_svs.get_region(location, 2.2, size)
+        region_via_mpp4 = wsi_slide_svs.get_region(location, 4.4, size)
+        region_via_mpp5 = wsi_slide_svs.get_region(location, 5.5, size)
+        self.assertEqual(region_via_mpp1.size, (250, 250))
+        self.assertEqual(region_via_mpp2.size, (250, 250))
+        self.assertEqual(region_via_mpp3.size, (250, 250))
+        self.assertEqual(region_via_mpp4.size, (250, 250))
+        self.assertEqual(region_via_mpp5.size, (250, 250))
+        cached_dict_rounded = {
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
+        }
+        self.assertEqual(cached_dict_rounded, output_cache_dict)
+        #
+        # test 2: test cache and patches (read WSI levels using MPP and level)
+        output_cache_dict = {
+            "0.252": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1.008036288": {"L": 1, "B": 1.0, "Z": 4.000144},
+            "4.032982548": {"L": 2, "B": 1.0, "Z": 16.003899},
+            "0": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1": {"L": 1, "B": 1.0, "Z": 4.000144},
+            "2": {"L": 2, "B": 1.0, "Z": 16.003899},
+            "0.7": {"L": 0, "B": 2.777778, "Z": 2.777778},
+            "1.0": {"L": 0, "B": 3.968254, "Z": 3.968254},
+            "1.1": {"L": 1, "B": 1.091231, "Z": 4.365079},
+            "2.2": {"L": 1, "B": 2.182461, "Z": 8.730159},
+            "3.3": {"L": 1, "B": 3.273692, "Z": 13.095238},
+            "4.4": {"L": 2, "B": 1.091004, "Z": 17.460317},
+            "5.5": {"L": 2, "B": 1.363755, "Z": 21.825397},
+            "6.6": {"L": 2, "B": 1.636506, "Z": 26.190476},
+        }
+        level_or_mpp0 = 0.252  # 0.252 * 1
+        level_or_mpp1 = 1.008036288  # 0.252 * 4.000144
+        level_or_mpp2 = 4.032982548  # 0.252 * 16.003899
+        region_via_mpp0 = wsi_slide_svs.get_region(location, level_or_mpp0, size)
+        region_via_mpp1 = wsi_slide_svs.get_region(location, level_or_mpp1, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, level_or_mpp2, size)
+        region_via_level0 = wsi_slide_svs.get_region(location, 0, size)
+        region_via_level1 = wsi_slide_svs.get_region(location, 1, size)
+        region_via_level2 = wsi_slide_svs.get_region(location, 2, size)
+        # compare cache
+        cached_dict_rounded = {
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
+        }
+        self.assertEqual(cached_dict_rounded, output_cache_dict)
+        # compare patches
+        np.testing.assert_equal(np.asarray(region_via_mpp0), np.asarray(region_via_level0))
+        np.testing.assert_equal(np.asarray(region_via_mpp1), np.asarray(region_via_level1))
+        np.testing.assert_equal(np.asarray(region_via_mpp2), np.asarray(region_via_level2))
+        # read more patches using mpp/level
+        region_via_mpp0 = wsi_slide_svs.get_region(location, 1.1, size)
+        region_via_mpp1 = wsi_slide_svs.get_region(location, 2.2, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, 3.3, size)
+        region_via_mpp3 = wsi_slide_svs.get_region(location, 5.5, size)
+        region_via_level0 = wsi_slide_svs.get_region(location, 0, size)
+        region_via_level1 = wsi_slide_svs.get_region(location, 1, size)
+        region_via_level2 = wsi_slide_svs.get_region(location, 2, size)
+        # compare cache again
+        cached_dict_rounded = {
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
+        }
+        self.assertEqual(cached_dict_rounded, output_cache_dict)
+        # test extra images created in resampling
+        self.assertEqual(len(wsi_slide_svs.level_images_extra), 8)
+
+    def test_get_region_different_levels_at_once_mpp_level_zero_resampling_tile_mode(self):
+        # this will also test if caching (_resample_cache) works, all tests done in memory
+        # so we have to read two patches per level, to test adding and retrieving from cache
+        GenericSlide.set_level_zero_resampling(True)
+        wsi_file_svs = make_test_path("wsi/TUPAC-TE-234.svs")
+        wsi_slide_svs = GenericSlide(wsi_file=wsi_file_svs, resampling_mode="tile")
+        #
+        # test 1: testing cache only
+        output_cache_dict = {
+            "0.3": {"L": 0, "B": 1.190476, "Z": 1.190476},
+            "0.35": {"L": 0, "B": 1.388889, "Z": 1.388889},
+            "0.4": {"L": 0, "B": 1.587302, "Z": 1.587302},
+        }
+        location = (15000, 17300)
+        size = (50, 60)  # patches must be small for speed
+        region_via_mpp1 = wsi_slide_svs.get_region(location, 0.30, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, 0.35, size)
+        region_via_mpp3 = wsi_slide_svs.get_region(location, 0.40, size)
+        self.assertEqual(region_via_mpp1.size, (50, 60))
+        self.assertEqual(region_via_mpp2.size, (50, 60))
+        self.assertEqual(region_via_mpp3.size, (50, 60))
+        cached_dict_rounded = {
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
+        }
+        self.assertEqual(cached_dict_rounded, output_cache_dict)
+        #
+        # test 2: test cache and patches (read WSI levels using MPP and level)
+        output_cache_dict = {
+            "0.252": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1.008036288": {"L": 0, "B": 4.000144, "Z": 4.000144},
+            "4.032982548": {"L": 0, "B": 16.003899, "Z": 16.003899},
+            "0": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1": {"L": 1, "B": 1.0, "Z": 4.000144},
+            "2": {"L": 2, "B": 1.0, "Z": 16.003899},
+            "0.3": {"L": 0, "B": 1.190476, "Z": 1.190476},
+            "0.35": {"L": 0, "B": 1.388889, "Z": 1.388889},
+            "0.4": {"L": 0, "B": 1.587302, "Z": 1.587302},
+        }
+        level_or_mpp0 = 0.252  # 0.252 * 1
+        level_or_mpp1 = 1.008036288  # 0.252 * 4.000144
+        level_or_mpp2 = 4.032982548  # 0.252 * 16.003899
+        region_via_mpp0 = wsi_slide_svs.get_region(location, level_or_mpp0, size)
+        region_via_mpp1 = wsi_slide_svs.get_region(location, level_or_mpp1, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, level_or_mpp2, size)
+        region_via_level0 = wsi_slide_svs.get_region(location, 0, size)
+        region_via_level1 = wsi_slide_svs.get_region(location, 1, size)
+        region_via_level2 = wsi_slide_svs.get_region(location, 2, size)
+        # compare cache
+        cached_dict_rounded = {
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
+        }
+        self.assertEqual(cached_dict_rounded, output_cache_dict)
+        # compare patches
+        np.testing.assert_equal(np.asarray(region_via_mpp0), np.asarray(region_via_level0))
+        np.testing.assert_equal(np.asarray(region_via_mpp1), np.asarray(region_via_level1))
+        np.testing.assert_equal(np.asarray(region_via_mpp2), np.asarray(region_via_level2))
+        # read more patches using mpp/level
+        region_via_mpp1 = wsi_slide_svs.get_region(location, 0.30, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, 0.35, size)
+        region_via_mpp3 = wsi_slide_svs.get_region(location, 0.40, size)
+        region_via_level0 = wsi_slide_svs.get_region(location, 0, size)
+        region_via_level1 = wsi_slide_svs.get_region(location, 1, size)
+        region_via_level2 = wsi_slide_svs.get_region(location, 2, size)
+        # compare cache again
+        cached_dict_rounded = {
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
+        }
+        self.assertEqual(cached_dict_rounded, output_cache_dict)
+
+    def test_get_region_different_levels_at_once_mpp_variable_resampling_tile_mode(self):
+        GenericSlide.set_level_zero_resampling(False)
+        wsi_file_svs = make_test_path("wsi/TUPAC-TE-234.svs")
+        wsi_slide_svs = GenericSlide(wsi_file=wsi_file_svs, resampling_mode="tile")
+        #
+        # test 1: testing cache only
+        output_cache_dict = {
+            "0.7": {"L": 0, "B": 2.777778, "Z": 2.777778},
+            "1.0": {"L": 0, "B": 3.968254, "Z": 3.968254},
+            "2.2": {"L": 1, "B": 2.182461, "Z": 8.730159},
+            "4.4": {"L": 2, "B": 1.091004, "Z": 17.460317},
+            "5.5": {"L": 2, "B": 1.363755, "Z": 21.825397},
+        }
+        location = (15000, 17300)
+        size = (40, 60)
+        region_via_mpp1 = wsi_slide_svs.get_region(location, 0.7, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, 1.0, size)
+        region_via_mpp3 = wsi_slide_svs.get_region(location, 2.2, size)
+        region_via_mpp4 = wsi_slide_svs.get_region(location, 4.4, size)
+        region_via_mpp5 = wsi_slide_svs.get_region(location, 5.5, size)
+        self.assertEqual(region_via_mpp1.size, (40, 60))
+        self.assertEqual(region_via_mpp2.size, (40, 60))
+        self.assertEqual(region_via_mpp3.size, (40, 60))
+        self.assertEqual(region_via_mpp4.size, (40, 60))
+        self.assertEqual(region_via_mpp5.size, (40, 60))
+        cached_dict_rounded = {
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
+        }
+        self.assertEqual(cached_dict_rounded, output_cache_dict)
+        #
+        # test 2: test cache and patches (read WSI levels using MPP and level)
+        output_cache_dict = {
+            "0.252": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1.008036288": {"L": 1, "B": 1.0, "Z": 4.000144},
+            "4.032982548": {"L": 2, "B": 1.0, "Z": 16.003899},
+            "0": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1": {"L": 1, "B": 1.0, "Z": 4.000144},
+            "2": {"L": 2, "B": 1.0, "Z": 16.003899},
+            "0.7": {"L": 0, "B": 2.777778, "Z": 2.777778},
+            "1.0": {"L": 0, "B": 3.968254, "Z": 3.968254},
+            "2.2": {"L": 1, "B": 2.182461, "Z": 8.730159},
+            "4.4": {"L": 2, "B": 1.091004, "Z": 17.460317},
+            "5.5": {"L": 2, "B": 1.363755, "Z": 21.825397},
+        }
+        level_or_mpp0 = 0.252  # 0.252 * 1
+        level_or_mpp1 = 1.008036288  # 0.252 * 4.000144
+        level_or_mpp2 = 4.032982548  # 0.252 * 16.003899
+        region_via_mpp0 = wsi_slide_svs.get_region(location, level_or_mpp0, size)
+        region_via_mpp1 = wsi_slide_svs.get_region(location, level_or_mpp1, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, level_or_mpp2, size)
+        region_via_level0 = wsi_slide_svs.get_region(location, 0, size)
+        region_via_level1 = wsi_slide_svs.get_region(location, 1, size)
+        region_via_level2 = wsi_slide_svs.get_region(location, 2, size)
+        # compare cache
+        cached_dict_rounded = {
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
+        }
+        self.assertEqual(cached_dict_rounded, output_cache_dict)
+        # compare patches
+        np.testing.assert_equal(np.asarray(region_via_mpp0), np.asarray(region_via_level0))
+        np.testing.assert_equal(np.asarray(region_via_mpp1), np.asarray(region_via_level1))
+        np.testing.assert_equal(np.asarray(region_via_mpp2), np.asarray(region_via_level2))
+        # test 3: read more patches using mpp/level
+        output_cache_dict = {
+            "0.252": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1.008036288": {"L": 1, "B": 1.0, "Z": 4.000144},
+            "4.032982548": {"L": 2, "B": 1.0, "Z": 16.003899},
+            "0": {"L": 0, "B": 1.0, "Z": 1.0},
+            "1": {"L": 1, "B": 1.0, "Z": 4.000144},
+            "2": {"L": 2, "B": 1.0, "Z": 16.003899},
+            "0.7": {"L": 0, "B": 2.777778, "Z": 2.777778},
+            "1.0": {"L": 0, "B": 3.968254, "Z": 3.968254},
+            "1.1": {"L": 1, "B": 1.091231, "Z": 4.365079},
+            "2.2": {"L": 1, "B": 2.182461, "Z": 8.730159},
+            "3.3": {"L": 1, "B": 3.273692, "Z": 13.095238},
+            "4.4": {"L": 2, "B": 1.091004, "Z": 17.460317},
+            "5.5": {"L": 2, "B": 1.363755, "Z": 21.825397},
+        }
+        region_via_mpp0 = wsi_slide_svs.get_region(location, 1.1, size)
+        region_via_mpp1 = wsi_slide_svs.get_region(location, 2.2, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, 3.3, size)
+        region_via_mpp2 = wsi_slide_svs.get_region(location, 4.4, size)
+        region_via_mpp3 = wsi_slide_svs.get_region(location, 5.5, size)
+        region_via_level0 = wsi_slide_svs.get_region(location, 0, size)
+        region_via_level1 = wsi_slide_svs.get_region(location, 1, size)
+        region_via_level2 = wsi_slide_svs.get_region(location, 2, size)
+        # compare cache again
+        cached_dict_rounded = {
+            k1: {k2: round(v2, 6) for k2, v2 in v1.items()} for k1, v1 in wsi_slide_svs._prop_resample_cache.items()
         }
         self.assertEqual(cached_dict_rounded, output_cache_dict)
 
@@ -1665,6 +1955,108 @@ class TestGenericSlideResamplingMultiLevelBoard(TestCase):
         self.assertEqual(result_count, output_count)
 
 
+class TestGenericSlideResamplingMultiLevelMultiColorBoard(TestCase):
+    """Tests for resampling with different bases represented by different colors."""
+
+    def setUp(self):
+        self.wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-colors.tif")
+
+    def tearDown(self):
+        GenericSlide.set_level_zero_resampling(True)
+
+    def test_resampling_level_zero_wsi_mode(self):
+        GenericSlide.set_level_zero_resampling(True)
+        wsi_slide_tif = GenericSlide(
+            wsi_file=self.wsi_file_tif, resampling_mode="wsi", extra_mpps=[0.3, 0.6, 1.5, 2.5, 4.5, 5.5]
+        )
+        region1_image = wsi_slide_tif.get_region((256, 256), 0.3, (512, 512))
+        region2_image = wsi_slide_tif.get_region((256, 256), 0.6, (512, 512))
+        region3_image = wsi_slide_tif.get_region((256, 256), 1.5, (256, 256))
+        region4_image = wsi_slide_tif.get_region((256, 256), 2.5, (128, 128))
+        region5_image = wsi_slide_tif.get_region((256, 256), 4.5, (64, 64))
+        region6_image = wsi_slide_tif.get_region((256, 256), 5.5, (64, 64))
+        region1_image_array = np.asarray(region1_image)
+        region2_image_array = np.asarray(region2_image)
+        region3_image_array = np.asarray(region3_image)
+        region4_image_array = np.asarray(region4_image)
+        region5_image_array = np.asarray(region5_image)
+        region6_image_array = np.asarray(region6_image)
+        self.assertEqual(tuple(region1_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region2_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region3_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region4_image_array[10, 10]), (255, 0, 0))
+        self.assertEqual(tuple(region5_image_array[10, 10]), (255, 0, 0))
+        self.assertEqual(tuple(region6_image_array[7, 7]), (255, 0, 0))
+
+    def test_resampling_level_zero_tile_mode(self):
+        GenericSlide.set_level_zero_resampling(True)
+        wsi_slide_tif = GenericSlide(wsi_file=self.wsi_file_tif, resampling_mode="tile")
+        region1_image = wsi_slide_tif.get_region((256, 256), 0.3, (512, 512))
+        region2_image = wsi_slide_tif.get_region((256, 256), 0.6, (512, 512))
+        region3_image = wsi_slide_tif.get_region((256, 256), 1.5, (256, 256))
+        region4_image = wsi_slide_tif.get_region((256, 256), 2.5, (128, 128))
+        region5_image = wsi_slide_tif.get_region((256, 256), 4.5, (64, 64))
+        region6_image = wsi_slide_tif.get_region((256, 256), 5.5, (64, 64))
+        region1_image_array = np.asarray(region1_image)
+        region2_image_array = np.asarray(region2_image)
+        region3_image_array = np.asarray(region3_image)
+        region4_image_array = np.asarray(region4_image)
+        region5_image_array = np.asarray(region5_image)
+        region6_image_array = np.asarray(region6_image)
+        self.assertEqual(tuple(region1_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region2_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region3_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region4_image_array[10, 10]), (255, 0, 0))
+        self.assertEqual(tuple(region5_image_array[10, 10]), (255, 0, 0))
+        self.assertEqual(tuple(region6_image_array[7, 7]), (255, 0, 0))
+
+    def test_resampling_variable_level_wsi_mode(self):
+        GenericSlide.set_level_zero_resampling(False)
+        wsi_slide_tif = GenericSlide(
+            wsi_file=self.wsi_file_tif, resampling_mode="wsi", extra_mpps=[0.3, 0.6, 1.5, 2.5, 4.5, 5.5]
+        )
+        region1_image = wsi_slide_tif.get_region((256, 256), 0.3, (512, 512))
+        region2_image = wsi_slide_tif.get_region((256, 256), 0.6, (512, 512))
+        region3_image = wsi_slide_tif.get_region((256, 256), 1.5, (256, 256))
+        region4_image = wsi_slide_tif.get_region((256, 256), 2.5, (128, 128))
+        region5_image = wsi_slide_tif.get_region((256, 256), 4.5, (64, 64))
+        region6_image = wsi_slide_tif.get_region((256, 256), 5.5, (64, 64))
+        region1_image_array = np.asarray(region1_image)
+        region2_image_array = np.asarray(region2_image)
+        region3_image_array = np.asarray(region3_image)
+        region4_image_array = np.asarray(region4_image)
+        region5_image_array = np.asarray(region5_image)
+        region6_image_array = np.asarray(region6_image)
+        self.assertEqual(tuple(region1_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region2_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region3_image_array[5, 5]), (0, 255, 0))
+        self.assertEqual(tuple(region4_image_array[10, 10]), (0, 255, 0))
+        self.assertEqual(tuple(region5_image_array[10, 10]), (0, 0, 255))
+        self.assertEqual(tuple(region6_image_array[7, 7]), (0, 0, 255))
+
+    def test_resampling_variable_level_tile_mode(self):
+        GenericSlide.set_level_zero_resampling(False)
+        wsi_slide_tif = GenericSlide(wsi_file=self.wsi_file_tif, resampling_mode="tile")
+        region1_image = wsi_slide_tif.get_region((256, 256), 0.3, (512, 512))
+        region2_image = wsi_slide_tif.get_region((256, 256), 0.6, (512, 512))
+        region3_image = wsi_slide_tif.get_region((256, 256), 1.5, (256, 256))
+        region4_image = wsi_slide_tif.get_region((256, 256), 2.5, (128, 128))
+        region5_image = wsi_slide_tif.get_region((256, 256), 4.5, (64, 64))
+        region6_image = wsi_slide_tif.get_region((256, 256), 5.5, (64, 64))
+        region1_image_array = np.asarray(region1_image)
+        region2_image_array = np.asarray(region2_image)
+        region3_image_array = np.asarray(region3_image)
+        region4_image_array = np.asarray(region4_image)
+        region5_image_array = np.asarray(region5_image)
+        region6_image_array = np.asarray(region6_image)
+        self.assertEqual(tuple(region1_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region2_image_array[5, 5]), (255, 0, 0))
+        self.assertEqual(tuple(region3_image_array[5, 5]), (0, 255, 0))
+        self.assertEqual(tuple(region4_image_array[10, 10]), (0, 255, 0))
+        self.assertEqual(tuple(region5_image_array[10, 10]), (0, 0, 255))
+        self.assertEqual(tuple(region6_image_array[7, 7]), (0, 0, 255))
+
+
 class TestGenericSlideStaticMethods(TestCase):
     """Tests for static methods present in GenericSlide."""
 
@@ -1780,28 +2172,48 @@ class TestGenericSlideStaticMethods(TestCase):
         result_level = GenericSlide._find_mpp_wsi_level(level_mpp_values, input_mpp_value, mpp_level_margin)
         self.assertEqual(result_level, -1)
 
-    def test__get_mpp_resample_factors(self):
-        level0_mpp = 0.4
-        target_mpp_values = [0.8, 0.4, 4]
-        output_resample_factors = OrderedDict()
-        output_resample_factors[0.8] = 2.0
-        output_resample_factors[0.4] = 1.0
-        output_resample_factors[4] = 10.0
-        result_resample_factors = GenericSlide._get_mpp_resample_factors(level0_mpp, target_mpp_values)
-        self.assertEqual(result_resample_factors, output_resample_factors)
+    def test__get_resampling_batches(self):
+        mpps = ["a", "b", "c", "d", "e", "f", "g", "h"]
+        # other inner cache keys ("Z" and "B") are purposely not created here
+        resample_cache = {
+            "a": {"L": 1},
+            "b": {"L": 0},
+            "c": {"L": 1},
+            "d": {"L": 3},
+            "e": {"L": 0},
+            "f": {"L": 2},
+            "g": {"L": 2},
+            "h": {"L": 1},
+        }
+        output_batches = {0: ["b", "e"], 1: ["a", "c", "h"], 2: ["f", "g"], 3: ["d"]}
+        result_batches = GenericSlide._get_resampling_batches(mpps, resample_cache)
+        self.assertEqual(result_batches, output_batches)
 
-    def test__get_target_resample_size_list(self):
-        level_zero_dimensions = (600, 1500)
-        resample_factors = [5, 15, 100]
-        output_size_list = [(120, 300), (40, 100), (6, 15)]
-        result_size_list = GenericSlide._get_target_resample_size_list(level_zero_dimensions, resample_factors)
-        self.assertEqual(result_size_list, output_size_list)
-
-    def test__get_resampled_images(self):
+    def test__get_wsi_level_array(self):
         wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
-        target_resample_size_list = [(300, 600), (200, 400), (100, 200)]
+        wsi_slide = GenericSlide(wsi_file=wsi_file)
+        #
+        level_array = GenericSlide._get_wsi_level_array(wsi_slide, level=0)
+        self.assertEqual(level_array.shape, (3072, 2560, 3))
+        #
+        level_array = GenericSlide._get_wsi_level_array(wsi_slide, level=2)
+        self.assertEqual(level_array.shape, (192, 160, 3))
+
+    def test__get_batch_resample_size_list(self):
+        level_size = (1000, 1500)
+        mpps = [20, 50, 75, 100, 120]
+        # other inner cache keys ("Z" and "L") are purposely not created here
+        resample_cache = {"20": {"B": 1}, "50": {"B": 2}, "75": {"B": 3}, "100": {"B": 4}, "120": {"B": 5.5}}
+        output_list = [(1000, 1500), (500, 750), (333, 500), (250, 375), (182, 273)]
+        result_list = GenericSlide._get_batch_resample_size_list(level_size, mpps, resample_cache)
+        self.assertEqual(result_list, output_list)
+
+    def test__get_resampled_wsi_level_images(self):
+        wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+        level_array = io.imread(wsi_file)
+        resample_size_list = [(300, 600), (200, 400), (100, 200)]
         resampling_filter = "LANCZOS"
-        images = GenericSlide._get_resampled_images(wsi_file, target_resample_size_list, resampling_filter)
+        images = GenericSlide._get_resampled_wsi_level_images(level_array, resample_size_list, resampling_filter)
         self.assertIsInstance(images[0], PIL.Image.Image)
         self.assertIsInstance(images[1], PIL.Image.Image)
         self.assertIsInstance(images[2], PIL.Image.Image)
@@ -1812,27 +2224,40 @@ class TestGenericSlideStaticMethods(TestCase):
         self.assertEqual(images[2].width, 100)
         self.assertEqual(images[2].height, 200)
 
-    def test__get_resampled_images_unknown_filter(self):
+    def test__get_resampled_wsi_level_images_unknown_filter(self):
         wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
-        target_resample_size_list = [(300, 600), (200, 400), (100, 200)]
+        level_array = io.imread(wsi_file)
+        resample_size_list = [(300, 600), (200, 400), (100, 200)]
         resampling_filter = "ABC123"
         with self.assertRaises(KeyError):
-            GenericSlide._get_resampled_images(wsi_file, target_resample_size_list, resampling_filter)
+            GenericSlide._get_resampled_wsi_level_images(level_array, resample_size_list, resampling_filter)
+
+    def test__get_base_resample_level(self):
+        wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+        wsi_slide = GenericSlide(wsi_file=wsi_file)
+        #
+        mpp = 1
+        level = GenericSlide._get_base_resample_level(wsi_slide, mpp, level_zero_resampling=True)
+        self.assertEqual(level, 0)
+        #
+        mpp = 1
+        level = GenericSlide._get_base_resample_level(wsi_slide, mpp, level_zero_resampling=False)
+        self.assertNotEqual(level, 0)
 
     def test__get_resampled_tile(self):
-        level0_region = Image.new(mode="RGB", size=(200, 200))
+        base_level_region = Image.new(mode="RGB", size=(200, 200))
         size = (110, 120)
         resampling_filter = "LANCZOS"
-        result_tile = GenericSlide._get_resampled_tile(level0_region, size, resampling_filter)
+        result_tile = GenericSlide._get_resampled_tile(base_level_region, size, resampling_filter)
         self.assertEqual(result_tile.width, 110)
         self.assertEqual(result_tile.height, 120)
 
     def test__get_resampled_tile_unknown_filter(self):
-        level0_region = Image.new(mode="RGB", size=(200, 200))
+        base_level_region = Image.new(mode="RGB", size=(200, 200))
         size = (110, 120)
         resampling_filter = "ABC123"
         with self.assertRaises(KeyError):
-            GenericSlide._get_resampled_tile(level0_region, size, resampling_filter)
+            GenericSlide._get_resampled_tile(base_level_region, size, resampling_filter)
 
 
 class TestGenericSlideWSIResamplingIdenticalFilters(TestCase):

@@ -169,7 +169,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
     """Tests for saving files in WSIHeatmap class."""
 
     def test_save_png(self):
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         result_image_file = "test_heatmap1.png"
         result_image_file = os.path.join(save_dir, result_image_file)
         input_array = np.ones((100, 200))
@@ -194,7 +194,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
             rect_polygon = [(rect[0], rect[1]), (rect[2], rect[1]), (rect[2], rect[3]), (rect[0], rect[3])]
             image_draw.polygon(rect_polygon, outline="lime", width=2)
 
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         result_image_file = "test_heatmap2.png"
         result_image_file = os.path.join(save_dir, result_image_file)
         input_array = np.ones((100, 200))
@@ -214,7 +214,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
         np.testing.assert_equal(result_image_array, output_image_array)
 
     def test_save_colorbar_png(self):
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         result_image_file = "test_heatmap3.png"
         result_image_file = os.path.join(save_dir, result_image_file)
         input_array = np.ones((100, 200))
@@ -234,7 +234,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
         np.testing.assert_equal(result_image_array, output_image_array)
 
     def test_save_colorbar_png_interpolation(self):
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         result_image_file1 = "test_heatmap_interpolation1.png"
         result_image_file1 = os.path.join(save_dir, result_image_file1)
         result_image_file2 = "test_heatmap_interpolation2.png"
@@ -255,7 +255,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
         self.assertFalse(np.array_equal(heatmap_array1, heatmap_array2))
 
     def test_save_colorbar_png_dpi(self):
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         result_image_file1 = "test_heatmap_dpi1.png"
         result_image_file1 = os.path.join(save_dir, result_image_file1)
         result_image_file2 = "test_heatmap_dpi2.png"
@@ -283,7 +283,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
             rect = Rectangle((x0, y0), x1 - x0, y1 - y0, linewidth=0.5, edgecolor="lime", facecolor="none")
             current_axes.add_patch(rect)
 
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         result_image_file = "test_heatmap4.png"
         result_image_file = os.path.join(save_dir, result_image_file)
         input_array = np.ones((100, 200))
@@ -308,7 +308,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
         input_array[0:64, 0:96] = 0
         input_array[100:120, 140:160] = np.nan
         wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-clean.tif")
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         #
         # background is undefined -> no compression used
         result_image_name = "test_heatmap1.tif"
@@ -416,7 +416,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
         input_array[0:64, 0:96] = 0
         input_array[100:120, 140:160] = np.nan
         wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-clean.tif")
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         #
         # save df=1
         result_image_name = "test_heatmap6.tif"
@@ -471,7 +471,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
         input_array[0:64, 0:96] = 0
         input_array[100:120, 140:160] = np.nan
         wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-clean.tif")
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         result_image_name = "test_heatmap8.tif"
         result_image_path = os.path.join(save_dir, result_image_name)
         heatmap = WSIHeatmap(heatmap_data=input_array, background_color=None, alpha=0.5, vmin=0, vmax=1)
@@ -502,7 +502,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
         input_array = np.ones((160, 192))
         input_array[0:64, 0:96] = 0
         wsi_file_tif = make_test_path("wsi/board-multi-layer-compression-clean.tif")
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         #
         # no transparency + cutoff
         result_image_file = "test_overlay1.png"
@@ -564,7 +564,7 @@ class TestWSIHeatmapSavingFiles(TestCase):
         input_array = np.ones((160, 192))
         input_array[0:64, 0:96] = 0
         wsi_file_tif = make_test_path("wsi/board-multi-layer-compression-clean.tif")
-        save_dir = make_test_path("saved_data/heatmaps")
+        save_dir = make_test_path("saved_data/heatmaps1")
         result_image_file = "test_overlay4.png"
         result_image_path = os.path.join(save_dir, result_image_file)
         heatmap = WSIHeatmap(heatmap_data=input_array, background_color=None, vmin=0, vmax=1)
@@ -582,6 +582,83 @@ class TestWSIHeatmapSavingFiles(TestCase):
         output_image.close()
         # compare
         np.testing.assert_equal(result_image_array, output_image_array)
+
+    def test_save_all_files(self):
+        """Run this test to ensure that saving any files does not modify the original array with source values."""
+        input_array = np.ones((160, 192))
+        input_array[0:64, 0:96] = 0.5
+        input_array[140:, 172:] = np.nan
+        # backup original array first
+        input_array_backup = np.copy(input_array)
+        # save all possible files
+        wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-clean.tif")
+        save_dir = make_test_path("saved_data/heatmaps2")
+        # default settings
+        heatmap = WSIHeatmap(heatmap_data=input_array)
+        png_file = "file1.png"
+        png_file_path = os.path.join(save_dir, png_file)
+        heatmap.save_png(png_file_path)
+        colorbar_png_file = "file2.png"
+        colorbar_png_file_path = os.path.join(save_dir, colorbar_png_file)
+        heatmap.save_colorbar_png(colorbar_png_file_path)
+        overlay_png_file = "file3.png"
+        overlay_png_file_path = os.path.join(save_dir, overlay_png_file)
+        heatmap.save_overlay_png(overlay_png_file_path, wsi_file_tif)
+        tif_file = "file4.tif"
+        tif_file_path = os.path.join(save_dir, tif_file)
+        heatmap.save_tif(tif_file_path, wsi_file_tif)
+        # without background
+        heatmap = WSIHeatmap(heatmap_data=input_array, background_color=None)
+        png_file = "file5.png"
+        png_file_path = os.path.join(save_dir, png_file)
+        heatmap.save_png(png_file_path)
+        colorbar_png_file = "file6.png"
+        colorbar_png_file_path = os.path.join(save_dir, colorbar_png_file)
+        heatmap.save_colorbar_png(colorbar_png_file_path)
+        overlay_png_file = "file7.png"
+        overlay_png_file_path = os.path.join(save_dir, overlay_png_file)
+        heatmap.save_overlay_png(overlay_png_file_path, wsi_file_tif)
+        tif_file = "file8.tif"
+        tif_file_path = os.path.join(save_dir, tif_file)
+        heatmap.save_tif(tif_file_path, wsi_file_tif)
+        # with transparency
+        heatmap = WSIHeatmap(heatmap_data=input_array, alpha=0.5)
+        png_file = "file9.png"
+        png_file_path = os.path.join(save_dir, png_file)
+        heatmap.save_png(png_file_path)
+        colorbar_png_file = "file10.png"
+        colorbar_png_file_path = os.path.join(save_dir, colorbar_png_file)
+        heatmap.save_colorbar_png(colorbar_png_file_path)
+        overlay_png_file = "file11.png"
+        overlay_png_file_path = os.path.join(save_dir, overlay_png_file)
+        heatmap.save_overlay_png(overlay_png_file_path, wsi_file_tif)
+        tif_file = "file12.tif"
+        tif_file_path = os.path.join(save_dir, tif_file)
+        heatmap.save_tif(tif_file_path, wsi_file_tif)
+        # with data range
+        heatmap = WSIHeatmap(heatmap_data=input_array, vmin=0.3, vmax=0.9)
+        png_file = "file13.png"
+        png_file_path = os.path.join(save_dir, png_file)
+        heatmap.save_png(png_file_path)
+        colorbar_png_file = "file14.png"
+        colorbar_png_file_path = os.path.join(save_dir, colorbar_png_file)
+        heatmap.save_colorbar_png(colorbar_png_file_path)
+        overlay_png_file = "file15.png"
+        overlay_png_file_path = os.path.join(save_dir, overlay_png_file)
+        heatmap.save_overlay_png(overlay_png_file_path, wsi_file_tif)
+        tif_file = "file16.tif"
+        tif_file_path = os.path.join(save_dir, tif_file)
+        heatmap.save_tif(tif_file_path, wsi_file_tif)
+        # separate test for cutoff values
+        heatmap = WSIHeatmap(heatmap_data=input_array)
+        overlay_png_file = "file17.png"
+        overlay_png_file_path = os.path.join(save_dir, overlay_png_file)
+        heatmap.save_overlay_png(overlay_png_file_path, wsi_file_tif, cutoff=0.7)
+        overlay_png_file = "file18.png"
+        overlay_png_file_path = os.path.join(save_dir, overlay_png_file)
+        heatmap.save_overlay_png(overlay_png_file_path, wsi_file_tif, cutoff=0.2)
+        # compare arrays
+        np.testing.assert_equal(input_array, input_array_backup)
 
 
 class TestWSIHeatmapProperties(TestCase):

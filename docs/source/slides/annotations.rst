@@ -2,19 +2,19 @@
 Annotations
 ===========
 
-``dplabtools`` offers a set of classes capable of reading annotations saved by the following applications:
+``dplabtools`` offers a set of classes capable of reading annotations created by the following applications:
 `Sedeen <https://pathcore.com/sedeen/>`_, `ASAP <https://computationalpathologygroup.github.io/ASAP/>`_, and
 `QuPath <https://qupath.github.io/>`_. Processed annotations are converted to a polygon-like format and integrate
-with other classes included in the package, they can also be saved as standardized JSON files for reuse or further
+with other classes included in the package. They can also be saved as standardized JSON files for future reuse or further
 processing.
 
-Notes:
+Important notes:
 
-* All non-polygon annotations (arrows, rulers, points, pure text labels, etc.) will be ignored during the annotation
+* All non-polygon annotation objects (arrows, rulers, points, pure text labels, etc.) will be ignored during the annotation
   reading process.
-* Since annotation labels can be expressed by different entities (text, color, object name, etc.) classes for
-  annotation reading offer dedicated functions to provide the user with the necessary flexibility with regards to
-  what constitutes a label.
+* Since annotation labels can be expressed by different entities (text, color, object property, etc.), classes for
+  annotation reading introduce the concept of a helper function called ``get_label_fn``. The purpose of this function
+  is to provide the user with the necessary flexibility in regards to what constitutes a label.
 
 
 Sedeen annotations
@@ -83,8 +83,8 @@ Parameters, methods and properties specific to ``AsapReader`` are inherited from
 
 .. _annotations-common-baseclass-label:
 
-Parameters, methods and properties of base reader class
-=======================================================
+Parameters, methods and properties of the base reader class
+===========================================================
 
 .. autoclass:: dplabtools.slides.annotations.readers.base.BaseReader(...)
    :class-doc-from: init
@@ -92,16 +92,16 @@ Parameters, methods and properties of base reader class
    :inherited-members:
 
 .. seealso::
-    :ref:`special-annotation-polygon-label`
+    :ref:`misc-annotation-polygon-label`
 
 
 QuPath annotations
 ==================
 
 Annotations saved by QuPath are not stored in an easily accessible format and it is necessary to read the whole QuPath
-project to extract them. Additionally a working installation of QuPath is also necessary for this task to complete.
+project to extract them. Additionally, a working installation of QuPath is necessary for this task to complete.
 
-``QuPathProjectReader`` is a class dedicated to process saved QuPath projects and extract WSI annotations in bulk:
+``QuPathProjectReader`` is a class dedicated to processing saved QuPath projects and extracting WSI annotations in bulk.
 
 Basic usage
 -----------
@@ -113,7 +113,7 @@ Basic usage
     reader = QuPathProjectReader(qupath_install_dir="/opt/QuPath/", qupath_project_dir="/data/project1/")
     reader.save_json("/tmp")
 
-Output: annotations for all WSI present in the QuPath project will be saved as individual JSON files:
+Output: the annotations for all WSIs present in the QuPath project will be saved as individual JSON files:
 
     .. code-block:: bash
 
@@ -121,7 +121,7 @@ Output: annotations for all WSI present in the QuPath project will be saved as i
         file2.svs.json
         file3.svs.json
 
-It is also possible to process them directly in memory by using the ``reader.polygon_data`` property.
+It is also possible to process them directly in memory by using the ``reader.project_data`` property.
 
 Class details
 -------------
@@ -132,13 +132,14 @@ Class details
    :inherited-members:
 
 .. seealso::
-    :ref:`special-annotation-polygon-label`
+    :ref:`misc-annotation-polygon-label`
 
 
-Integration with patch locations
-================================
+Integration with patch locations classes
+========================================
 
-Extracted annotations can be passed to the classes calculating patches on polygon regions, either as a saved JSON file:
+For the ``SedeenReader`` and ``AsapReader`` classes, extracted annotations can be passed to the classes calculating patches on polygon regions, 
+either as a saved JSON file:
 
 .. code-block:: python
 
@@ -189,5 +190,5 @@ or as an in-memory object via the ``polygons`` property:
         polygon_data=reader.polygons,
     )
 
-In case of the ``QuPathProjectReader`` class, the property holding all annotations in memory i.e. ``project_data`` would
-have to be manipulated first to pass single image annotations to the ``polygon_data`` argument.
+In case of the ``QuPathProjectReader`` class, the property holding all the annotations in memory (``reader.project_data``)
+would have to be manipulated first to pass the annotations from a single WSI to the ``polygon_data`` argument.

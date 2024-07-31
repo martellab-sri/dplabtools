@@ -2,21 +2,21 @@
 GenericSlide
 ============
 
-``GenericSlide`` is a class providing abstraction for various WSI reading libraries, currently supported libraries
-are `openslide` (default) and `tiffslide`. ``GenericSlide`` also supports treating flat image files as one level WSIs
+``GenericSlide`` is a class providing abstraction for various WSI reading libraries, currently supporting the libraries
+`openslide` (default) and `tiffslide`. ``GenericSlide`` also supports treating flat image files as one level WSIs
 using the `Pillow` library.
 
-``GenericSlide`` class has been introduced to ensure that the package could maintain its full functionality in case
+``GenericSlide`` class has been introduced to ensure that the package can maintain its full functionality in case
 a prominent WSI reading library was ever to lose its support or even disappear.
 
 .. note::
 
-   In general it is not required to be familiar with the ``GenericSlide`` class to successfully use ``dplabtools``.
+   Generally it is not required to be familiar with the ``GenericSlide`` class to successfully use ``dplabtools``.
    Various classes and modules of ``dplabtools`` use ``GenericSlide`` internally and the integration details are
    transparent to the end user. ``GenericSlide`` can, however, be used independently as a standalone class in any
    Python context.
 
-Other class features:
+Other class features include:
 
 * Extracting patches based on WSI levels or arbitrary MPP (Microns Per Pixel) values.
 * Down-sampling and up-sampling of WSIs at any MPP value using two different modes.
@@ -77,10 +77,10 @@ Automated resampling
     region = slide.get_region(location=(0, 0), level_or_mpp=0.333, size=(256, 256))
 
 
-2. ``wsi`` mode - resampling the whole level upfront:
+2. ``wsi`` mode - resampling the whole WSI level upfront:
 
-* In this mode extra WSI levels will be created upfront and stored in memory. Resampling happens immediately when
-  the object is created and may take significant amount of resources.
+* In this mode extra WSI levels will be created upfront and stored in memory. Resampling happens immediately upon
+  creation of the object and may take significant amounts of resources.
 * ``GenericSlide`` should be initiated with the argument ``resampling_mode="wsi"`` and with the desired MPP levels
   included in the list parameter called ``extra_mpps``::
 
@@ -98,7 +98,13 @@ Automated resampling
 
 
 Whether to use one mode or the other will depend largely on the number of patches extracted from a single WSI and on the
-resampling performance in the particular environment.
+resampling performance in that particular environment.
+
+.. note::
+
+    By default the resampling process will use level zero in the WSI pyramid as the base, which will promote
+    the highest quality of the produced image at the cost of slow performance. This behavior can be reversed
+    by using :meth:`.set_level_zero_resampling()`.
 
 
 Advanced features
@@ -107,6 +113,7 @@ Advanced features
 ``GenericSlide`` provides a set of advanced features available as dedicated class methods:
 
 * :meth:`.set_external_mpp()`
+* :meth:`.set_level_zero_resampling()`
 * :meth:`.set_mpp_level_margin()`
 * :meth:`.set_mpp_round_decimal_places()`
 * :meth:`.set_padding_margin_pixels()`
@@ -117,7 +124,7 @@ Advanced features
 Example: missing MPP data
 -------------------------
 
-In case of missing MPP data in a WSI file its value can be imputed using :meth:`.set_external_mpp()`::
+In case of missing MPP data in a WSI file its value can be inputted using :meth:`.set_external_mpp()`::
 
     from dplabtools.slides import GenericSlide
     GenericSlide.set_external_mpp(0.5)
@@ -139,4 +146,4 @@ Class details
     :exclude-members: check_mpp_data, check_mpp_range
 
 .. seealso::
-    :ref:`special-level-or-mpp-label`
+    :ref:`misc-level-or-mpp-label`

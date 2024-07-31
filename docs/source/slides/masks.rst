@@ -2,13 +2,13 @@
 Masks
 =====
 
-Masks are used to differentiate between foreground and background in WSI processing. ``dplabtools``
+Masks are used to differentiate between the foreground and background in WSI processing. ``dplabtools``
 provides two classes for mask generation, based on either a set of polygons or tissue processing.
 
 Additional features:
 
 * Masks can be created at different WSI levels which determine their XY dimensions. Larger masks may capture more image
-  details, but at the same time may reduce the downstream processing performance.
+  details, but may consequently reduce the downstream processing performance.
 * Generated masks can be used as in-memory objects or saved to files as either images or NumPy arrays.
 * In-memory mask objects are optimized for the smallest possible footprint.
 * Saved mask files are optimized for the smallest possible file size.
@@ -22,7 +22,7 @@ Polygon based mask
 
 Notes:
 
-* For convenience polygons are represented by :ref:`special-annotation-polygon-label` objects.
+* For convenience, polygons are represented by :ref:`misc-annotation-polygon-label` objects.
 * Mask WSI level (determined by ``level_or_minsize``) should match the level at which polygons/annotations were created,
   typically level 0.
 
@@ -120,8 +120,8 @@ Parameter details
 
 * ``mode`` and ``color_threshold``
 
- ``hsv`` and ``lab`` modes use different color space during processing and are accompanied by a ``color_threshold`` value,
- their optimal values vary between different tissue staining techniques and should be determined experimentally.
+ ``hsv`` and ``lab`` modes use different color space during processing and are accompanied by a ``color_threshold`` value.
+ Their optimal values vary between different tissue staining techniques and should be determined experimentally.
 
  ``otsu`` mode uses Otsu algorithm to find the optimal threshold value and ignores the ``color_threshold`` parameter.
 
@@ -134,12 +134,12 @@ Parameter details
 
 * ``remove_small_holes_ratio``
 
- If greater than zero, enables removing small holes in the generated mask. Its numerical value represents the ratio of a
- 256x256 patch, whose total pixel count represents the maximum size of removed holes. E.g. ``remove_small_holes_ratio=0.5``
- indicates that holes up to 32768 pixels (256x256*0.5) should be removed, when using ``level_or_minsize=0``.
- When using a different ``level_or_minsize`` values, the pixel count value will be scaled down accordingly, e.g. for values
- ``remove_small_holes_ratio=0.5`` and ``level_or_minsize=1`` holes up to  8192 pixels (32768/4) will be removed
- (`4` being the downsample factor between levels 0 and 1).
+ If greater than zero, it enables removing small holes in the generated mask. Its numerical value represents the multiplier
+ ran by a 256x256 patch. The result (total pixel count) of this calculation represents the maximum size of holes that
+ should be removed. E.g. ``remove_small_holes_ratio=0.5`` indicates that holes up to 32768 pixels (256x256*0.5) should be
+ removed, when using ``level_or_minsize=0``. When using a different ``level_or_minsize`` value, the pixel count value will
+ be scaled down accordingly, e.g. for values ``remove_small_holes_ratio=0.5`` and ``level_or_minsize=1`` holes up to  8192
+ pixels (32768/4) will be removed (`4` being the downsample factor between levels 0 and 1).
 
  Comparison of three ``remove_small_holes_ratio`` values (0.1, 0.5, 1.0):
 
@@ -160,8 +160,8 @@ Parameter details
 
  .. hint::
 
-    Removing small objects will accelerate many downstream tasks, as the mask processing area will be more confined
-    and thus making the process of scanning the mask complete faster.
+    Removing small objects will accelerate many downstream tasks, as the mask processing area will be more confined,
+    making the process of scanning the mask complete faster.
 
 
 * ``remove_all_holes``
@@ -196,7 +196,7 @@ Parameters common in all mask classes
    :paths: dplabtools.slides.processing.mask.base.BaseMask, dplabtools.slides.processing.mask.base.BaseMask
 
 .. seealso::
-    :ref:`special-level-or-minsize-label`
+    :ref:`misc-level-or-minsize-label`
 
 
 .. _mask-common-methods-label:

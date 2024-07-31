@@ -13,6 +13,7 @@ Tested classes:
 """
 
 import os
+import glob
 from unittest import TestCase
 
 from PIL import Image, ImageDraw
@@ -132,17 +133,18 @@ class DummyFixedClassificationModelOneClassMultiRes(torch.nn.Module):
         TestCase().assertEqual(batch_size0, self._batch_size)
         TestCase().assertEqual(batch_size1, self._batch_size)
         TestCase().assertEqual(batch_size2, self._batch_size)
-        # correct order of patches can be determined by how many white pixels they contain
+        # - correct order of patches can be determined by how many white pixels they contain
+        # - white pixel values (255, 255, 255) are converted to (1, 1, 1) by to_tensor
         for img_index in range(batch_size0):
             image0 = batch_data0[img_index]
             image1 = batch_data1[img_index]
             image2 = batch_data2[img_index]
             image0_array = image0.numpy().transpose(1, 2, 0)
-            image0_white_pixels_count = (image0_array == (255, 255, 255)).all(axis=-1).sum()
+            image0_white_pixels_count = (image0_array == (1, 1, 1)).all(axis=-1).sum()
             image1_array = image1.numpy().transpose(1, 2, 0)
-            image1_white_pixels_count = (image1_array == (255, 255, 255)).all(axis=-1).sum()
+            image1_white_pixels_count = (image1_array == (1, 1, 1)).all(axis=-1).sum()
             image2_array = image2.numpy().transpose(1, 2, 0)
-            image2_white_pixels_count = (image2_array == (255, 255, 255)).all(axis=-1).sum()
+            image2_white_pixels_count = (image2_array == (1, 1, 1)).all(axis=-1).sum()
             TestCase().assertTrue(image0_white_pixels_count < image1_white_pixels_count)
             TestCase().assertTrue(image1_white_pixels_count < image2_white_pixels_count)
         return torch.full((batch_size0, 1), self.fixed_value)
@@ -2554,12 +2556,12 @@ class TestWSIInferenceFileSaving(TestCase):
     """Tests for file saving."""
 
     def setUp(self):
-        wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+        self.wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
         mask_data = np.zeros((160, 192), dtype=np.uint8)  # level2
         mask_data[16:32, 48:64] = 1  # patch16
         mask_data[32:48, 64:80] = 1  # patch29
         patches = WholeImageGridPatches(
-            wsi_file=wsi_file,
+            wsi_file=self.wsi_file,
             mask_data=mask_data,
             patch_size=256,
             level_or_mpp=0,
@@ -2582,7 +2584,7 @@ class TestWSIInferenceFileSaving(TestCase):
         self.inference.process_dataset(dataset)
 
     def test_save_classes_array(self):
-        result_array_all_classes = make_test_path("saved_data/inference/data_all.npz")
+        result_array_all_classes = make_test_path("saved_data/inference1/data_all.npz")
         self.inference.save_classes_array(result_array_all_classes)
         # read reference values
         output_array_file_all = make_test_path("ref_data/slides/processing/inference/data_all.npz")
@@ -2593,9 +2595,9 @@ class TestWSIInferenceFileSaving(TestCase):
         np.testing.assert_equal(result_array_all, output_array_all)
 
     def test_save_class_array(self):
-        result_array_file_class0 = make_test_path("saved_data/inference/data_class0.npz")
-        result_array_file_class1 = make_test_path("saved_data/inference/data_class1.npz")
-        result_array_file_class2 = make_test_path("saved_data/inference/data_class2.npz")
+        result_array_file_class0 = make_test_path("saved_data/inference1/data_class0.npz")
+        result_array_file_class1 = make_test_path("saved_data/inference1/data_class1.npz")
+        result_array_file_class2 = make_test_path("saved_data/inference1/data_class2.npz")
         self.inference.save_class_array(0, result_array_file_class0)
         self.inference.save_class_array(1, result_array_file_class1)
         self.inference.save_class_array(2, result_array_file_class2)
@@ -2616,9 +2618,9 @@ class TestWSIInferenceFileSaving(TestCase):
         np.testing.assert_equal(result_array_class2, output_array_class2)
 
     def test_save_class_png(self):
-        result_image_file_class0 = make_test_path("saved_data/inference/image_class0.png")
-        result_image_file_class1 = make_test_path("saved_data/inference/image_class1.png")
-        result_image_file_class2 = make_test_path("saved_data/inference/image_class2.png")
+        result_image_file_class0 = make_test_path("saved_data/inference1/image_class0.png")
+        result_image_file_class1 = make_test_path("saved_data/inference1/image_class1.png")
+        result_image_file_class2 = make_test_path("saved_data/inference1/image_class2.png")
         self.inference.save_class_png(0, result_image_file_class0)
         self.inference.save_class_png(1, result_image_file_class1)
         self.inference.save_class_png(2, result_image_file_class2)
@@ -2646,6 +2648,34 @@ class TestWSIInferenceFileSaving(TestCase):
         np.testing.assert_equal(result_image_array_class0, output_image_array_class0)
         np.testing.assert_equal(result_image_array_class1, output_image_array_class1)
         np.testing.assert_equal(result_image_array_class2, output_image_array_class2)
+
+    def test_save_all_files(self):
+        """Run this test to ensure that saving any files does not modify the original array with source values."""
+        # backup original array first
+        classes_array_backup = np.copy(self.inference.classes_array)
+        # save all possible files
+        array_all_classes = make_test_path("saved_data/inference3/file1.npz")
+        self.inference.save_classes_array(array_all_classes)
+        array_class0 = make_test_path("saved_data/inference3/file2.npz")
+        array_class1 = make_test_path("saved_data/inference3/file3.npz")
+        array_class2 = make_test_path("saved_data/inference3/file4.npz")
+        self.inference.save_class_array(0, array_class0)
+        self.inference.save_class_array(1, array_class1)
+        self.inference.save_class_array(2, array_class2)
+        png_image_file_class0 = make_test_path("saved_data/inference3/image1.png")
+        png_image_file_class1 = make_test_path("saved_data/inference3/image2.png")
+        png_image_file_class2 = make_test_path("saved_data/inference3/image3.png")
+        self.inference.save_class_png(0, png_image_file_class0)
+        self.inference.save_class_png(1, png_image_file_class1)
+        self.inference.save_class_png(2, png_image_file_class2)
+        tif_image_file_class0 = make_test_path("saved_data/inference3/image1.tif")
+        tif_image_file_class1 = make_test_path("saved_data/inference3/image2.tif")
+        tif_image_file_class2 = make_test_path("saved_data/inference3/image3.tif")
+        self.inference.save_class_tif(0, tif_image_file_class0, self.wsi_file, jpeg_compression=False)
+        self.inference.save_class_tif(1, tif_image_file_class1, self.wsi_file, jpeg_compression=False)
+        self.inference.save_class_tif(2, tif_image_file_class2, self.wsi_file, jpeg_compression=False)
+        # compare arrays
+        np.testing.assert_equal(self.inference.classes_array, classes_array_backup)
 
 
 class TestWSIInferenceFileSavingTif(TestCase):
@@ -2680,9 +2710,9 @@ class TestWSIInferenceFileSavingTif(TestCase):
             use_cuda=False,
         )
         inference.process_dataset(self.dataset)
-        result_image_file_class0 = make_test_path("saved_data/inference/image_level0_class0.tif")
-        result_image_file_class1 = make_test_path("saved_data/inference/image_level0_class1.tif")
-        result_image_file_class2 = make_test_path("saved_data/inference/image_level0_class2.tif")
+        result_image_file_class0 = make_test_path("saved_data/inference1/image_level0_class0.tif")
+        result_image_file_class1 = make_test_path("saved_data/inference1/image_level0_class1.tif")
+        result_image_file_class2 = make_test_path("saved_data/inference1/image_level0_class2.tif")
         inference.save_class_tif(0, result_image_file_class0, self.wsi_file, jpeg_compression=False)
         inference.save_class_tif(1, result_image_file_class1, self.wsi_file, jpeg_compression=False)
         inference.save_class_tif(2, result_image_file_class2, self.wsi_file, jpeg_compression=False)
@@ -2741,9 +2771,9 @@ class TestWSIInferenceFileSavingTif(TestCase):
             use_cuda=False,
         )
         inference.process_dataset(self.dataset)
-        result_image_file_class0 = make_test_path("saved_data/inference/image_level1_class0.tif")
-        result_image_file_class1 = make_test_path("saved_data/inference/image_level1_class1.tif")
-        result_image_file_class2 = make_test_path("saved_data/inference/image_level1_class2.tif")
+        result_image_file_class0 = make_test_path("saved_data/inference1/image_level1_class0.tif")
+        result_image_file_class1 = make_test_path("saved_data/inference1/image_level1_class1.tif")
+        result_image_file_class2 = make_test_path("saved_data/inference1/image_level1_class2.tif")
         inference.save_class_tif(0, result_image_file_class0, self.wsi_file, jpeg_compression=False)
         inference.save_class_tif(1, result_image_file_class1, self.wsi_file, jpeg_compression=False)
         inference.save_class_tif(2, result_image_file_class2, self.wsi_file, jpeg_compression=False)
@@ -2802,9 +2832,9 @@ class TestWSIInferenceFileSavingTif(TestCase):
             use_cuda=False,
         )
         inference.process_dataset(self.dataset)
-        result_image_file_class0 = make_test_path("saved_data/inference/image_level2_class0.tif")
-        result_image_file_class1 = make_test_path("saved_data/inference/image_level2_class1.tif")
-        result_image_file_class2 = make_test_path("saved_data/inference/image_level2_class2.tif")
+        result_image_file_class0 = make_test_path("saved_data/inference1/image_level2_class0.tif")
+        result_image_file_class1 = make_test_path("saved_data/inference1/image_level2_class1.tif")
+        result_image_file_class2 = make_test_path("saved_data/inference1/image_level2_class2.tif")
         inference.save_class_tif(0, result_image_file_class0, self.wsi_file, jpeg_compression=False)
         inference.save_class_tif(1, result_image_file_class1, self.wsi_file, jpeg_compression=False)
         inference.save_class_tif(2, result_image_file_class2, self.wsi_file, jpeg_compression=False)
@@ -2863,7 +2893,7 @@ class TestWSIInferenceFileSavingTif(TestCase):
             use_cuda=False,
         )
         inference.process_dataset(self.dataset)
-        result_image_file_class1 = make_test_path("saved_data/inference/image_level0_class1_compressed.tif")
+        result_image_file_class1 = make_test_path("saved_data/inference1/image_level0_class1_compressed.tif")
         inference.save_class_tif(1, result_image_file_class1, self.wsi_file, jpeg_compression=True)
         self.assertTrue(os.path.getsize(result_image_file_class1) < 250000)
 
@@ -2880,7 +2910,7 @@ class TestWSIInferenceFileSavingTif(TestCase):
         )
         inference.process_dataset(self.dataset)
         # save df=1
-        result_image_file_class = make_test_path("saved_data/inference/image_level0_class1_df1.tif")
+        result_image_file_class = make_test_path("saved_data/inference1/image_level0_class1_df1.tif")
         inference.save_class_tif(1, result_image_file_class, self.wsi_file, downsample_factor=1, jpeg_compression=False)
         # read saved image
         result_image = Image.open(result_image_file_class)
@@ -2899,7 +2929,7 @@ class TestWSIInferenceFileSavingTif(TestCase):
         np.testing.assert_equal(result_slide.mpp_data, output_slide.mpp_data)
         np.testing.assert_equal(result_slide.mpp_data, wsi_slide.mpp_data)
         # save df=4
-        result_image_file_class = make_test_path("saved_data/inference/image_level0_class1_df4.tif")
+        result_image_file_class = make_test_path("saved_data/inference1/image_level0_class1_df4.tif")
         inference.save_class_tif(1, result_image_file_class, self.wsi_file, downsample_factor=4, jpeg_compression=False)
         # read saved image
         result_image = Image.open(result_image_file_class)
@@ -2951,12 +2981,12 @@ class TestWSIInferenceFileSavingOutOfRange(TestCase):
         self.inference.process_dataset(dataset)
 
     def test_save_class_png(self):
-        result_image_file_class0 = make_test_path("saved_data/inference/image_range_class0.png")
+        result_image_file_class0 = make_test_path("saved_data/inference1/image_range_class0.png")
         with self.assertRaises(ValueError):
             self.inference.save_class_png(0, result_image_file_class0)
 
     def test_save_class_tif(self):
-        result_image_file_class0 = make_test_path("saved_data/inference/image_range_class0.tif")
+        result_image_file_class0 = make_test_path("saved_data/inference1/image_range_class0.tif")
         with self.assertRaises(ValueError):
             self.inference.save_class_tif(0, result_image_file_class0, self.wsi_file)
 
@@ -2997,3 +3027,145 @@ class TestWSIInferenceTwoDatasets(TestCase):
         inference_results2 = inference.classes_array
         np.testing.assert_equal(inference_results1, inference_results2)
         self.assertNotEqual(id(inference_results1), id(inference_results2))
+        self.assertFalse(np.shares_memory(inference_results1, inference_results2))
+
+
+class TestWSIInferenceSaveOutputs(TestCase):
+    """Tests for saving models outputs to files."""
+
+    def test_saving_one_dataset(self):
+        save_dir = make_test_path("saved_data/inference2a")
+        wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+        mask_data = np.zeros((160, 192), dtype=np.uint8)  # level2
+        mask_data[16:32, 48:64] = 1  # patch16
+        mask_data[32:48, 64:80] = 1  # patch29
+        patches = WholeImageGridPatches(
+            wsi_file=wsi_file,
+            mask_data=mask_data,
+            patch_size=256,
+            level_or_mpp=0,
+            patch_stride=1,
+            foreground_ratio=0.8,
+            overlap_ratio=0.8,
+        )
+        dataset = WSIDataset(patches=patches)
+        model = DummyFixedClassificationModelThreeClasses()
+        classifier = DummyFunctionClassifierThreeClasses.action_fn
+        inference = WSIInference(
+            model=model,
+            classifier=classifier,
+            level_or_minsize=0,
+            num_classes=3,
+            num_workers=3,
+            batch_size=2,
+            use_cuda=False,
+        )
+        inference.process_dataset(dataset, save_outputs_dir=save_dir)
+        # count saved output files
+        saved_outputs_path = os.path.join(save_dir, "**", "*" + "*.npz")
+        saves_outputs_list = glob.glob(saved_outputs_path, recursive=True)
+        self.assertEqual(len(saves_outputs_list), 2)
+
+    def test_saving_three_datasets(self):
+        """One dataset is purposely excluded from saving."""
+        save_dir = make_test_path("saved_data/inference2b")
+        save_dir_dataset1 = os.path.join(save_dir, "dataset1")
+        save_dir_dataset2 = os.path.join(save_dir, "dataset2")
+        save_dir_dataset3 = os.path.join(save_dir, "dataset3")
+        os.mkdir(save_dir_dataset1)
+        os.mkdir(save_dir_dataset2)
+        os.mkdir(save_dir_dataset3)
+        wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+        mask_data = np.zeros((160, 192), dtype=np.uint8)  # level2
+        mask_data[16:32, 48:64] = 1  # patch16
+        mask_data[32:48, 64:80] = 1  # patch29
+        patches1 = WholeImageGridPatches(
+            wsi_file=wsi_file,
+            mask_data=mask_data,
+            patch_size=256,
+            level_or_mpp=0,
+            patch_stride=1,
+            foreground_ratio=0.8,
+            overlap_ratio=0.8,
+        )
+        patches2 = WholeImageGridPatches(
+            wsi_file=wsi_file,
+            mask_data=mask_data,
+            patch_size=300,
+            level_or_mpp=0,
+            patch_stride=1,
+            foreground_ratio=0.5,
+            overlap_ratio=0.5,
+        )
+        patches3 = WholeImageGridPatches(
+            wsi_file=wsi_file,
+            mask_data=mask_data,
+            patch_size=256,
+            level_or_mpp=0,
+            patch_stride=1,
+            foreground_ratio=0.8,
+            overlap_ratio=0.8,
+        )
+        dataset1 = WSIDataset(patches=patches1)
+        dataset2 = WSIDataset(patches=patches2)
+        dataset3 = WSIDataset(patches=patches3)
+        model = DummyFixedClassificationModelThreeClasses()
+        classifier = DummyFunctionClassifierThreeClasses.action_fn
+        inference = WSIInference(
+            model=model,
+            classifier=classifier,
+            level_or_minsize=0,
+            num_classes=3,
+            num_workers=3,
+            batch_size=2,
+            use_cuda=False,
+        )
+        inference.process_dataset(dataset1, save_outputs_dir=save_dir_dataset1)
+        inference.process_dataset(dataset2)
+        inference.process_dataset(dataset3, save_outputs_dir=save_dir_dataset3)
+        # count saved output files
+        saved_outputs_path = os.path.join(save_dir, "**", "*" + "*.npz")
+        saves_outputs_list = glob.glob(saved_outputs_path, recursive=True)
+        self.assertEqual(len(saves_outputs_list), 4)
+
+    def test_saving_dataset_content(self):
+        save_dir = make_test_path("saved_data/inference2c")
+        wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+        mask_data = np.zeros((160, 192), dtype=np.uint8)  # level2
+        mask_data[16:32, 48:64] = 1  # patch16
+        mask_data[32:48, 64:80] = 1  # patch29
+        patches = WholeImageGridPatches(
+            wsi_file=wsi_file,
+            mask_data=mask_data,
+            patch_size=256,
+            level_or_mpp=0,
+            patch_stride=1,
+            foreground_ratio=0.8,
+            overlap_ratio=0.8,
+        )
+        dataset = WSIDataset(patches=patches)
+        model = DummyFixedClassificationModelThreeClasses()
+        classifier = DummyFunctionClassifierThreeClasses.action_fn
+        inference = WSIInference(
+            model=model,
+            classifier=classifier,
+            level_or_minsize=0,
+            num_classes=3,
+            num_workers=3,
+            batch_size=2,
+            use_cuda=False,
+        )
+        inference.process_dataset(dataset, save_outputs_dir=save_dir)
+        # examine content of saved output files
+        patch1_output_path = os.path.join(save_dir, "output_x256_y768.npz")
+        patch2_output_path = os.path.join(save_dir, "output_x512_y1024.npz")
+        patch1_output_array = np.load(patch1_output_path)["data"]
+        patch2_output_array = np.load(patch2_output_path)["data"]
+        self.assertEqual(patch1_output_array.shape, (3,))
+        self.assertEqual(patch2_output_array.shape, (3,))
+        self.assertEqual(patch1_output_array[0] % 93, 0)
+        self.assertEqual(patch1_output_array[1] % 93, 0)
+        self.assertEqual(patch1_output_array[2] % 93, 0)
+        self.assertEqual(patch2_output_array[0] % 93, 0)
+        self.assertEqual(patch2_output_array[1] % 93, 0)
+        self.assertEqual(patch2_output_array[2] % 93, 0)

@@ -159,7 +159,7 @@ class PolygonRegionPatches(BasePatches):
             Polygons representing regions of interest.
 
         check_polygons : bool, default=True
-            Enable checking for overlapping polygons and polygons contained in other polygons.
+            Enables checking for overlapping polygons and polygons contained in other polygons.
 
         included_labels : list of str, optional
             Polygon labels included in calculations, all other labels will be ignored.

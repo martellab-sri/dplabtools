@@ -15,6 +15,8 @@ from functools import lru_cache
 from skimage import io
 from PIL import Image
 
+from dplabtools.common import roundfl
+
 LEVEL_MINSIZE_SPLIT = 99
 
 
@@ -55,8 +57,12 @@ def get_wsi_level_array(wsi_slide, level):
 
 
 def get_wsi_level_zero_array(wsi_file):
-    """Fast reading of level0 image as array using multithreading."""
-    return io.imread(wsi_file)
+    """Read level zero data as a NumPy array.
+
+    imread is multi-threaded by default.
+    """
+    image_array = io.imread(wsi_file)
+    return image_array[:, :, 0:3]
 
 
 def find_wsi_level(wsi_slide, array_shape):
@@ -107,24 +113,22 @@ def find_nearest_wsi_level(wsi_slide, minsize, allow_level_zero=False):
     return level_found
 
 
-def get_resampled_wsi_images(wsi_file, size_list, resize_filter="LANCZOS"):
-    """Return list of resampled level zero images in RGB format.
+def get_resampled_wsi_level_images(level_array, size_list, resize_filter="LANCZOS"):
+    """Return a list of resampled level images.
 
-    - This resamplig operation will always use level zero as base.
+    - Base level for resampling does not need to be level zero.
+    - input array should be in RGB format.
     - Resampling process will require significant amount of available RAM.
     - resize_filter docs: https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-filters
     """
-    resized_images = []
-    image_array = io.imread(wsi_file)
+    resized_level_images = []
     resize_filter_value = _get_resize_filter_value(resize_filter)
-    # convert to RGB:
-    image_array = image_array[:, :, 0:3]
-    image = Image.fromarray(image_array)
+    image = Image.fromarray(level_array)
     for one_size in size_list:
         resized_image = image.resize(one_size, resample=resize_filter_value)
-        resized_images.append(resized_image)
-    del image_array, image
-    return resized_images
+        resized_level_images.append(resized_image)
+    del level_array, image
+    return resized_level_images
 
 
 def get_resampled_tiles(wsi_tile, size_list, resize_filter="LANCZOS"):
@@ -164,7 +168,7 @@ def get_level_and_mpp(level_or_mpp):
 def get_basepatch_mpp(basepatch_level_or_mpp, level_mpp_values):
     """Return MPP value used to compute base patches."""
     basepatch_mpp = None
-    level, mpp = get_level_and_mpp(basepatch_level_or_mpp)
+    _, mpp = get_level_and_mpp(basepatch_level_or_mpp)
     if mpp:
         basepatch_mpp = basepatch_level_or_mpp
     else:
@@ -180,14 +184,23 @@ def get_level_or_level(wsi_slide, level_or_minsize):
     return level
 
 
-def get_target_resample_factor(patch_level, patch_mpp, level_downsamples, level_mpp_values):
+def get_target_resample_factor(patch_level, patch_mpp, level_downsamples, level_mpp_values, base_level=0):
     """Calculate target resample factor in patch computing.
 
-    target resample factor is: ratio between level zero and level/mpp of patches to be retrieved
+    target resample factor is: ratio between base level (often level zero) and level/mpp of patches to be retrieved
     """
     target_resample_factor = None
     if patch_level is not None:
-        target_resample_factor = level_downsamples[patch_level]
+        target_resample_factor = level_downsamples[patch_level] / level_downsamples[base_level]
     elif patch_mpp is not None:
-        target_resample_factor = patch_mpp / level_mpp_values[0]
+        target_resample_factor = patch_mpp / level_mpp_values[base_level]
     return target_resample_factor
+
+
+def find_best_resample_wsi_level(wsi_slide, mpp):
+    """Find the best level for resampling."""
+    level_found = 0
+    for level_id, level_mpp in enumerate(wsi_slide.level_mpp_values):
+        if roundfl(level_mpp) <= roundfl(mpp):
+            level_found = level_id
+    return level_found

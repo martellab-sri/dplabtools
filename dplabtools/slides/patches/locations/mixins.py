@@ -70,7 +70,7 @@ class GridMixin:
         Parameters
         ----------
         patch_stride : int or float, default=1
-            Measure of overlapping between grid patches.
+            A measurement of overlap between grid patches.
         """
         self._mixin_params = locals()
         self._patch_stride = patch_stride
@@ -141,8 +141,8 @@ class CustomPointsMixin:
         Parameters
         ----------
         points : list of tuples
-            List of (x,y) `int` values representing points calculated using WSI level 0 coordinates. Points should
-            represent top-left corner of patches.
+            List of (x,y) `int` values representing points that are calculated using WSI level 0 coordinates. Points
+            should represent the top-left corner of patches.
         """
         self._mixin_params = locals()
         self._points = points

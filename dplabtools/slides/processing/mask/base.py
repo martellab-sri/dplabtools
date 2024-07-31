@@ -31,7 +31,7 @@ class BaseMask(ABC):
             WSI file name or path.
 
         level_or_minsize : int
-            WSI level or miminum size for mask dimensions.
+            WSI level or minimum size for mask dimensions.
         """
         self._wsi_file = wsi_file
         self._mask_array = None
@@ -45,7 +45,7 @@ class BaseMask(ABC):
         pass
 
     def save_array(self, array_file):
-        """Save mask as a compressed NumPy array (NPZ file).
+        """Save the mask as a compressed NumPy array (NPZ file).
 
         Parameters
         ----------
@@ -55,7 +55,7 @@ class BaseMask(ABC):
         np.savez_compressed(array_file, data=self._mask_array)
 
     def save_png(self, png_file):
-        """Save mask as a PNG image.
+        """Save the mask as a PNG image.
 
         Parameters
         ----------
@@ -66,7 +66,7 @@ class BaseMask(ABC):
         image.save(png_file, "PNG", optimize=True)
 
     def save_overlay_png(self, png_file, mask_color="green", mask_alpha=0.5, outline_color="blue", outline_thickness=2):
-        """Save mask as a PNG tissue overlay image.
+        """Save the mask as a PNG tissue overlay image.
 
         Parameters
         ----------
@@ -113,10 +113,10 @@ class BaseMask(ABC):
 
     @property
     def array(self):
-        """Return mask data as a NumPy array."""
+        """Return the mask data as a NumPy array."""
         return self._mask_array
 
     @property
     def level(self):
-        """Return calculated or provided mask level."""
+        """Return the calculated or provided mask level."""
         return self._level

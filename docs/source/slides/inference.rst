@@ -13,7 +13,7 @@ patch extraction and heatmap generation.
 * Support for multi class model output.
 * Configurable GPU/CPU processing.
 * Inference output integrated with the :doc:`/slides/heatmap` class.
-* Ability to save results as images, also with resolution information embedded.
+* Ability to save results as images, also containing embedded resolution information.
 * Parallelization based on PyTorch DataLoaders.
 
 
@@ -42,12 +42,12 @@ Assuming that the variables ``dataset``, ``model`` and ``classifier`` exist and 
 Full example of inference process
 =================================
 
-Full inference process consists of the following steps:
+The full inference process consists of the following steps:
 
 1. WSI mask generation
 2. Calculating patch location
 3. Creating WSI dataset
-4. Initializing PyTorch model and classifier
+4. Initializing PyTorch model/classifier
 5. Creating WSIInference object
 6. Processing WSI dataset
 
@@ -79,17 +79,17 @@ Full inference process consists of the following steps:
 
 .. note::
 
-    When processing multiple WSIs as one batch steps 4 and 5 should be performed only once, rather than executed
-    separately for each WSI.
+    When processing multiple WSIs in one go, to adhere to performance, steps 4 and 5 should be performed only once 
+    (rather than executed separately for each WSI).
 
 
-Model initialization
---------------------
+Model initialization checklist
+==============================
 
-PyTorch model must be properly initialized before passing it to ``WSIInference``, this could be
-accomplished using a simple convenience function ``get_model``:
+* PyTorch model must be properly initialized before passing it to ``WSIInference``, this could be
+  accomplished using a simple convenience function ``get_model``:
 
-.. code-block:: python
+  .. code-block:: python
 
     import torch
 
@@ -103,11 +103,11 @@ accomplished using a simple convenience function ``get_model``:
         ...
         return model
 
-Some PyTorch models must be set in evaluation mode when running the inference, this should be set inside ``get_model``
-by calling ``eval()``:
+* Some PyTorch models must be set in evaluation mode when running the inference, this should be set inside ``get_model``
+  by calling ``eval()``:
 
 
-.. code-block:: python
+  .. code-block:: python
 
     def get_model():
         model = MyPyTorchModel()
@@ -116,10 +116,10 @@ by calling ``eval()``:
         ...
         return model
 
-When using CUDA processing (``WSIInference`` default mode), the model should be loaded into GPU memory inside
-``get_model`` by calling ``cuda()``:
+* When using CUDA processing (``WSIInference`` default mode), the model should be loaded into GPU memory inside
+  ``get_model`` by calling ``cuda()``:
 
-.. code-block:: python
+  .. code-block:: python
 
     def get_model():
         model = MyPyTorchModel()
@@ -128,10 +128,10 @@ When using CUDA processing (``WSIInference`` default mode), the model should be 
         ...
         return model
 
-When using CPU processing first ``WSIInference`` must be initialized with ``use_cuda=False`` and then model weights must
-be loaded with ``map_location="cpu"``:
+* When using CPU processing ``WSIInference`` must first be initialized with ``use_cuda=False`` and then model weights must
+  be loaded with ``map_location="cpu"``:
 
-.. code-block:: python
+  .. code-block:: python
 
     def get_model():
         model = MyPyTorchModel()
@@ -141,17 +141,17 @@ be loaded with ``map_location="cpu"``:
 
 .. note::
 
-    Error: ``Input type (torch.FloatTensor) and weight type (torch.cuda.FloatTensor) should be the same`` indicates that
-    there is discrepancy between how the model was initialized (CUDA/CPU) inside ``get_model`` and how ``WSIInference``
+    Error: *Input type (torch.FloatTensor) and weight type (torch.cuda.FloatTensor) should be the same* indicates that
+    there is a discrepancy between how the model was initialized (CUDA/CPU) inside ``get_model`` and how ``WSIInference``
     was created (``use_cuda=True|False``).
 
 
 Classifier initialization
 -------------------------
 
-Classifier is an optional concept representing additional processing layer for models output. Classifier can be
+Classifier is an optional concept representing an additional processing layer for a model output. Classifier can be
 represented by any callable capable of returning ``torch.Tensor`` output. This includes PyTorch models
-as well as native python functions. The most basic classifier would perform `softmax` transformation on the model
+as well as native Python functions. The most basic classifier would perform the `softmax` transformation on the model
 output, wrapped in ``get_classifier`` function:
 
 .. code-block:: python
@@ -167,7 +167,7 @@ output, wrapped in ``get_classifier`` function:
 
     classifier = get_classifier()
 
-In cases when classifier is not desirable its value should be set to `None`.
+In cases the when the classifier is not desirable its value should be set to `None`.
 
 
 Class details
@@ -179,14 +179,14 @@ Class details
    :inherited-members:
 
 .. seealso::
-    :ref:`special-level-or-minsize-label`
+    :ref:`misc-level-or-minsize-label`
 
 
 Additional configuration
 ========================
 
 By default the module storing the ``WSIInference`` class sets ``cudnn.benchmark = True``. In cases when this setting is
-not desirable its value can be reverted in the following way:
+not desirable, its value can be reverted in the following way:
 
 .. code-block:: python
 

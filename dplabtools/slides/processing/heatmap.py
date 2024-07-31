@@ -38,13 +38,13 @@ class WSIHeatmap:
             One class data from ``WSIInference``.
 
         background_color : str, default="white"
-            Color representing heatmap image background. ``None`` will produce transparent background.
+            Color representing heatmap image background. ``None`` will produce a transparent background.
 
         color_map : str, default="jet"
             Color map used for visualizing data.
 
         alpha : float, default=1
-            Value representing heatmap image transparency.
+            Value representing the heatmap image transparency.
 
         vmin , vmax : float, optional
             Data range covering the heatmap image.
@@ -109,7 +109,7 @@ class WSIHeatmap:
         return pixel_data
 
     def save_png(self, png_file, draw_fn=None, draw_args=()):
-        """Save heatmap as a PNG image.
+        """Save the heatmap as a PNG image.
 
         Parameters
         ----------
@@ -117,7 +117,7 @@ class WSIHeatmap:
             File name or path for saving the PNG file.
 
         draw_fn : function, optional
-            Custom function to draw on heatmap image canvas.
+            Custom function to draw on the heatmap image canvas.
 
         draw_args : tuple, optional
             Arguments for the custom draw function.
@@ -129,7 +129,7 @@ class WSIHeatmap:
         heatmap.save(png_file, "PNG")
 
     def save_colorbar_png(self, png_file, interpolation="none", dpi=300, draw_fn=None, draw_args=()):
-        """Save heatmap as a PNG image with color bar.
+        """Save the heatmap as a PNG image with color bar.
 
         Parameters
         ----------
@@ -159,7 +159,7 @@ class WSIHeatmap:
         plt.clf()
 
     def save_tif(self, tif_file, wsi_file, downsample_factor=None, allow_compression=True, draw_fn=None, draw_args=()):
-        """Save heatmap as a TIF image with resolution information embedded.
+        """Save the heatmap as a TIF image with embedded resolution information.
 
         Parameters
         ----------
@@ -167,14 +167,15 @@ class WSIHeatmap:
             File name or path for saving the TIF file.
 
         wsi_file: str
-            Name or path to a WSI file that heatmap is generated for.
+            Name or path to a WSI file that the heatmap is generated for.
 
         downsample_factor : float, optional
-            Downsample factor used for resolution information. If not provided, then the value will be determined based
+            Downsample factor used for resolution information. If not provided, the value will be determined based
             on the heatmap data size.
 
         allow_compression : bool, default: True
-            If True, JPEG compression will be applied automatically when transparency is not used.
+            If `True`, JPEG compression will be applied automatically when transparency is not used and when the
+            image background is defined.
 
         draw_fn : function, optional
             Custom function to draw on the heatmap image canvas.
@@ -198,7 +199,7 @@ class WSIHeatmap:
         )
 
     def save_overlay_png(self, png_file, wsi_file, cutoff=None, draw_fn=None, draw_args=()):
-        """Save heatmap as a PNG tissue overlay image.
+        """Save the heatmap as a PNG tissue overlay image.
 
         Background color value will be ignored.
 
@@ -208,13 +209,14 @@ class WSIHeatmap:
             File name or path for saving the PNG file.
 
         wsi_file: str
-            Name or path to a WSI file that heatmap is generated for.
+            Name or path to a WSI file that the heatmap is generated for.
 
         cutoff : float, optional
-            Heatmap data values below the cutoff value will be ignored. This allows to eliminate low probability values.
+            Heatmap data values below the cutoff value will be ignored. This allows for the elimination
+            of low probability values.
 
         draw_fn : function, optional
-            Custom function to draw on heatmap image canvas.
+            Custom function to draw on the heatmap image canvas.
 
         draw_args : tuple, optional
             Arguments for the custom draw function.

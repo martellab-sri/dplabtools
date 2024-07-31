@@ -17,10 +17,10 @@ from dplabtools.slides import GenericSlide
 
 
 class BaseDataset(ABC, Dataset):
-    """Base class for WSI dataset classes."""
+    """Base class for the WSI dataset classes."""
 
     save_patches_image_type = "png"
-    """Class attribute for setting image type when ``save_patches_dir`` is defined."""
+    """Class attribute for setting the image type when ``save_patches_dir`` is defined."""
 
     def __init__(
         self,
@@ -40,8 +40,9 @@ class BaseDataset(ABC, Dataset):
             Object representing one of the patch location classes.
 
         transform_fn : callable, optional
-            User defined data transformation that will be called on each patch extracted via ``get_region``,
-            this transformation should run its own to-tensor conversion.
+            A user-defined image transformation that will be called on each patch extracted via ``get_region``,
+            this transformation should run its own to-tensor conversion. If no transformation is provided,
+            the image objects will be converted to tensors using `to_tensor` from the `torchvision` package.
 
         resampling_mode : str, optional
             One of two supported down/up-sampling methods: ``wsi`` or ``tile``.
@@ -50,11 +51,11 @@ class BaseDataset(ABC, Dataset):
             List of MPP values for ``wsi`` resampling mode.
 
         zero_workers : bool, default=False
-            Set to True if dataloaders using the dataset will have `num_workers` set to 0.
+            Set to `True` if dataloaders using the dataset will have `num_workers` set to 0.
 
         save_patches_dir : str, optional
-            Directory for saving extracted patches, use for troubleshooting inference problems only.
-            Saved files image type can be changed using ``save_patches_image_type`` class attribute,
+            Directory for saving the extracted patches, should only be used for troubleshooting inference problems.
+            The type of saved image files can be changed using ``save_patches_image_type`` class attribute,
             the default image type is PNG.
         """
         self._patches = patches
@@ -62,6 +63,8 @@ class BaseDataset(ABC, Dataset):
         self._resampling_mode = resampling_mode
         self._extra_mpps = extra_mpps
         self._save_patches_dir = save_patches_dir
+        self._patch_name = "patch%s_x%d_y%d.%s"
+        self._patchset_name = "patchset_x%d_y%d"
         self._patch_list = self._patches.patch_data
         self._wsi_file = self._patches.wsi_file
         self._patch_size = self._patches.patch_size
@@ -103,5 +106,5 @@ class BaseDataset(ABC, Dataset):
 
     @property
     def patches(self):
-        """Return patches object used to build the dataset."""
+        """Return the ``patches`` object used to build the dataset."""
         return self._patches

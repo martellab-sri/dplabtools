@@ -40,7 +40,36 @@ class AbstractPatchExtractorPool(ABC):
         included_labels=[],
         excluded_labels=[],
     ):
-        """Init method for AbstractPatchExtractorPool."""
+        """Init method for AbstractPatchExtractorPool.
+
+        Parameters
+        ----------
+        patches_pool : object
+            Object representing one of the patch location pool classes.
+
+        proc_num_workers : int
+            Number of processes in the pool. This value corresponds directly to the number of WSIs to be processed
+            simultaneously.
+
+        thread_num_workers : int
+            Number of threads per one worker process. This value indicates how many threads will be used to extract
+            patches from a single WSI.
+
+        proc_mp_chunksize : int, default=1
+            Data chunk size used in process parallelization processing.
+
+        thread_mp_chunksize : int, default=1
+            Data chunk size used in thread parallelization processing.
+
+        resampling_mode : str, optional
+            One of two supported down/up-sampling methods: ``wsi`` or ``tile``
+
+        included_labels : list of str, optional
+            Polygon labels included in patch extraction, all other labels will be ignored.
+
+        excluded_labels : list of str, optional
+            Polygon labels excluded from patch extraction.
+        """
         self._patches_pool = patches_pool
         self._proc_num_workers = proc_num_workers
         self._thread_num_workers = thread_num_workers
@@ -57,7 +86,7 @@ class AbstractPatchExtractorPool(ABC):
     def _run_pool(self):
         """Run all processing steps."""
         process_pool_data = self._get_process_pool_data(self._patches_pool)
-        process_args = self.get_single_process_total_args()
+        process_args = self._get_single_process_total_args()
         with ProcessPool(self._proc_num_workers) as ppool:
             for extractor_bits in ppool.imap_unordered(
                 functools.partial(
@@ -93,7 +122,7 @@ class AbstractPatchExtractorPool(ABC):
         """
         pass
 
-    def get_single_process_total_args(self):
+    def _get_single_process_total_args(self):
         """Prepare complete dictionary with process keyword arguments."""
         total_args = self._get_single_process_base_args()
         extra_args = self._get_single_process_extra_args()
@@ -117,17 +146,12 @@ class AbstractPatchExtractorPool(ABC):
 
     @property
     def pids(self):
-        """Get list of process ids."""
+        """Return the IDs of the executed processes."""
         return self._pids
 
     @property
-    def manifest_ids(self):
-        """Get list of manifest ids."""
-        return self._manifest_ids
-
-    @property
     def patch_count(self):
-        """Get number of extracted patches."""
+        """Return the number of extracted patches."""
         return self._patch_count
 
 
@@ -194,12 +218,12 @@ class AbstractMemPatchExtractorPool(AbstractPatchExtractorPool):
 
     @property
     def patch_list(self):
-        """Return shared list with patches managed by Manager object."""
+        """Return the extracted patches stored in memory."""
         return self._shared_list
 
 
 class MemPatchExtractorPool(AbstractMemPatchExtractorPool):
-    """Extractor pool implementation for MemPatchExtractor."""
+    """Extractor pool implementation for `MemPatchExtractor`."""
 
     def __init__(self, **kwargs):
         """Init method for MemPatchExtractorPool."""
@@ -232,10 +256,16 @@ class MemPatchExtractorPool(AbstractMemPatchExtractorPool):
 
 
 class MultiResMemPatchExtractorPool(AbstractMemPatchExtractorPool):
-    """Extractor pool implementation for MultiResMemPatchExtractor."""
+    """Extractor pool implementation for `MultiResMemPatchExtractor`."""
 
     def __init__(self, *, levels_or_mpps, **kwargs):
-        """Init method for MultiResMemPatchExtractorPool."""
+        """Init method for MultiResMemPatchExtractorPool.
+
+        Parameters
+        ----------
+        levels_or_mpps : list of level_or_mpp values
+            `Int` or `Float` numbers representing WSI levels or MPP values for multi resolution patches.
+        """
         self._levels_or_mpps = levels_or_mpps
         super().__init__(**kwargs)
 
@@ -263,7 +293,7 @@ class MultiResMemPatchExtractorPool(AbstractMemPatchExtractorPool):
 
     @property
     def patchset_count(self):
-        """Return number of patchsets created during extraction."""
+        """Return the number of patch sets created during the extraction."""
         return len(self._shared_list)
 
 
@@ -280,7 +310,25 @@ class AbstractDiskPatchExtractorPool(AbstractPatchExtractorPool):
         create_subdirs=False,
         **kwargs,
     ):
-        """Init method for AbstractDiskPatchExtractorPool."""
+        """Init method for AbstractDiskPatchExtractorPool.
+
+        Parameters
+        ----------
+        output_dir : str
+            Directory name or path for saving the extracted patches.
+
+        image_type : str
+            Image type of the saved files (PNG, JPG, etc.).
+
+        filename_comment : str, optional
+            Comment to be added to the saved file names.
+
+        filename_separator : str, default="_"
+            Separator used in the saved file names.
+
+        create_subdirs : bool, default=False
+            Whether to create label specific subdirectories inside `output_dir` or not.
+        """
         self._output_dir = output_dir
         self._image_type = image_type
         self._filename_comment = filename_comment
@@ -374,9 +422,14 @@ class AbstractDiskPatchExtractorPool(AbstractPatchExtractorPool):
         """
         pass
 
+    @property
+    def manifest_ids(self):
+        """Return the IDs of the created manifests."""
+        return self._manifest_ids
+
 
 class DiskPatchExtractorPool(AbstractDiskPatchExtractorPool):
-    """Extractor pool implementation for DiskPatchExtractor."""
+    """Extractor pool implementation for `DiskPatchExtractor`."""
 
     # Not used in this class, but called in the base class, so must exist
     _use_global_counter = False
@@ -426,7 +479,7 @@ class DiskPatchExtractorPool(AbstractDiskPatchExtractorPool):
 
 
 class MultiResDiskPatchExtractorPool(AbstractDiskPatchExtractorPool):
-    """Extractor pool implementation for MultiResDiskPatchExtractor."""
+    """Extractor pool implementation for `MultiResDiskPatchExtractor`."""
 
     # Shared value between different processes
     _pool_global_counter = Value("I", 0)
@@ -434,7 +487,18 @@ class MultiResDiskPatchExtractorPool(AbstractDiskPatchExtractorPool):
     _use_global_counter = False
 
     def __init__(self, *, levels_or_mpps, global_counter, **kwargs):
-        """Init method for MultiResDiskPatchExtractorPool."""
+        """Init method for MultiResDiskPatchExtractorPool.
+
+        Parameters
+        ----------
+        levels_or_mpps : list of level_or_mpp values
+            `Int` or `Float` numbers representing WSI levels or MPP values for multi resolution patches.
+
+        global_counter : int, default=1
+            Initial counter value for enumerating patch set directories (`set1`, `set2`, `set3`, ...) for an entire
+            collection of WSIs. Setting this value to `None` will cause the patch set counter to be reset for
+            each WSI (`wsi1_set1`, `wsi1_set2`, ... `wsi2_set1`, `wsi2_set2`, ...).
+        """
         self._levels_or_mpps = levels_or_mpps
         if global_counter is not None:
             MultiResDiskPatchExtractorPool._use_global_counter = True
@@ -507,7 +571,7 @@ class MultiResDiskPatchExtractorPool(AbstractDiskPatchExtractorPool):
 
     @property
     def patchset_count(self):
-        """Return number of patchsets (and directories) created during extraction."""
+        """Return the number of patch sets created during the extraction."""
         patchset_count = None
         num_multires = len(self._levels_or_mpps)
         remainder = self._patch_count % num_multires

@@ -3,8 +3,8 @@ Package overview
 ================
 
 Package ``dplabtools`` provides a set of Python classes for automating tasks typical in Digital Pathology experiments.
-The package has been designed with high quality, expandability, performance and easiness of future maintenance in mind.
-Currently the package is covered by over 800 test cases with over 2k assertions.
+The package has been thoughtfully designed, keeping scalability, performance and ease of future maintenance in mind.
+Currently the package is covered by over 850 test cases with over 2450 assertions.
 
 
 Main features
@@ -13,11 +13,11 @@ Main features
 * Support for different Whole Slide Image (WSI) reading libraries by introducing the concept
   of :doc:`/slides/genericslide` class.
 * WSI foreground/background :doc:`/slides/masks` generation.
-* Support for different :doc:`/slides/locations` methods and ability to generate patch location preview images.
+* Support for different :doc:`/slides/locations` methods and the ability to generate patch location preview images.
 * Efficient :doc:`/slides/extractors` methods for calculated patches.
-* Support for :ref:`special-mrp-label` across the whole package.
+* Support for :ref:`misc-mrp-label` across the whole package.
 * :doc:`/slides/inference` class capable of running trained models on WSIs.
-* Integrated :doc:`/slides/heatmap` class for inference results visualization.
+* Integrated :doc:`/slides/heatmap` class for visualizing inference results.
 * Support for the most popular WSI :doc:`/slides/annotations` types.
 * Specialized :doc:`/slides/pools` for parallel WSI processing.
 * Extensive but not exhausting documentation :-)
@@ -38,15 +38,20 @@ To install any previous/specific version:
 
     pip install dplabtools==X.Y.Z
 
-All required dependencies will be installed automatically. Except for PyTorch, which is expected to be installed
-manually, if PyTorch depended ``dplabtools`` classes are planned to be used.
+All required dependencies will be installed automatically apart from PyTorch, which is expected to be installed
+manually, if PyTorch dependable ``dplabtools`` classes are planned to be used.
+
+.. note::
+
+    To function properly, OpenSlide Python package requires OpenSlide binaries to be installed. This installation 
+    process varies between operating systems, more details can be found at `openslide.org <https://openslide.org/>`_.
 
 
 Requirements
 ============
 
 Package ``dplabtools`` is developed on Linux and tested on Linux. While most of the classes are expected to work
-on other operating systems, there are also areas which are highly likely not to function properly (e.g. low level
+on other operating systems, there are also areas which have a high likelihood of not functioning properly (e.g. low level
 multiprocessing code).
 
 General requirements:

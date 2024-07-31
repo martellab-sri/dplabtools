@@ -8,6 +8,7 @@
 
 """Class for running inference on WSIs using PyTorch models."""
 
+import os
 import math
 import random
 
@@ -80,6 +81,8 @@ class WSIInference:
         self._batch_size = batch_size
         self._use_cuda = use_cuda
         self._seed = seed
+        self._save_outputs_dir = None
+        self._output_name = "output_x%d_y%d.npz"
         self._torch_device = None
         self._pin_memory = None
         self._probs_array = None
@@ -112,14 +115,19 @@ class WSIInference:
     def _set_classifier(self, classifier):
         self._classifier = classifier
 
-    def process_dataset(self, wsi_dataset):
-        """Compute model/classifier output values for the whole WSI dataset.
+    def process_dataset(self, wsi_dataset, save_outputs_dir=None):
+        """Compute the model/classifier output values for the whole WSI dataset.
 
         Parameters
         ----------
         wsi_dataset : WsiDataset or WsiMultiResDataset
             Dataset representing patches from one WSI.
+
+        save_outputs_dir : str, optional
+            Directory for saving model/classifier outputs as compressed NumPy arrays (using key "data"), one array
+            file per one processed patch. This feature should only be used for troubleshooting inference problems.
         """
+        self._save_outputs_dir = save_outputs_dir
         self._patch_size = wsi_dataset.patches.patch_size
         wsi_dataloader = torch.utils.data.DataLoader(
             wsi_dataset,
@@ -186,6 +194,11 @@ class WSIInference:
                 classifier_output_shape_len = len(classifier_output.shape)
                 # loop through all images in one batch
                 for i, _ in enumerate(x_level0_data):
+                    # save model outputs if requested
+                    if self._save_outputs_dir:
+                        output_file_name = self._output_name % (x_level0_data[i].item(), y_level0_data[i].item())
+                        output_file_path = os.path.join(self._save_outputs_dir, output_file_name)
+                        np.savez_compressed(output_file_path, data=classifier_output[i])
                     # use floor instead of round to prevent white pixel lines between tiles on heatmaps
                     inference_patch_x_min = math.floor(x_level0_data[i] / location_scale_factor)
                     inference_patch_x_max = math.floor(x_level0_data[i] / location_scale_factor) + inference_patch_size
@@ -258,7 +271,7 @@ class WSIInference:
         return probs
 
     def save_classes_array(self, array_file):
-        """Save probabilities for all classes as a compressed NumPy array.
+        """Save the probabilities for all classes as a compressed NumPy array.
 
         Parameters
         ----------
@@ -268,7 +281,7 @@ class WSIInference:
         np.savez_compressed(array_file, data=self._probs_array)
 
     def save_class_array(self, class_index, array_file):
-        """Save probabilities for one class as a compressed NumPy array.
+        """Save the probabilities for one class as a compressed NumPy array.
 
         Parameters
         ----------
@@ -281,7 +294,7 @@ class WSIInference:
         np.savez_compressed(array_file, data=self._probs_array[class_index])
 
     def save_class_png(self, class_index, png_file):
-        """Save probabilities as a PNG image.
+        """Save the probabilities as a PNG image.
 
         Parameters
         ----------
@@ -295,12 +308,12 @@ class WSIInference:
         image.save(png_file, "PNG")
 
     def save_class_tif(self, class_index, tif_file, wsi_file, downsample_factor=None, jpeg_compression=True):
-        """Save probabilities as a TIF image with resolution information embedded.
+        """Save the probabilities as a TIF image with embedded resolution information.
 
         Parameters
         ----------
         class_index : int
-            Index of class to be saved.
+            Index of the class to be saved.
 
         tif_file : str
             File name or path for saving the PNG file.
@@ -326,7 +339,7 @@ class WSIInference:
 
     @classmethod
     def set_interpolation_method(cls, interpolation_method):
-        """Set interpolation method used for patch resizing in segmentation models output.
+        """Set the interpolation method used for patch resizing on the output of segmentation models.
 
         Parameters
         ----------
@@ -340,7 +353,7 @@ class WSIInference:
     def _get_image(class_index, probs_array):
         probs_array_transposed = np.transpose(probs_array, (0, 2, 1))
         probs = probs_array_transposed[class_index]
-        probs = np.nan_to_num(probs, copy=False, nan=0.0)
+        probs = np.nan_to_num(probs, copy=True, nan=0.0)
         WSIInference._check_array_range(probs)
         image = Image.fromarray(np.uint8(probs * 255))
         return image
@@ -352,15 +365,15 @@ class WSIInference:
 
     @property
     def classes_array(self):
-        """Return probabilities array for all classes."""
+        """Return the probabilities array for all classes."""
         return self._probs_array
 
     @property
     def torch_device(self):
-        """Return torch device name."""
+        """Return the torch device name."""
         return self._torch_device
 
     @property
     def interpolation_method(self):
-        """Return `interpolation_method` value set by ``set_interpolation_method`` (default=cv2.INTER_LINEAR)."""
+        """Return the `interpolation_method` value set by ``set_interpolation_method`` (default=cv2.INTER_LINEAR)."""
         return self._interpolation_method

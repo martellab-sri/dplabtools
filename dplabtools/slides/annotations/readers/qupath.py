@@ -20,7 +20,7 @@ class QuPathProjectReader:
     """Class for reading QuPath projects and retrieving annotation data."""
 
     def __init__(self, *, qupath_install_dir, qupath_project_dir):
-        """Init method for QuPathProjectReader.
+        """Create an object for reading QuPath annotations.
 
         Parameters
         ----------
@@ -66,7 +66,7 @@ class QuPathProjectReader:
         return project_data
 
     def save_json(self, save_dir):
-        """Save extracted annotations for all project images into directory as JSON files.
+        """Save the extracted annotations for all images in the project as JSON files.
 
         Parameters
         ----------
@@ -81,5 +81,5 @@ class QuPathProjectReader:
 
     @property
     def project_data(self):
-        """Return project data as list of tuples (file_name, list of AnnotationPolygon objects)."""
+        """Return the project data as list of tuples (`file_name`, `list of AnnotationPolygon objects`)."""
         return self._project_data

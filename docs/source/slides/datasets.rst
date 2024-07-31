@@ -3,12 +3,12 @@ Datasets
 ========
 
 Dataset classes are required by the ``WSIInference`` class to streamline the process of patch extraction based on
-user defined parameters. Two WSI dataset classes available in ``dplabtools`` integrate with patch location classes
+user-defined parameters. Two WSI dataset classes, available in ``dplabtools``, integrate with patch location classes
 introduced in :doc:`/slides/locations`.
 
 .. note::
 
-   Since WSI dataset classes are descendants of PyTorch `Dataset` class, properly installed PyTorch is required to
+   Since WSI dataset classes are descendants of PyTorch `Dataset` class, correctly installed PyTorch is required to
    import them in Python code.
 
 
@@ -78,7 +78,7 @@ Parameters specific to ``WSIMultiResDataset``:
     :ref:`wsidataset-common-methods-label`
 
 .. seealso::
-    :ref:`special-level-or-mpp-label`
+    :ref:`misc-level-or-mpp-label`
 
 
 .. _wsidataset-common-parameters-label:
@@ -87,8 +87,9 @@ Parameters common in all WSI dataset classes
 ============================================
 
 .. autoparam::
-   :params: patches, transform_fn, resampling_mode, extra_mpps, save_patches_dir
+   :params: patches, transform_fn, resampling_mode, extra_mpps, zero_workers, save_patches_dir
    :paths: dplabtools.slides.processing.dataset.base.BaseDataset,
+           dplabtools.slides.processing.dataset.base.BaseDataset,
            dplabtools.slides.processing.dataset.base.BaseDataset,
            dplabtools.slides.processing.dataset.base.BaseDataset,
            dplabtools.slides.processing.dataset.base.BaseDataset,

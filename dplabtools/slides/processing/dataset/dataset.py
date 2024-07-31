@@ -10,10 +10,9 @@
 
 import os
 
-from torchvision.transforms.functional import pil_to_tensor
+import torchvision.transforms.functional as tf
 
 from dplabtools.slides.processing.dataset.base import BaseDataset
-from dplabtools.common import get_random_string
 from dplabtools.slides.utils.wsi import get_basepatch_mpp
 from dplabtools.slides.utils.multires import get_scaled_center_based_locations
 
@@ -30,14 +29,14 @@ class WSIDataset(BaseDataset):
         if self._transform_fn:
             patch_image_data = self._transform_fn(patch_image)
         else:
-            patch_image_data = pil_to_tensor(patch_image)
+            patch_image_data = tf.to_tensor(patch_image)
         if self._save_patches_dir:
             self._save_patches(patch_image, (x_level0, y_level0), image_type=self.save_patches_image_type)
         return patch_image_data, x_level0, y_level0
 
     def _save_patches(self, patch_image, location, image_type):
         x_level0, y_level0 = location
-        file_name = "%s_x%s_y%s.%s" % (get_random_string(12), str(x_level0), str(y_level0), image_type)
+        file_name = self._patch_name % ("", x_level0, y_level0, image_type)
         file_path = os.path.join(self._save_patches_dir, file_name)
         patch_image.save(file_path)
 
@@ -79,7 +78,7 @@ class WSIMultiResDataset(BaseDataset):
         if self._transform_fn:
             patch_image_data = self._transform_fn(patch_images)
         else:
-            patch_image_data = [pil_to_tensor(image) for image in patch_images]
+            patch_image_data = [tf.to_tensor(image) for image in patch_images]
 
         if self._save_patches_dir:
             self._save_patches(patch_images, (x_level0, y_level0), image_type=self.save_patches_image_type)
@@ -87,13 +86,12 @@ class WSIMultiResDataset(BaseDataset):
 
     def _save_patches(self, patch_images, location, image_type):
         x_level0, y_level0 = location
-        dir_name = "%s_x%s_y%s" % (get_random_string(12), str(x_level0), str(y_level0))
+        dir_name = self._patchset_name % (x_level0, y_level0)
         dir_path = os.path.join(self._save_patches_dir, dir_name)
         os.mkdir(dir_path)
-        file_name_stem = get_random_string(12)
         counter = 0
         for patch_image in patch_images:
             counter += 1
-            file_name = "%s_%s.%s" % (str(counter), file_name_stem, image_type)
+            file_name = self._patch_name % (str(counter), x_level0, y_level0, image_type)
             file_path = os.path.join(dir_path, file_name)
             patch_image.save(file_path)

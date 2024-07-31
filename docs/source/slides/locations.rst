@@ -4,13 +4,13 @@
 Patch locations/sampling
 ========================
 
-``dplaptools`` provides a set of classes for calculating patch locations on whole images or inside and outside of
-annotated regions represented by polygons.  Patch sampling methods include: random patches, grid patches and
-Poisson disk patches. Additionally, using patch locations computed externally is also possible by utilizing classes
+``dplaptools`` provides a set of classes for calculating patch locations on the inside and outside of annotated
+regions (represented by polygons) or whole images. Patch sampling methods include: random patches, grid patches and
+Poisson disk patches. Additionally, using externally computed patch locations is also possible by utilizing classes
 dedicated to custom patches.
 
 Objects created from classes introduced below can be fed directly into :doc:`/slides/extractors`  classes for patch
-extraction, or processed independently using embedded properties.
+extraction, or be processed independently using embedded properties.
 
 Other class features:
 
@@ -403,7 +403,7 @@ Parameters specific to ``PolygonRegionRandomPatches``:
            dplabtools.slides.patches.locations.regions.PolygonRegionPatches,
 
 .. note::
-    In this class parameter ``num_patches`` denotes the number of patches per one polygon region. This behavior
+    In this class, parameter ``num_patches`` denotes the number of patches per one polygon region. This behavior
     can be changed using :ref:`patch-expandable-parameters-label`.
 
 .. seealso::
@@ -554,7 +554,7 @@ Parameters specific to ``PolygonRegionGridPatches``:
 Custom patches
 ==============
 
-The following classes allow the user to feed and process patch locations computed externally:
+The following classes allow the user to feed and process externally computed patch locations:
 
 * .. autoclass:: dplabtools.slides.patches.WholeImageCustomPatches(...)
      :class-doc-from: class
@@ -620,7 +620,7 @@ Parameters common in all patch classes
            dplabtools.slides.patches.locations.base.BasePatches
 
 .. seealso::
-    :ref:`special-level-or-mpp-label`
+    :ref:`misc-level-or-mpp-label`
 
 .. seealso::
     :ref:`patch-parameters-details-label`
@@ -644,7 +644,7 @@ Common methods and properties are derived from the base class.
    :inherited-members:
 
 .. seealso::
-    :ref:`special-level-or-minsize-label`
+    :ref:`misc-level-or-minsize-label`
 
 .. seealso::
     :ref:`patch-preview-image-label`
@@ -711,7 +711,7 @@ Parameters details
 
 * ``overlap_ratio``
 
- Minimum percentage of overlapping between calculated patches and the image or polygon region. The higher the
+ Minimum percentage of overlap between calculated patches and the image or polygon region. The higher the
  ``overlap_ratio`` value, the more "contained" calculated patches will become. Comparison of three different
  ``overlap_ratio`` values (0.1, 0.5, 0.95):
 
@@ -750,7 +750,7 @@ This behavior is possible when using one of the polygon based classes:
 * ``PolygonRegionPoissonDiskPatches``
 * ``PolygonRegionGridPatches``
 
-and the size (`len`) of the expanded list should match the number of polygons present. Expanded parameters will be
+The size (`len`) of the expanded list should match the number of polygons present. Expanded parameters will be
 applied to corresponding polygons based on their position in the list.
 
 Example 1 (``num_patches=5`` i.e. parameter is not expanded):
@@ -825,8 +825,8 @@ Output (patches_polygons_expanded.jpg):
    :height: 300
    :alt: Patches polygons expanded
 
-The same principle applies to all expandable parameters. Using a simple utility function it is possible to automatically
-differentiate between different polygon labels, as in the example below.
+The same principle applies to all expandable parameters. Using a simple utility function, it is possible to automatically
+differentiate between different polygon labels, such as in the example below.
 
 Example 3 (different ``patch_stride`` values applied to different polygon labels):
 
@@ -859,7 +859,7 @@ Example 3 (different ``patch_stride`` values applied to different polygon labels
         wsi_file=wsi_file,
         mask_data=mask_file,
         patch_size=500,
-        patch_stride=get_stride_list(polygons),
+        patch_stride=get_stride_list(polygon_data),
         polygon_data=polygon_data,
     )
     grid_patches.save_preview_image("patches_polygons_expanded_stride.jpg")
@@ -876,7 +876,7 @@ Output (patches_polygons_expanded_stride.jpg):
 Preview image
 =============
 
-By calling ``save_preview_image`` calculated patches can be visualized and saved as a WSI overlay. The following
+By calling ``save_preview_image``, calculated patches can be visualized and saved as a WSI overlay. The following
 elements are included in the preview images, the order they are listed in indicates the drawing order, as some elements
 may overlap and not be seen in each image:
 
@@ -891,8 +891,8 @@ may overlap and not be seen in each image:
 
 Additional notes:
 
-* Patch markers are represented by small red circles placed in top left corner of each calculated patch.
-* Each drawn element can be turned off individually by setting its color value to ``None``.
+* Patch markers are represented by small red circles placed in the top left corner of each calculated patch.
+* Each drawn element can be turned off individually by setting its color value to `None`.
 * Both ``drawn_labels`` and ``drawn_patches_labels`` provide label level filtering of the drawn content, however
   the former parameter takes precedence over the latter.
 * ``level_or_minsize`` controls the dimensions of the saved image, if not specified then the image dimensions will

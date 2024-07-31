@@ -44,6 +44,7 @@ TUPAC-TE-234.svs: MPP values matching WSI levels (resampling skipped): [0.252, 1
 TUPAC-TE-234.svs: Resampling file at MPP=[8.8, 5.5, 7.9, 9.5]
 TUPAC-TE-234.svs: MPP values matching WSI levels (resampling skipped): [0.252]
 TUPAC-TE-234.svs: Resampling file at MPP=[5.5, 6.6, 7.7, 8.8]
+TUPAC-TE-234.svs: Resampling file at MPP=[0.7, 1.0, 1.1, 2.2, 3.3, 4.4, 5.5, 6.6]
 board-multi-layer-no-compression.tif: Magnification is not available
 board-multi-layer-no-compression.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
 board-multi-layer-no-compression.tif: Resampling file at MPP=[0.1, 0.4, 1.6, 6.4]
@@ -547,3 +548,13 @@ board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extrac
 board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
 board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
 board-multi-layer-no-compression-mpp.tif: Attempting to pad background of extracted region: location=(1792, 2304), requested patch size=(256, 256), level0 scaled patch size=(1024, 1024)
+board-multi-layer-no-compression-mpp-colors.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-colors.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-colors.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-colors.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-colors.tif: Resampling file at MPP=[0.3, 0.6, 1.5, 2.5, 4.5, 5.5]
+board-multi-layer-no-compression-mpp-colors.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-colors.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-colors.tif: Magnification is not available
+board-multi-layer-no-compression-mpp-colors.tif: Setting max magnification to 40 in MPP range checking [GenericSlide.range_max_magnification]
+board-multi-layer-no-compression-mpp-colors.tif: Resampling file at MPP=[0.3, 0.6, 1.5, 2.5, 4.5, 5.5]

@@ -5,11 +5,11 @@ Heatmap
 ``dplabtools`` offers a dedicated heatmap class for visualizing WSI inference results performed by the ``WSIInference``
 class.
 
-``WSIHeatmap`` class features:
+``WSIHeatmap`` class features include:
 
 * Configurable color or transparency for image background.
-* Configurable color map, data range, transparency for visualized data.
-* Saving in different image formats, also with resolution information embedded.
+* Configurable color map, data range, and transparency for visualized data.
+* Saving in different image formats, along with embedded resolution information.
 * Saving as overlays with a cut-off point.
 * Support for custom drawing functions for labels or watermarks added to saved images.
 
@@ -41,13 +41,13 @@ Class details
 .. note::
 
     Technically it is possible to feed any input data into the ``WSIHeatmap`` class. Such data needs to be a
-    two-dimensional numpy array with one restriction: values representing background pixels i.e. pixels not processed
-    by the model should be encoded as numpy ``nan`` (not a number) values.
+    two-dimensional NumPy array with one restriction: values representing background pixels (i.e. pixels not processed
+    by the model) should be encoded as NumPy ``nan`` (not a number) values.
 
 .. warning::
 
     When generating heatmaps for a larger collection of images in one experiment, a data range should be specified
-    (using ``vmin`` and ``vmax``). Otherwise the same color will represent different values for different images.
+    (using ``vmin`` and ``vmax``), otherwise the same color will represent different values for different images.
 
 Examples
 ========
@@ -73,7 +73,7 @@ Custom drawing
 ==============
 
 Custom drawing is implemented by passing two additional parameters (``draw_fn`` and ``draw_args``) to all image saving
-functions, however the implementation details are not the same for each saving function. Assuming the variable
+functions. However the implementation details are not the same for each saving function. Assuming the variable
 ``inference`` represents a ``WSIInference`` object, the following example will add a custom label to the image saved
 using ``save_png``:
 

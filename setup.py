@@ -37,10 +37,10 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "numpy",
-        "pillow<=9.5.0",
-        "opencv-python",
+        "pillow>=9.1.0",
+        "opencv-python<4.10",
         "scikit-image",
-        "matplotlib",
+        "matplotlib<3.8",
         "shapely<=1.8.5",
         "tifffile",
         "tiffslide",

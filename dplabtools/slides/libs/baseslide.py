@@ -15,10 +15,13 @@ from dplabtools.common import print_out, roundfl
 from dplabtools.slides.utils.wsi import (
     get_wsi_name,
     get_wsi_id,
-    get_resampled_wsi_images,
+    get_resampled_wsi_level_images,
+    get_wsi_level_array,
+    get_wsi_level_zero_array,
     get_resampled_tiles,
     get_level_and_mpp,
     get_target_resample_factor,
+    find_best_resample_wsi_level,
 )
 from dplabtools.slides.utils.image import pad_image_zero_background
 
@@ -48,8 +51,11 @@ class BaseSlide:
     # Proximity to image border that will trigger background padding of the extracted region.
     _padding_margin_pixels = 10
 
+    # If True, resampling will always use level zero as base. If False, the closest level will be used.
+    _level_zero_resampling = True
+
     def __init__(self, *, wsi_file, resampling_mode=None, extra_mpps=[]):
-        """Create a GenericSlide object.
+        """Create a GenericSlide object for reading WSIs.
 
         Parameters
         ----------
@@ -70,10 +76,10 @@ class BaseSlide:
             - self._extra_mpps_created - MPP values used to create extra levels, those values may differ from extra_mpps
             - self._max_mpp - maximum allowed MPP value
             - self._resampled_images_dict - dictionary with Pillow images created in memory during resampling
-            - self._mpp_resample_factors - dict of ratios between level0 and custom MPP values used in resampling
-            - self._mpp_wsi_level_cache - dictionary with cached level values for different MPP values used, e.g.:
+            - self._mpp_wsi_level_cache - dictionary with level values corresponding to MPP values e.g.:
               {0.252 : 0, 1.008: 1, 3.05: -1}
-            - self._mpplevel_target_resample_factor_cache - dictionary with cached with target_resample_factor values
+            - self._resample_cache - dictionary with calculated values used in resampling, more details in
+              _add_to_resample_cache
         -!-
         """
         self._slide = None
@@ -85,9 +91,8 @@ class BaseSlide:
         self._extra_mpps_created = []
         self._max_mpp = None
         self._resampled_images_dict = OrderedDict()
-        self._mpp_resample_factors = OrderedDict()
         self._mpp_wsi_level_cache = {}
-        self._mpplevel_target_resample_factor_cache = {}
+        self._resample_cache = {}
         self._base_init()
 
     def _base_init(self):
@@ -116,8 +121,8 @@ class BaseSlide:
                 self._check_extra_mpp_unique(self._extra_mpps, self._wsi_name)
                 self._check_mpp_range(self._extra_mpps, self.range_min_mpp, self._max_mpp, self._wsi_name)
                 mpp_wsi_levels = self._add_mpp_levels_to_cache(self._extra_mpps)
-                self._mpp_resample_factors = self._get_mpp_resample_factors(self._level_mpp_values[0], self._extra_mpps)
                 if -1 in mpp_wsi_levels:
+                    self._create_resample_cache(self._extra_mpps)
                     self._resample_slide(mpp_wsi_levels)
                 else:
                     self._skip_resampling(mpp_wsi_levels)
@@ -140,18 +145,6 @@ class BaseSlide:
             raise ValueError("%s: Resampling not possible, MPP data is not available" % wsi_name)
 
     @staticmethod
-    def _check_extra_mpp_types(mpp_list, wsi_name):
-        """Check if all MPP values are float numbers."""
-        if any(not isinstance(mpp, float) for mpp in mpp_list):
-            raise ValueError("%s: One or more MPP values %s is not of float type" % (wsi_name, mpp_list))
-
-    @staticmethod
-    def _check_extra_mpp_unique(mpp_list, wsi_name):
-        """Check if all MPP values are unique."""
-        if len(mpp_list) != len(set(mpp_list)):
-            raise ValueError("%s: MPP values %s are not unique" % (wsi_name, mpp_list))
-
-    @staticmethod
     def _get_max_mpp_for_range(level_mpp_values, magnification, range_max_magnification, wsi_name):
         """Compute max allowed MPP value for range checking.
 
@@ -165,6 +158,18 @@ class BaseSlide:
             )
         max_mpp = roundfl(level_mpp_values[0] * magnification)
         return max_mpp
+
+    @staticmethod
+    def _check_extra_mpp_types(mpp_list, wsi_name):
+        """Check if all MPP values are float numbers."""
+        if any(not isinstance(mpp, float) for mpp in mpp_list):
+            raise ValueError("%s: One or more MPP values %s is not of float type" % (wsi_name, mpp_list))
+
+    @staticmethod
+    def _check_extra_mpp_unique(mpp_list, wsi_name):
+        """Check if all MPP values are unique."""
+        if len(mpp_list) != len(set(mpp_list)):
+            raise ValueError("%s: MPP values %s are not unique" % (wsi_name, mpp_list))
 
     @staticmethod
     def _check_mpp_range(mpp_values, min_mpp, max_mpp, wsi_name):
@@ -193,50 +198,71 @@ class BaseSlide:
                     break
         return level
 
-    @staticmethod
-    def _get_mpp_resample_factors(level0_mpp, target_mpp_values):
-        """Compute resample factors for given MPP values."""
-        mpp_resample_factors = OrderedDict()
-        for target_mpp in target_mpp_values:
-            mpp_resample_factor = target_mpp / level0_mpp
-            mpp_resample_factors[target_mpp] = mpp_resample_factor
-        return mpp_resample_factors
+    def _create_resample_cache(self, mpps):
+        """Cache all necessary values for WSI mode resampling."""
+        for mpp in mpps:
+            self._add_to_resample_cache(mpp)
 
     def _resample_slide(self, mpp_wsi_levels):
         """Start WSI resampling."""
         mpp_for_resampling = []
-        df_for_resampling = []
         mpp_skipped = []
         # exclude MPP values which match WSI levels
-        for level, df_value, mpp in zip(mpp_wsi_levels, self._mpp_resample_factors.values(), self._extra_mpps):
+        for level, mpp in zip(mpp_wsi_levels, self._extra_mpps):
             if level == -1:
                 mpp_for_resampling.append(mpp)
-                df_for_resampling.append(df_value)
             else:
                 mpp_skipped.append(mpp)
+
         if mpp_skipped:
             self._print_out_wsi("MPP values matching WSI levels (resampling skipped): %s" % mpp_skipped)
         self._print_out_wsi("Resampling file at MPP=%s" % mpp_for_resampling)
         self._extra_mpps_created = mpp_for_resampling
-        target_resample_size_list = self._get_target_resample_size_list(self._level_zero_dimensions, df_for_resampling)
-        resampled_images = self._get_resampled_images(self._wsi_file, target_resample_size_list, self.resampling_filter)
-        for mpp, image in zip(mpp_for_resampling, resampled_images):
-            self._resampled_images_dict[mpp] = image
+        resampling_batches = self._get_resampling_batches(mpp_for_resampling, self._resample_cache)
+
+        for level, mpps in resampling_batches.items():
+            level_array = self._get_wsi_level_array(self, level)
+            resample_size_list = self._get_batch_resample_size_list(
+                self._level_dimensions[level], mpps, self._resample_cache
+            )
+            resampled_images = self._get_resampled_wsi_level_images(
+                level_array, resample_size_list, self.resampling_filter
+            )
+            for mpp, image in zip(mpps, resampled_images):
+                self._resampled_images_dict[mpp] = image
 
     @staticmethod
-    def _get_target_resample_size_list(level_zero_dimensions, resample_factors):
-        """Calculate size of resampled images."""
-        target_resample_size_list = []
-        for df in resample_factors:
-            size_x = round(level_zero_dimensions[0] / df)
-            size_y = round(level_zero_dimensions[1] / df)
-            target_resample_size_list.append((size_x, size_y))
-        return target_resample_size_list
+    def _get_resampling_batches(mpps, resample_cache):
+        resampling_batches = {}
+        for mpp in mpps:
+            level = resample_cache[str(mpp)]["L"]
+            if level not in resampling_batches:
+                resampling_batches[level] = []
+            resampling_batches[level].append(mpp)
+        return resampling_batches
 
     @staticmethod
-    def _get_resampled_images(wsi_file, target_resample_size_list, resampling_filter):
-        """Get list of resampled images."""
-        return get_resampled_wsi_images(wsi_file, target_resample_size_list, resize_filter=resampling_filter)
+    def _get_wsi_level_array(wsi_slide, level):
+        if level == 0:
+            wsi_level_array = get_wsi_level_zero_array(wsi_slide.slide_file)
+        else:
+            wsi_level_array = get_wsi_level_array(wsi_slide, level)
+        return wsi_level_array
+
+    @staticmethod
+    def _get_batch_resample_size_list(level_size, mpps, resample_cache):
+        batch_resample_size_list = []
+        for mpp in mpps:
+            base_resample_factor = resample_cache[str(mpp)]["B"]
+            width = round(level_size[0] / base_resample_factor)
+            height = round(level_size[1] / base_resample_factor)
+            batch_resample_size_list.append((width, height))
+        return batch_resample_size_list
+
+    @staticmethod
+    def _get_resampled_wsi_level_images(level_array, resample_size_list, resampling_filter):
+        """Get list of resampled wsi levels as images."""
+        return get_resampled_wsi_level_images(level_array, resample_size_list, resize_filter=resampling_filter)
 
     def _skip_resampling(self, levels):
         """Skip resampling with optional user notification."""
@@ -246,7 +272,7 @@ class BaseSlide:
         )
 
     def get_property(self, name):
-        """Read embedded property from a WSI.
+        """Return the embedded property value from a WSI.
 
         Parameters
         ----------
@@ -256,41 +282,41 @@ class BaseSlide:
         return self._lib_get_property(name)
 
     def get_region_array(self, location, level, size):
-        """Get region from a WSI as a NumPy array.
+        """Return the specified WSI region as a NumPy array.
 
         Parameters
         ----------
         location : tuple
-            (x, y) pair of `int` values indicating WSI region (top left corner).
+            (x, y) pair of `int` values indicating the WSI region (top left corner).
         level : int
-            Value indicating WSI level.
+            Value indicating the WSI level.
         size : tuple
-            (width, height) pair of `int` values indicating WSI region size.
+            (width, height) pair of `int` values indicating the WSI region size.
 
         Notes
         -----
-        - only native WSI level values are supported here, no MPP (float values)
+        - only native WSI level values are supported here, no MPPs (float numbers)
         - region padding is not supported
-        - additional checks e.g. location are also not supported
-        - purpose of this function is to retrieve LARGE regions as NumPy arrays, not small patches
-        - alpha channel is removed to match ``get_region`` output format
+        - additional checks (e.g. location) are also not supported
+        - the purpose of this function is to retrieve LARGE regions as NumPy arrays, not small patches
+        - the alpha channel is removed to match ``get_region`` output format
         """
         region = self._lib_read_region_array(location, level, size)[:, :, 0:3]
         return region
 
     def get_region(self, location, level_or_mpp, size, skip_padding=False):
-        """Get region from a WSI as a Pillow image.
+        """Return the specified WSI region as an RGB Pillow image.
 
         Parameters
         ----------
         location : tuple
-            (x, y) pair of `int` values indicating WSI region (top left corner).
+            (x, y) pair of `int` values indicating the WSI region (top left corner).
         level_or_mpp : int or float
-            Value indicating WSI level or the target MPP value for the region.
+            Value indicating the WSI level or the target MPP value for the region.
         size : tuple
-            (width, height) pair of `int` values indicating WSI region size.
+            (width, height) pair of `int` values indicating the WSI region size.
         skip_padding : bool, default=False
-            Whether to skip padding region, if it partially exceeds image area.
+            Whether to skip padding the region, if it partially exceeds the image area.
 
 
         -!-
@@ -323,15 +349,17 @@ class BaseSlide:
                 region = self._get_resampled_region(location, size, mpp)  # already in RGB format
             # In TILE resampling mode check if MPP range is valid
             elif self._resampling_mode == "tile":
-                self._check_mpp_range([mpp], self.range_min_mpp, self._max_mpp, self._wsi_name)
-                # Compute level0 patch based on mpp value, and then resize it
-                target_resample_factor = self._get_cached_target_resample_factor(mpp)
-                level0_size = tuple(round(s * target_resample_factor) for s in size)
-                level0_region = self._lib_read_region(location, 0, level0_size).convert("RGB")
+                self._check_mpp_range([mpp], self._range_min_mpp, self._max_mpp, self._wsi_name)
+                # Calculate base level patch based on mpp value, and then resize it
+                resample_cache = self._get_resample_cache(mpp)
+                base_resample_factor = resample_cache["B"]
+                base_resample_level = resample_cache["L"]
+                base_level_size = tuple(round(s * base_resample_factor) for s in size)
+                base_level_region = self._lib_read_region(location, base_resample_level, base_level_size).convert("RGB")
                 if not skip_padding:
-                    level0_region = self._pad_region(level0_region, location, mpp, size)
+                    base_level_region = self._pad_region(base_level_region, location, mpp, size)
                     tile_padded = True
-                region = self._get_resampled_tile(level0_region, size, self.resampling_filter)
+                region = self._get_resampled_tile(base_level_region, size, self.resampling_filter)
         else:
             raise ValueError(
                 self._wsi_msg('Resampling is not enabled. Initiate GenericSlide with "resampling_mode=[wsi|tile]"')
@@ -354,8 +382,8 @@ class BaseSlide:
         # location is negative, must check if bottom left corner is still within image area
         # and if the entire image is not spanned by extracted region in any dimension
         if location[0] < 0 or location[1] < 0:
-            target_resample_factor = self._get_cached_target_resample_factor(level_or_mpp)
-            scaled_size = (round(size[0] * target_resample_factor), round(size[1] * target_resample_factor))
+            level0_resample_factor = self._get_resample_cache(level_or_mpp)["Z"]
+            scaled_size = (round(size[0] * level0_resample_factor), round(size[1] * level0_resample_factor))
             if not (location[0] + scaled_size[0] > 0 and location[1] + scaled_size[1] > 0):
                 raise ValueError(
                     self._wsi_msg(
@@ -376,13 +404,52 @@ class BaseSlide:
                     )
                 )
 
-    def _get_cached_target_resample_factor(self, level_or_mpp):
-        """Get precomputed target resample value."""
-        if level_or_mpp in self._mpplevel_target_resample_factor_cache:
-            target_resample_factor = self._mpplevel_target_resample_factor_cache[level_or_mpp]
+    def _get_resample_cache(self, level_or_mpp):
+        """Get calculated resampling values for given level_or_mpp.
+
+        - dictionary keys are hashed as strings to make both 1 (int) and 1.0 (float) work
+        """
+        if str(level_or_mpp) in self._resample_cache:
+            resample_cache = self._resample_cache[str(level_or_mpp)]
         else:
-            target_resample_factor = self._add_mpplevel_target_resample_factor_to_cache(level_or_mpp)
-        return target_resample_factor
+            resample_cache = self._add_to_resample_cache(level_or_mpp)
+        return resample_cache
+
+    def _add_to_resample_cache(self, level_or_mpp):
+        """Add level_or_mpp value to internal dictionary based cache.
+
+        - dictionary keys are hashed as strings to make both 1 (int) and 1.0 (float) work
+        - cache structure is two-dimensional:
+            - key is level_or_mpp converted to string
+            - value is another dictionary with the following keys: "B", "L", "Z" (see below)
+        """
+        level, mpp = get_level_and_mpp(level_or_mpp)
+        if mpp:
+            base_resample_level = self._get_base_resample_level(self, mpp, self._level_zero_resampling)
+        else:
+            base_resample_level = level
+        base_resample_factor = get_target_resample_factor(
+            level, mpp, self._level_downsamples, self._level_mpp_values, base_resample_level
+        )
+        level0_resample_factor = get_target_resample_factor(
+            level, mpp, self._level_downsamples, self._level_mpp_values, 0
+        )
+
+        self._resample_cache[str(level_or_mpp)] = {
+            "B": base_resample_factor,  # "B-ase"  - base level resampling factor (int)
+            "L": base_resample_level,  # "L-evel" - base level used for resampling (float)
+            "Z": level0_resample_factor,  # "Z-ero"  - level zero resampling factor (float)
+        }
+        return self._resample_cache[str(level_or_mpp)]
+
+    @staticmethod
+    def _get_base_resample_level(wsi_slide, mpp, level_zero_resampling):
+        """Get level used for resampling based on user settings."""
+        if level_zero_resampling:
+            base_level = 0
+        else:
+            base_level = find_best_resample_wsi_level(wsi_slide, mpp)
+        return base_level
 
     def _check_mpp_match(self, mpp_value):
         """Check if image can be read using provided MPP value."""
@@ -406,12 +473,12 @@ class BaseSlide:
     def _get_resampled_region(self, location, size, mpp):
         """Read patch from resampled pyramid level identified by MPP.
 
-        Location uses level0 coordinates.
+        Location uses level 0 coordinates.
         """
-        mpp_resample_factor = self._mpp_resample_factors[mpp]
+        level0_resample_factor = self._get_resample_cache(mpp)["Z"]
         resampled_location = (
-            round(location[0] / mpp_resample_factor),
-            round(location[1] / mpp_resample_factor),
+            round(location[0] / level0_resample_factor),
+            round(location[1] / level0_resample_factor),
         )
         region_rect = (
             resampled_location[0],
@@ -431,7 +498,7 @@ class BaseSlide:
         If location is negative, then padding action will be always executed and will always modify patch data.
 
         Steps (when location is not negative):
-        - determine target_resample_factor
+        - determine level0_resample_factor
         - use it to scale size of patch to level 0
         - check if padding is necessary
 
@@ -441,8 +508,8 @@ class BaseSlide:
             self._print_out_wsi("Padding background of extracted region: location=%s" % str(location))
             region = pad_image_zero_background(region)
         else:
-            target_resample_factor = self._get_cached_target_resample_factor(level_or_mpp)
-            scaled_size = (round(size[0] * target_resample_factor), round(size[1] * target_resample_factor))
+            level0_resample_factor = self._get_resample_cache(level_or_mpp)["Z"]
+            scaled_size = (round(size[0] * level0_resample_factor), round(size[1] * level0_resample_factor))
             if (
                 location[0] + scaled_size[0] + self.padding_margin_pixels > self._level_zero_dimensions[0]
                 or location[1] + scaled_size[1] + self.padding_margin_pixels > self._level_zero_dimensions[1]
@@ -455,20 +522,10 @@ class BaseSlide:
         return region
 
     @staticmethod
-    def _get_resampled_tile(level0_region, size, resampling_filter):
+    def _get_resampled_tile(base_level_region, size, resampling_filter):
         """Return resized tile/region."""
-        resampled_tile = get_resampled_tiles(level0_region, [size], resize_filter=resampling_filter)
+        resampled_tile = get_resampled_tiles(base_level_region, [size], resize_filter=resampling_filter)
         return resampled_tile[0]
-
-    def _add_mpplevel_target_resample_factor_to_cache(self, level_or_mpp):
-        """Add level_or_mpp value to internal dictionary based cache.
-
-        Cache structure: level_or_mpp is key, target_resample_factor is value
-        """
-        level, mpp = get_level_and_mpp(level_or_mpp)
-        target_resample_factor = get_target_resample_factor(level, mpp, self._level_downsamples, self._level_mpp_values)
-        self._mpplevel_target_resample_factor_cache[level_or_mpp] = target_resample_factor
-        return target_resample_factor
 
     def _print_out_wsi(self, message):
         """Print message with WSI prefix."""
@@ -500,7 +557,7 @@ class BaseSlide:
 
     @classmethod
     def set_external_mpp(cls, external_mpp):
-        """Set externally provided MPP value.
+        """Set the externally provided MPP value.
 
         This value will be used only if MPP data is not embedded in a WSI or cannot be retrieved using any other
         implemented methods. When MPP data is available natively, any value set using this method will be ignored.
@@ -522,7 +579,7 @@ class BaseSlide:
 
     @classmethod
     def set_mpp_round_decimal_places(cls, mpp_round_decimal_places):
-        """Set number of decimal places used in MPP value rounding.
+        """Set the number of decimal places used in MPP value rounding.
 
         Some scanners may report slightly different values for X and Y axes, in such cases rounding is necessary.
         No rounding will take place if MPP values for X and Y axes match.
@@ -536,7 +593,7 @@ class BaseSlide:
 
     @classmethod
     def set_range_min_mpp(cls, range_min_mpp):
-        """Set minimum MPP value used in MPP range checking during region reading or image upsampling.
+        """Set the minimum MPP value used in MPP range checking during region reading or image upsampling.
 
         Parameters
         ----------
@@ -547,9 +604,9 @@ class BaseSlide:
 
     @classmethod
     def set_range_max_magnification(cls, range_max_magnification):
-        """Set maximum magnification value for MPP range checking.
+        """Set the maximum magnification value for MPP range checking.
 
-        This value will be used only if embedded magnification information is not available.
+        This value will be used only if the embedded magnification information is not available.
 
         Parameters
         ----------
@@ -560,7 +617,7 @@ class BaseSlide:
 
     @classmethod
     def set_resampling_filter(cls, resampling_filter):
-        """Set resampling filter value for image downsampling and upsampling.
+        """Set the resampling filter value for image downsampling and upsampling.
 
         Available filter values:
         https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-filters
@@ -574,10 +631,10 @@ class BaseSlide:
 
     @classmethod
     def set_mpp_level_margin(cls, mpp_level_margin):
-        """Set accuracy margin value when converting MPP value to WSI levels.
+        """Set the accuracy margin value when converting MPP values to WSI levels.
 
-        Provided MPP value will be considered an equivalent of the WSI level, if their computed difference is less than
-        ``mpp_level_margin``.
+        The provided MPP value will be considered an equivalent of the WSI level, if their computed difference is less
+        than ``mpp_level_margin``.
 
         Parameters
         ----------
@@ -588,7 +645,7 @@ class BaseSlide:
 
     @classmethod
     def set_padding_margin_pixels(cls, padding_margin_pixels):
-        """Set number of pixels as proximity to image borders to trigger the potential image background padding process.
+        """Set the number of pixels as proximity to image borders to trigger the potential image background padding process.
 
         Parameters
         ----------
@@ -597,19 +654,33 @@ class BaseSlide:
         """
         cls._padding_margin_pixels = padding_margin_pixels
 
+    @classmethod
+    def set_level_zero_resampling(cls, level_zero_resampling):
+        """Set the base WSI level for image resampling.
+
+        If `True` (default), then the WSI level zero will be used for resampling, otherwise the optimal level will be
+        found. Level zero will provide the best data quality, but at the same time the poorest performance.
+
+        Parameters
+        ----------
+        level_zero_resampling : bool, default=True
+            Use level zero or other level for WSI resampling.
+        """
+        cls._level_zero_resampling = level_zero_resampling
+
     @cached_property
     def magnification(self):
-        """Return WSI magnification."""
+        """Return the WSI magnification value."""
         return self._lib_get_magnification()
 
     @property
     def level_dimensions(self):
-        """Return WSI level dimensions value."""
+        """Return the dimension values for all native levels in the WSI."""
         return self._level_dimensions
 
     @cached_property
     def level_dimensions_extra(self):
-        """Return MPP-indexed level dimensions values for extra WSI levels (created during resampling)."""
+        """Return the MPP-indexed dimension values for additional WSI levels created during resampling."""
         level_dimensions = OrderedDict(
             {mpp: (img.width, img.height) for mpp, img in self._resampled_images_dict.items()}
         )
@@ -617,132 +688,137 @@ class BaseSlide:
 
     @property
     def level_downsamples(self):
-        """Return WSI level downsamples values."""
+        """Return the downsample factor values for all native levels in the WSI."""
         return self._level_downsamples
 
     @cached_property
     def level_resamples_extra(self):
-        """Return MPP-indexed downsample/upsample values for extra WSI levels (created during resampling)."""
+        """Return the MPP-indexed downsample/upsample factor values for additional WSI levels created during resampling."""
         level_resamples = OrderedDict(
             {
-                ld_key: ld_value
-                for ld_key, ld_value in self._mpp_resample_factors.items()
-                if ld_key in self._extra_mpps_created
+                float(ld_key): ld_value["Z"]
+                for ld_key, ld_value in self._resample_cache.items()
+                if float(ld_key) in self._extra_mpps_created
             }
         )
         return level_resamples
 
     @property
     def mpp_data(self):
-        """Return WSI MPP data."""
+        """Return the MPP data embedded in the WSI."""
         return self._mpp_data
 
     @property
     def level_mpp_values(self):
-        """Return WSI level MPP values."""
+        """Return the MPP values for all native levels in the WSI."""
         return self._level_mpp_values
 
     @cached_property
     def level_mpp_values_extra(self):
-        """Return MPP values for extra WSI levels (created during resampling)."""
+        """Return the MPP values for additional WSI levels created during resampling."""
         return tuple(self._extra_mpps_created)
 
     @cached_property
     def level_count(self):
-        """Count number of level dimensions."""
+        """Return the number of native levels in the WSI."""
         return len(self._level_dimensions)
 
     @cached_property
     def level_count_extra(self):
-        """Count number of extra level dimensions (created during resampling)."""
+        """Return the number of additional WSI levels created during resampling."""
         return len(self._resampled_images_dict)
 
     @cached_property
     def thumbnail_image(self):
-        """Get WSI thumbnail image."""
+        """Return the embedded WSI thumbnail image."""
         return self._lib_get_thumbnail_image()
 
     @cached_property
     def label_image(self):
-        """Get WSI label image."""
+        """Return the embedded WSI label image."""
         return self._lib_get_label_image()
 
     @cached_property
     def all_properties(self):
-        """Return all embedded properties from a WSI."""
+        """Return all embedded properties from the WSI."""
         return self._lib_get_all_properties()
 
     @cached_property
     def lib_name(self):
-        """Return current WSI library name."""
+        """Return the current WSI reading library name."""
         return self._lib_get_libname()
 
     @property
     def level_images_extra(self):
-        """Return MPP-indexed extra level images (resampled)."""
+        """Return MPP-indexed images of additional WSI levels created during resampling."""
         return self._resampled_images_dict
 
     @property
     def slide_file(self):
-        """Return WSI file name or path."""
+        """Return the WSI file name or path."""
         return self._wsi_file
 
     @property
     def slide_name(self):
-        """Return WSI file name."""
+        """Return the WSI file name."""
         return self._wsi_name
 
     @property
     def slide_id(self):
-        """Return WSI file id (file name without extension)."""
+        """Return the WSI file id (file name without extension)."""
         return self._wsi_id
 
     @property
     def slide_object(self):
-        """Return object representing WSI reading library."""
+        """Return the object representing the WSI reading library."""
         return self._slide
 
     @property
     def external_mpp(self):
-        """Return `external MPP` value set by ``set_external_mpp``."""
+        """Return the `external MPP` value set by ``set_external_mpp``."""
         return self._external_mpp
 
     @property
     def mpp_round_decimal_places(self):
-        """Return `mpp_round_decimal_places` value set by ``set_mpp_round_decimal_places`` (default=5)."""
+        """Return the `mpp_round_decimal_places` value set by ``set_mpp_round_decimal_places`` (default=5)."""
         return self._mpp_round_decimal_places
 
     @property
     def range_min_mpp(self):
-        """Return `range_min_mpp` value set by ``set_range_min_mpp`` (default=0.001)."""
+        """Return the `range_min_mpp` value set by ``set_range_min_mpp`` (default=0.001)."""
         return self._range_min_mpp
 
     @property
     def range_max_magnification(self):
-        """Return `range_max_magnification` value set by ``set_range_max_magnification`` (default=40)."""
+        """Return the `range_max_magnification` value set by ``set_range_max_magnification`` (default=40)."""
         return self._range_max_magnification
 
     @property
     def resampling_filter(self):
-        """Return `resampling_filter` value set by ``set_resampling_filter`` (default="LANCZOS")."""
+        """Return the `resampling_filter` value set by ``set_resampling_filter`` (default="LANCZOS")."""
         return self._resampling_filter
 
     @property
     def mpp_level_margin(self):
-        """Return `mpp_level_margin` value set by ``set_mpp_level_margin`` (default=0.003)."""
+        """Return the `mpp_level_margin` value set by ``set_mpp_level_margin`` (default=0.003)."""
         return self._mpp_level_margin
 
     @property
     def padding_margin_pixels(self):
-        """Return `padding_margin_pixels` value set by ``set_padding_margin_pixels`` (default=10)."""
+        """Return the `padding_margin_pixels` value set by ``set_padding_margin_pixels`` (default=10)."""
         return self._padding_margin_pixels
 
     @property
+    def level_zero_resampling(self):
+        """Return the `level_zero_resampling` value set by ``set_level_zero_resampling`` (default=True)."""
+        return self._level_zero_resampling
+
+    @property
     def _prop_mpp_wsi_level_cache(self):
-        """Return internal cache variable - for testing only."""
+        """Return the internal cache variable - for testing only."""
         return self._mpp_wsi_level_cache
 
     @property
-    def _prop_mpplevel_target_resample_factor_cache(self):
-        """Return internal cache variable - for testing only."""
-        return self._mpplevel_target_resample_factor_cache
+    def _prop_resample_cache(self):
+        """Return the internal cache variable - for testing only."""
+        return self._resample_cache

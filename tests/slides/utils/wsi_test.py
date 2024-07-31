@@ -13,6 +13,7 @@ from unittest.mock import patch
 
 import numpy as np
 from PIL import Image
+from skimage import io
 
 from dplabtools.slides import GenericSlide
 from dplabtools.slides.utils import wsi
@@ -56,7 +57,7 @@ class TestUtilsWsi(TestCase):
         output_image = Image.open(make_test_path("wsi/board-flat.tif"))
         output_image_array = np.asarray(output_image)
         output_image.close()
-        result_array = wsi.get_wsi_level_zero_array(self.wsi_slide.slide_file)
+        result_array = wsi.get_wsi_level_zero_array(self.wsi_file)
         np.testing.assert_equal(result_array, output_image_array)
 
     def test_find_wsi_level(self):
@@ -108,8 +109,7 @@ class TestUtilsWsi(TestCase):
     @patch("dplabtools.slides.libs.genericslide.GenericSlide._get_mpp_data")
     def test_compute_wsi_resolution_data2(self, mock_func):
         mock_func.return_value = (0.001, 0.001)
-        wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
-        wsi_slide = GenericSlide(wsi_file=wsi_file)
+        wsi_slide = GenericSlide(wsi_file=self.wsi_file)
         downsample_factor = 16
         output_tuple = (625000.0, 625000.0, "CENTIMETER")
         result_tuple = wsi.compute_wsi_resolution_data(wsi_slide, downsample_factor)
@@ -136,9 +136,10 @@ class TestUtilsWsi(TestCase):
         result_level_found = wsi.find_nearest_wsi_level(self.wsi_slide, input_minsize, allow_level_zero=True)
         self.assertEqual(result_level_found, output_level_found)
 
-    def test_get_resampled_wsi_images_one(self):
+    def test_get_resampled_wsi_level_images_one(self):
         result_test_image_tif = make_test_path("saved_data/utils/test_tif5.tif")
-        resized_image_list = wsi.get_resampled_wsi_images(self.wsi_file, [(160 * 3, 192 * 3)])
+        level_array = io.imread(self.wsi_file)
+        resized_image_list = wsi.get_resampled_wsi_level_images(level_array, [(160 * 3, 192 * 3)])
         resized_image_list[0].save(result_test_image_tif)
         output_image = Image.open(make_test_path("ref_data/slides/utils/ref_tif5.tif"))
         output_image_array = np.asarray(output_image)
@@ -148,9 +149,10 @@ class TestUtilsWsi(TestCase):
         result_image.close()
         np.testing.assert_equal(result_image_array, output_image_array)
 
-    def test_get_resampled_wsi_images_multi(self):
-        resized_image_list = wsi.get_resampled_wsi_images(
-            self.wsi_file, [(160 * 3, 192 * 3), (160 * 2, 192 * 2), (160 * 4, 192 * 4)]
+    def test_get_resampled_wsi_level_images_multi(self):
+        level_array = io.imread(self.wsi_file)
+        resized_image_list = wsi.get_resampled_wsi_level_images(
+            level_array, [(160 * 3, 192 * 3), (160 * 2, 192 * 2), (160 * 4, 192 * 4)]
         )
         for num, img in enumerate(resized_image_list, start=6):
             result_test_image_tif = make_test_path("saved_data/utils/test_tif%d.tif" % num)
@@ -163,10 +165,13 @@ class TestUtilsWsi(TestCase):
             result_image.close()
             np.testing.assert_equal(result_image_array, output_image_array)
 
-    def test_get_resampled_wsi_images_changed_filter(self):
+    def test_get_resampled_wsi_level_images_changed_filter(self):
         # reference image was processed using LANCZOS
         result_test_image_tif = make_test_path("saved_data/utils/test_tif5_filter.tif")
-        resized_image_list = wsi.get_resampled_wsi_images(self.wsi_file, [(160 * 3, 192 * 3)], resize_filter="NEAREST")
+        level_array = io.imread(self.wsi_file)
+        resized_image_list = wsi.get_resampled_wsi_level_images(
+            level_array, [(160 * 3, 192 * 3)], resize_filter="NEAREST"
+        )
         resized_image_list[0].save(result_test_image_tif)
         output_image = Image.open(make_test_path("ref_data/slides/utils/ref_tif5.tif"))
         output_image_array = np.asarray(output_image)
@@ -174,7 +179,8 @@ class TestUtilsWsi(TestCase):
         result_image = Image.open(result_test_image_tif)
         result_image_array = np.asarray(result_image)
         result_image.close()
-        # images must be different as different filters were used
+        # images must be different as different filters were used, but shape is the same
+        self.assertEqual(result_image_array.shape, output_image_array.shape)
         self.assertFalse(np.array_equal(result_image_array, output_image_array))
 
     def test_get_resampled_tiles_one(self):
@@ -284,6 +290,7 @@ class TestUtilsWsi(TestCase):
         self.assertEqual(result_level, 2)
 
     def test_get_target_resample_factor(self):
+        # default base level
         patch_level = 2
         patch_mpp = None
         level_downsamples = [1, 4, 16]
@@ -291,7 +298,7 @@ class TestUtilsWsi(TestCase):
         result_value = wsi.get_target_resample_factor(patch_level, patch_mpp, level_downsamples, level_mpp_values)
         output_value = 16
         self.assertEqual(result_value, output_value)
-        #
+        # default base level
         patch_level = 0
         patch_mpp = None
         level_downsamples = [1, 4, 16]
@@ -299,11 +306,137 @@ class TestUtilsWsi(TestCase):
         result_value = wsi.get_target_resample_factor(patch_level, patch_mpp, level_downsamples, level_mpp_values)
         output_value = 1
         self.assertEqual(result_value, output_value)
-        #
+        # default base level
         patch_level = None
         patch_mpp = 6
         level_downsamples = []
         level_mpp_values = [3, 5, 7]
         result_value = wsi.get_target_resample_factor(patch_level, patch_mpp, level_downsamples, level_mpp_values)
         output_value = 6 / 3
+        self.assertEqual(result_value, output_value)
+        # custom base level
+        patch_level = 1
+        patch_mpp = None
+        level_downsamples = [1, 4, 16]
+        level_mpp_values = []
+        result_value = wsi.get_target_resample_factor(
+            patch_level, patch_mpp, level_downsamples, level_mpp_values, base_level=1
+        )
+        output_value = 1
+        self.assertEqual(result_value, output_value)
+        # custom base level
+        patch_level = 1
+        patch_mpp = None
+        level_downsamples = [1, 4, 16]
+        level_mpp_values = []
+        result_value = wsi.get_target_resample_factor(
+            patch_level, patch_mpp, level_downsamples, level_mpp_values, base_level=2
+        )
+        output_value = 0.25
+        self.assertEqual(result_value, output_value)
+        # custom base level
+        patch_level = 2
+        patch_mpp = None
+        level_downsamples = [1, 4, 16]
+        level_mpp_values = []
+        result_value = wsi.get_target_resample_factor(
+            patch_level, patch_mpp, level_downsamples, level_mpp_values, base_level=1
+        )
+        output_value = 4
+        self.assertEqual(result_value, output_value)
+        # custom base level
+        patch_level = 2
+        patch_mpp = None
+        level_downsamples = [1, 4, 16]
+        level_mpp_values = []
+        result_value = wsi.get_target_resample_factor(
+            patch_level, patch_mpp, level_downsamples, level_mpp_values, base_level=2
+        )
+        output_value = 1
+        self.assertEqual(result_value, output_value)
+        # custom base level
+        patch_level = None
+        patch_mpp = 6
+        level_downsamples = []
+        level_mpp_values = [3, 5, 7]
+        result_value = wsi.get_target_resample_factor(
+            patch_level, patch_mpp, level_downsamples, level_mpp_values, base_level=1
+        )
+        output_value = 6 / 5
+        self.assertEqual(result_value, output_value)
+        # custom base level
+        patch_level = None
+        patch_mpp = 9
+        level_downsamples = []
+        level_mpp_values = [3, 5, 7]
+        result_value = wsi.get_target_resample_factor(
+            patch_level, patch_mpp, level_downsamples, level_mpp_values, base_level=2
+        )
+        output_value = 9 / 7
+        self.assertEqual(result_value, output_value)
+
+    def test_find_best_resample_wsi_level(self):
+        mpp = 0.1
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 0
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 0.25
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 0
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 0.3
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 0
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 0.7
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 0
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 0.999999
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 0
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 0.9999999999999999
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 1
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 1.0
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 1
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 1.1
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 1
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 2.0
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 1
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 2.5
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 1
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 4.0
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 2
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 5.0
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 2
+        self.assertEqual(result_value, output_value)
+        #
+        mpp = 10.0
+        result_value = wsi.find_best_resample_wsi_level(self.wsi_slide, mpp)
+        output_value = 2
         self.assertEqual(result_value, output_value)

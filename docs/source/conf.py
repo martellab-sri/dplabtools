@@ -33,7 +33,7 @@ def setup(app):
 project = "Digital Pathology Lab Tools"
 copyright = "2024 Sunnybrook Research Institute"
 author = "Sunnybrook Research Institute"
-release = "0.0.3"
+release = "0.0.4"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

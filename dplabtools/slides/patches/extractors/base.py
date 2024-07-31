@@ -94,12 +94,12 @@ class PatchExtractor:
 
     @property
     def patch_data(self):
-        """Return patch data used in patch extraction."""
+        """Return the patch data used in the patch extraction process."""
         return self._patch_data
 
     @property
     def patch_labels(self):
-        """Return distinct patch labels used in patch extraction."""
+        """Return the distinct patch labels used in the patch extraction process."""
         return sorted(list(set(self._patch_labels)))
 
 
@@ -125,7 +125,7 @@ class BasePatchExtractor(PatchExtractor):
 
     @property
     def patch_count(self):
-        """Return number of extracted patches."""
+        """Return the number of extracted patches."""
         return self._patch_count
 
 
@@ -138,7 +138,7 @@ class MultiResBasePatchExtractor(PatchExtractor):
         Parameters
         ----------
         levels_or_mpps : list of level_or_mpp values
-            Numbers representing WSI levels or MPP values for multi resolution patches.
+            `Int` or `Float` numbers representing WSI levels or MPP values for multi resolution patches.
         """
         self._base_child_params = locals()
         super().__init__(**kwargs)
@@ -166,5 +166,5 @@ class MultiResBasePatchExtractor(PatchExtractor):
 
     @property
     def patch_count(self):
-        """Return number of extracted patches."""
+        """Return the number of extracted patches."""
         return self._patch_count * len(self._levels_or_mpps)

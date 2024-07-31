@@ -22,7 +22,7 @@ Welcome to Digital Pathology Lab Tools's documentation!
    slides/pools
    slides/locations_pools
    slides/extractors_pools
-   slides/special
+   slides/misc
 
 Indices and tables
 ==================

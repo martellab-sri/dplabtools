@@ -19,8 +19,9 @@ from hashlib import md5
 from unittest import TestCase
 
 from PIL import Image
-from torchvision.transforms.functional import pil_to_tensor
 import torch
+import torchvision
+import torchvision.transforms.functional as tf
 
 from dplabtools.slides.patches import WholeImageGridPatches
 from dplabtools.slides.processing import WSIDataset, WSIMultiResDataset
@@ -29,15 +30,6 @@ from testutils import make_test_path
 
 WSIDataset.save_patches_image_type = "tif"
 WSIMultiResDataset.save_patches_image_type = "tif"
-
-
-def tensor_to_pil(tensor):
-    """Convert tensor to PIL object."""
-    if tensor.dtype == torch.float:
-        tensor = tensor.to(torch.uint8)
-    array = tensor.numpy().transpose(1, 2, 0)
-    image = Image.fromarray(array, mode="RGB")
-    return image
 
 
 class TestWSIDatasetProperties(TestCase):
@@ -65,7 +57,7 @@ class TestWSIDataset(TestCase):
     """Tests for TestWSIDataset class methods."""
 
     _blank_image = Image.new(size=(256, 256), mode="RGB", color="black")
-    _blank_image_tensor = pil_to_tensor(_blank_image)
+    _blank_image_tensor = tf.to_tensor(_blank_image)
 
     def setUp(self):
         wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
@@ -98,7 +90,7 @@ class TestWSIDataset(TestCase):
             ref_file_name = "board-multi-layer-no-compression_x%d_y%d.tif" % (x_level0, y_level0)
             ref_file_path = os.path.join(ref_patch_dir, ref_file_name)
             output_image = Image.open(ref_file_path)
-            output_image_tensor = pil_to_tensor(output_image)
+            output_image_tensor = tf.to_tensor(output_image)
             output_image.close()
             result_image_tensor = patch_image_data
             self.assertTrue(torch.equal(result_image_tensor, output_image_tensor))
@@ -181,7 +173,7 @@ class TestWSIDataset(TestCase):
                 ref_file_name = "board-multi-layer-no-compression_x%d_y%d.tif" % (x_level0, y_level0)
                 ref_file_path = os.path.join(ref_patch_dir, ref_file_name)
                 output_image = Image.open(ref_file_path)
-                output_image_tensor = pil_to_tensor(output_image)
+                output_image_tensor = tf.to_tensor(output_image)
                 result_image_tensor = patch_image_data
                 output_image.close()
                 self.assertTrue(torch.equal(result_image_tensor, output_image_tensor))
@@ -209,7 +201,7 @@ class TestWSIDataset(TestCase):
                 ref_file_name = "board-multi-layer-no-compression_x%d_y%d.tif" % (x_level0, y_level0)
                 ref_file_path = os.path.join(ref_patch_dir, ref_file_name)
                 output_image = Image.open(ref_file_path)
-                output_image_tensor = pil_to_tensor(output_image)
+                output_image_tensor = tf.to_tensor(output_image)
                 result_image_tensor = patch_image_data
                 output_image.close()
                 self.assertTrue(torch.equal(result_image_tensor, output_image_tensor))
@@ -219,7 +211,7 @@ class TestWSIMultiResDataset(TestCase):
     """Tests for WSIMultiResDataset class methods."""
 
     _blank_image = Image.new(size=(256, 256), mode="RGB", color="black")
-    _blank_image_tensor = pil_to_tensor(_blank_image)
+    _blank_image_tensor = tf.to_tensor(_blank_image)
     _blank_image_tensor_list = [_blank_image_tensor, _blank_image_tensor, _blank_image_tensor]
 
     @classmethod
@@ -274,15 +266,12 @@ class TestWSIMultiResDataset(TestCase):
             result_image0_tensor = patch_image_data[0]
             result_image1_tensor = patch_image_data[1]
             result_image2_tensor = patch_image_data[2]
-            result_image0 = tensor_to_pil(result_image0_tensor)
-            result_image1 = tensor_to_pil(result_image1_tensor)
-            result_image2 = tensor_to_pil(result_image2_tensor)
             result_image0_path = os.path.join(patches_dir, dir_name, "image0.tif")
             result_image1_path = os.path.join(patches_dir, dir_name, "image1.tif")
             result_image2_path = os.path.join(patches_dir, dir_name, "image2.tif")
-            result_image0.save(result_image0_path)
-            result_image1.save(result_image1_path)
-            result_image2.save(result_image2_path)
+            torchvision.utils.save_image(result_image0_tensor, result_image0_path)
+            torchvision.utils.save_image(result_image1_tensor, result_image1_path)
+            torchvision.utils.save_image(result_image2_tensor, result_image2_path)
             result_patches_md5 = []
             for result_image_file in [result_image0_path, result_image1_path, result_image2_path]:
                 with open(result_image_file, "rb") as file_img:
@@ -391,15 +380,12 @@ class TestWSIMultiResDataset(TestCase):
                 patch_image0_tensor = image_data[0][i]  # level 0
                 patch_image1_tensor = image_data[1][i]  # MPP 0.5
                 patch_image2_tensor = image_data[2][i]  # MPP 0.625
-                result_image0 = tensor_to_pil(patch_image0_tensor)
-                result_image1 = tensor_to_pil(patch_image1_tensor)
-                result_image2 = tensor_to_pil(patch_image2_tensor)
                 result_image0_path = os.path.join(patches_dir, dir_name, "image0.tif")
                 result_image1_path = os.path.join(patches_dir, dir_name, "image1.tif")
                 result_image2_path = os.path.join(patches_dir, dir_name, "image2.tif")
-                result_image0.save(result_image0_path)
-                result_image1.save(result_image1_path)
-                result_image2.save(result_image2_path)
+                torchvision.utils.save_image(patch_image0_tensor, result_image0_path)
+                torchvision.utils.save_image(patch_image1_tensor, result_image1_path)
+                torchvision.utils.save_image(patch_image2_tensor, result_image2_path)
                 result_patches_md5 = []
                 for result_image_file in [result_image0_path, result_image1_path, result_image2_path]:
                     with open(result_image_file, "rb") as file_img:

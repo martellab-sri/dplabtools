@@ -24,12 +24,12 @@ class BaseReader:
     _mapper_class = None
 
     def __init__(self, *, data_file, get_label_fn):
-        """Init method for annotation readers derived from the base class.
+        """Create a base object for derived annotation readers classes.
 
         Parameters
         ----------
         data_file : str
-            File name or path for annotation raw data file.
+            Raw annotation data file's name or path.
 
         get_label_fn : function
             Function returning a value to be used as the label.
@@ -39,7 +39,7 @@ class BaseReader:
         self._mapper = self._mapper_class(annotations=self._parser.annotations, get_label_fn=get_label_fn)
 
     def save_json(self, json_file):
-        """Save annotations as JSON file with serialized AnnotationPolygon objects.
+        """Save the annotations as a JSON file with serialized AnnotationPolygon objects.
 
         Parameters
         ----------
@@ -52,7 +52,7 @@ class BaseReader:
 
     @property
     def polygons(self):
-        """Return annotations as a list of AnnotationPolygon objects."""
+        """Return the annotations as a list of AnnotationPolygon objects."""
         polygons = []
         points_field = self._mapper.points_name
         label_field = self._mapper.label_name

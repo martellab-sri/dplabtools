@@ -6,4 +6,4 @@
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
 
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"

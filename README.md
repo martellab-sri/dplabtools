@@ -8,9 +8,8 @@ Full documentation is available at [Read the Docs](https://dplabtools.readthedoc
 
 ## Source code
 
-Source code is available at [GitHub](https://github.com/martellab-sri/dplabtools). 
-Please select a branch corresponding to your package version.
+Source code is available at [GitHub](https://github.com/martellab-sri/dplabtools).
 
 ## Help/support
 
-For any questions or bug reports please create a GitHub issue. 
+For any questions or bug reports please create a GitHub issue.
