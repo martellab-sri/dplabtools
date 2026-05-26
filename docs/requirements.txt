@@ -50,6 +50,7 @@ sphinxcontrib-qthelp==2.0.0
 sphinxcontrib-serializinghtml==2.0.0
 tifffile==2026.3.3
 tiffslide==3.0.0
+tomli==2.4.1
 typing_extensions==4.15.0
 urllib3==2.6.3
 wheel==0.46.3
