@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -24,13 +24,13 @@ class TestUtilsImageTif(TestCase):
         self.input_array = np.empty((250, 180, 4), dtype=np.uint8)
         self.input_array[0:250, 0:90] = [0, 91, 187, 255]
         self.input_array[0:250, 90:180] = [255, 213, 0, 255]
-        self.resolution_data = (250.0, 250.0, "CENTIMETER")
+        self.resolution_data = ((250.0, 250.0), "CENTIMETER")
 
     def test_save_tif_image_with_resolution(self):
         """Run two tests: with compression and without.
 
         NOTES:
-        Adding compression may make results non-deterministic (between library versions or different OSes),
+        Adding compression may make results non-deterministic (between library versions or different OS-es),
         so bit-by-bit comparison cannot be done. For instance this (one pixel comparison):
 
               np.testing.assert_equal(result_image_array[0,-1], output_image_array[0,-1])

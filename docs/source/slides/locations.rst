@@ -4,6 +4,9 @@
 Patch locations/sampling
 ========================
 
+.. note::
+    For high volume patch location computing, ``dplabtools`` offers dedicated :doc:`/slides/pools`.
+
 ``dplaptools`` provides a set of classes for calculating patch locations on the inside and outside of annotated
 regions (represented by polygons) or whole images. Patch sampling methods include: random patches, grid patches and
 Poisson disk patches. Additionally, using externally computed patch locations is also possible by utilizing classes
@@ -572,7 +575,8 @@ Example
 
     wsi_file = "/tmp/wsi1.svs"
     mask_file = "/tmp/wsi1_mask.png"
-    points = [(3000, 3000), (4000, 4000), (5000, 5000), (6000, 6000)]
+    points = [(8000, 22500), (10000, 22500), (12000, 22500), (8000, 24500),
+             (12000, 24500), (8000, 26500), (10000, 26500),(12000, 26500)]
 
     custom_patches = WholeImageCustomPatches(
         wsi_file=wsi_file,
@@ -580,6 +584,13 @@ Example
         patch_size=500,
         points=points,
     )
+    custom_patches.save_preview_image("patches_custom.jpg")
+
+Output (patches_custom.jpg):
+
+.. image:: images/patches_custom.jpg
+   :height: 300
+   :alt: Custom patches
 
 Class details
 -------------
@@ -688,7 +699,7 @@ Parameters details
 
 * ``mask_data``
 
- WSI mask represented by an image file, numpy array file, or a numpy memory object. The dimensions of the mask should
+ WSI mask represented by a Pillow image (file or object), or a NumPy array (file or object). The dimensions of the mask should
  match one of the WSI levels.
 
 * ``patch_size``
@@ -885,7 +896,7 @@ may overlap and not be seen in each image:
 
 * Calculated patches and optionally patch markers - :red:`red`.
 * Bounding boxes for polygons or polygon buffers - :lime:`lime`.
-* Polygons or one polygon representing the whole image - :blue:`blue`.
+* User-provided polygons, or a single polygon representing the whole image/tissue area - :blue:`blue`.
 * Polygon holes (used in inverted patch classes) - :teal:`teal`.
 * Polygon buffers - :black:`black`.
 

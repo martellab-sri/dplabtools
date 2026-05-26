@@ -37,14 +37,28 @@ Basic usage
 
     wsi_file = "/tmp/wsi1.svs"
     slide = GenericSlide(wsi_file=wsi_file)
+    image = slide.get_region((10, 10), 0, (20, 20))
+
+Or using a context manager:
+
+.. code-block:: python
+
+    from dplabtools.slides import GenericSlide
+
+    wsi_file = "/tmp/wsi1.svs"
+    with GenericSlide(wsi_file=wsi_file) as slide:
+        image = slide.get_region((10, 10), 0, (20, 20))
+
 
 Changing WSI reading library
 ============================
 
+The WSI reading library should be changed if certain WSI files cannot be read, or if reading performance is unsatisfactory.
+
 The current WSI reading library can be changed dynamically using package settings, which must be done before any other
 imports from ``dplabtools``::
 
-    # change current slide library
+    # change the current slide library to tiffslide
     import dplabtools.config
     dplabtools.config.slide_library = "tiffslide"
 
@@ -56,7 +70,7 @@ imports from ``dplabtools``::
     from dplabtools.slides.patches import DiskPatchExtractor
 
 
-This change will affect all instances of ``GenericSlide`` created in the program code.
+This change will affect all instances of ``GenericSlide`` created in the program code, whether implicitly or explicitly.
 
 Automated resampling
 ====================

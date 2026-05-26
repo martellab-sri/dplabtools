@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -12,20 +12,21 @@ import numpy as np
 from skimage.draw import polygon as draw_polygon
 
 from dplabtools.slides.processing.mask.base import BaseMask
+from dplabtools.slides.utils import PolygonData
 
 
 class WSIPolygonMask(BaseMask):
     """Class for creating WSI masks based on predefined polygons."""
 
-    def __init__(self, *, polygons, **kwargs):
+    def __init__(self, *, polygon_data, **kwargs):
         """Create a WSIPolygonMask object.
 
         Parameters
         ----------
-        polygons : list of AnnotationPolygon objects
+        polygon_data : list of AnnotationPolygon objects or JSON file/string with serialized AnnotationPolygon objects
             Polygons representing desired image foreground.
         """
-        self._polygons = polygons
+        self._polygons = PolygonData(polygon_data=polygon_data).polygons
         super().__init__(**kwargs)
 
     def _process_wsi_file(self, wsi_file):

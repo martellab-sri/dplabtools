@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -95,6 +95,34 @@ class BaseSlide:
         self._resample_cache = {}
         self._base_init()
 
+    def __enter__(self):
+        """Implement context manager interface.
+
+        Do nothing as WSI file is already open in init.
+        """
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        """Implement context manager interface.
+
+        Close WSI file when exiting context manager.
+        """
+        self.close()
+
+    def __del__(self):
+        """Clean up when destroying the object."""
+        self.close()
+
+    def __str__(self):
+        """Provide user friendly slide information."""
+        return str([self.__class__.__name__, self.lib_name, self._wsi_file])
+
+    def close(self):
+        """Close WSI file."""
+        if self._slide is not None:
+            self._slide.close()
+            self._slide = None
+
     def _base_init(self):
         """Start internal initialization."""
         self._init_slide(self._wsi_file)
@@ -108,7 +136,7 @@ class BaseSlide:
     def _init_mpp(self):
         """Init MPP related processing and resampling.
 
-        Resample WSI if at least one mpp value does not match any WSI levels
+        Resample WSI if at least one mpp value does not match any WSI levels.
         """
         self._check_resampling_args(self._resampling_mode, self._extra_mpps, self._wsi_name)
         if self._resampling_mode:

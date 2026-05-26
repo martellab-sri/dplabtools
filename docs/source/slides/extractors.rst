@@ -2,6 +2,9 @@
 Patch Extraction
 ================
 
+.. note::
+    For high volume patch extraction, ``dplabtools`` offers dedicated :doc:`/slides/pools`.
+
 ``dplaptools`` provides a set of patch extraction classes, which integrate with the :doc:`/slides/locations`
 classes. Extracted patches can be saved to disk or stored in memory.
 

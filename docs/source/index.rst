@@ -17,7 +17,7 @@ Welcome to Digital Pathology Lab Tools's documentation!
    slides/extractors
    slides/datasets
    slides/inference
-   slides/heatmap
+   slides/heatmaps
    slides/annotations
    slides/pools
    slides/locations_pools

@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -37,7 +37,7 @@ class WSIInference:
 
     # In segmentation models, if inference output size is different from level 0 WSI size, each patch processed by
     # model must be scaled down to match the inference level patch. This is easy to do in classification, where
-    # model output for each patch is represented by a number, however in segmentation tasks model output must
+    # model output for each patch is represented by a number. However, in segmentation tasks model output must
     # be treated as an image and resized using one of the interpolation methods.
     _interpolation_method = cv2.INTER_LINEAR
 
@@ -55,19 +55,20 @@ class WSIInference:
             PyTorch model of function capable of processing model's output.
 
         level_or_minsize : int
-            WSI level or minimal desired size (in pixels) of inference output array.
+            WSI level or minimal desired size (in pixels) of inference output array. This parameter controls
+            the dimensions of the output array created during the inference process.
 
         num_classes : int
             Number of classes present in model output.
 
         num_workers : int
-            Number of worker processes used in data loading.
+            Number of worker processes used in data loading (recommended value is greater than zero).
 
         batch_size : int
             Number of samples per batch to load into GPU.
 
         use_cuda : bool, default=True
-            Declaration whether model will be using CUDA/GPU for processing or not, `False` will indicate pure CPU
+            Declaration whether model will be using CUDA/GPU for processing or not, ``False`` will indicate pure CPU
             processing.
 
         seed : int or float, optional
@@ -110,7 +111,7 @@ class WSIInference:
                 torch.cuda.manual_seed_all(self._seed)
 
     def _set_model(self, model):
-        self._model = model
+        self._model = model.eval()
 
     def _set_classifier(self, classifier):
         self._classifier = classifier
@@ -345,7 +346,7 @@ class WSIInference:
         ----------
         interpolation_method : cv2 enum, default=cv2.INTER_LINEAR
             Interpolation method to be used.
-            Available methods: https://docs.opencv.org/4.9.0/da/d54/group__imgproc__transform.html
+            Available methods: https://docs.opencv.org/4.13.0/da/d54/group__imgproc__transform.html
         """
         cls._interpolation_method = interpolation_method
 
@@ -377,3 +378,8 @@ class WSIInference:
     def interpolation_method(self):
         """Return the `interpolation_method` value set by ``set_interpolation_method`` (default=cv2.INTER_LINEAR)."""
         return self._interpolation_method
+
+    @property
+    def model(self):
+        """Return the model used during inference."""
+        return self._model

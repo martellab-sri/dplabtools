@@ -50,6 +50,9 @@ WSI dataset class (MRP)
 .. autoclass:: dplabtools.slides.processing.WSIMultiResDataset(...)
    :class-doc-from: class
 
+.. seealso::
+    :ref:`misc-mrp-label`
+
 Basic usage
 -----------
 

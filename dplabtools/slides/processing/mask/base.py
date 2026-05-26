@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -80,7 +80,7 @@ class BaseMask(ABC):
             Level of transparency for the mask layer over the WSI.
 
         outline_color : str, default="blue"
-            Color of the mask outline, use `None` to skip drawing outline.
+            Color of the mask outline, use ``None`` to skip drawing outline.
 
         outline_thickness : int, default=2
             Outline thickness in pixels.

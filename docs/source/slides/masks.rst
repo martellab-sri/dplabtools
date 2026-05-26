@@ -38,8 +38,8 @@ Basic usage
     poly1 = AnnotationPolygon(points=[(2000, 2000), (2000, 3000), (3000, 3000), (3000, 2000)], label="")
     poly2 = AnnotationPolygon(points=[(2000, 4000), (2000, 5000), (3000, 5000), (3000, 4000)], label="")
     poly3 = AnnotationPolygon(points=[(4000, 2500), (5000, 3500), (4000, 4500)], label="")
-    polygons = [poly1, poly2, poly3]
-    mask = WSIPolygonMask(wsi_file=wsi_file, level_or_minsize=2, polygons=polygons)
+    polygon_data = [poly1, poly2, poly3]
+    mask = WSIPolygonMask(wsi_file=wsi_file, level_or_minsize=2, polygon_data=polygon_data)
     mask.save_png("mask_polygon.png")
 
 Output (mask_polygon.png):
@@ -54,7 +54,7 @@ Class details
 Parameters specific to ``WSIPolygonMask``:
 
 .. autoparam::
-   :params: polygons
+   :params: polygon_data
    :paths: dplabtools.slides.processing.mask.polygon.WSIPolygonMask
 
 

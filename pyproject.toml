@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools >= 64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dplabtools"
+version = "0.0.5"
+license.file = "LICENSE.txt"
+description = "Collection of Python classes used in Digital Pathology experiments"
+authors = [{name = "Sunnybrook Research Institute"}]
+keywords = ["Digital Pathology", "Computational Pathology", "whole slide images"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Image Processing",
+]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+  "numpy",
+  "pillow>=10.0",
+  "opencv-python",
+  "scikit-image<0.26.0",
+  "matplotlib>=3.7",
+  "shapely>2.0",
+  "tifffile",
+  "tiffslide",
+  "openslide-python",
+  "paquo",
+  "tomli",
+]
+
+[project.urls]
+Homepage = "https://github.com/martellab-sri/dplabtools"
+Changelog = "https://github.com/martellab-sri/dplabtools/blob/main/CHANGELOG.md"
+Source = "https://github.com/martellab-sri/dplabtools"
+Download = "https://github.com/martellab-sri/dplabtools"
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"

@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -383,6 +383,14 @@ class TestWSIInferenceProperties(TestCase):
     def test_torch_device(self):
         self.inference.process_dataset(self.dataset)
         self.assertEqual(str(self.inference.torch_device), "cpu")
+
+    def test_interpolation_method(self):
+        self.inference.process_dataset(self.dataset)
+        self.assertIsNotNone(self.inference.interpolation_method)
+
+    def test_model(self):
+        self.inference.process_dataset(self.dataset)
+        self.assertIsNotNone(self.inference.model)
 
 
 class TestWSIInferenceClassificationFixedOneClassNoStride1(TestCase):
@@ -2266,17 +2274,11 @@ class TestWSIInferenceSegmentationFixedOneClassNoStrideWithTrimming(TestCase):
     Trimming - some patches exceed image borders and need to be resized and trimmed.
     """
 
-    # xy_array1 = None
-
     def setUp(self):
         self.wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
         self.mask_data = np.zeros((2560, 3072), dtype=np.uint8)  # level0
         self.model = DummyFixedSegmentationModelOneClass()
         self.classifier = DummyFunctionClassifierOneClass.action_fn
-        # self.patch_output_value = self.model.fixed_value * DummyFunctionClassifierOneClass.fixed_value
-
-    # def tearDown(self):
-    #    WSIInference.set_interpolation_method(cv2.INTER_LINEAR)
 
     def test_patch_trim_x(self):
         self.mask_data[1792:2560, 1280:2048] = 1  # patches: 90-92, 102-104, 114-116
@@ -2550,6 +2552,77 @@ class TestWSIInferenceRaisedErrors(TestCase):
         )
         with self.assertRaises(ValueError):
             inference.process_dataset(self.dataset)
+
+
+class TestWSIInferenceZeroWorkers(TestCase):
+    """Tests for properly setting zero_workers."""
+
+    def setUp(self):
+        wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+        mask_data = np.zeros((160, 192), dtype=np.uint8)  # level2
+        mask_data[16:32, 48:64] = 1  # patch16
+        mask_data[32:48, 64:80] = 1  # patch29
+        self.patches = WholeImageGridPatches(
+            wsi_file=wsi_file,
+            mask_data=mask_data,
+            patch_size=256,
+            level_or_mpp=0,
+            patch_stride=1,
+            foreground_ratio=0.8,
+            overlap_ratio=0.8,
+        )
+
+    def test_zero_workers_is_set(self):
+        dataset = WSIDataset(patches=self.patches, zero_workers=True)
+        model = DummyFixedClassificationModelThreeClasses()
+        classifier = DummyFunctionClassifierThreeClassesSoftmax.action_fn
+        inference = WSIInference(
+            model=model,
+            classifier=classifier,
+            level_or_minsize=0,
+            num_classes=3,
+            num_workers=0,
+            batch_size=5,
+            use_cuda=False,
+        )
+        inference.process_dataset(dataset)
+        self.assertIsNotNone(inference.classes_array)
+
+    def test_zero_workers_not_set(self):
+        # This should generate an error when reading patches:
+        #    AttributeError: 'NoneType' object has no attribute 'get_region'
+        dataset = WSIDataset(patches=self.patches, zero_workers=False)
+        model = DummyFixedClassificationModelThreeClasses()
+        classifier = DummyFunctionClassifierThreeClassesSoftmax.action_fn
+        inference = WSIInference(
+            model=model,
+            classifier=classifier,
+            level_or_minsize=0,
+            num_classes=3,
+            num_workers=0,
+            batch_size=5,
+            use_cuda=False,
+        )
+        with self.assertRaises(AttributeError):
+            inference.process_dataset(dataset)
+
+
+class TestWSIInferenceEvalMode(TestCase):
+    """Test for checking model evaluation mode."""
+
+    def test_eval_mode(self):
+        model = DummyFixedClassificationModelThreeClasses()
+        classifier = DummyFunctionClassifierThreeClassesSoftmax.action_fn
+        inference = WSIInference(
+            model=model,
+            classifier=classifier,
+            level_or_minsize=0,
+            num_classes=3,
+            num_workers=0,
+            batch_size=5,
+            use_cuda=False,
+        )
+        self.assertFalse(inference.model.training)
 
 
 class TestWSIInferenceFileSaving(TestCase):

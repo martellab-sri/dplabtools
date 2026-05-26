@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -14,7 +14,7 @@ from unittest import TestLoader, TextTestRunner, TestCase, TestResult, skipIf
 
 from dplabtools.config import print_messages as config_log_file
 from dplabtools.config import slide_library as config_lib_name
-from dplabtools._version import __version__ as lib_version
+from dplabtools import __version__ as lib_version
 from testconsts import testdata_dir, saveddata_dir, refdata_dir, logs_dir
 from testconfig import fast_tests_only, delete_created_files, screen_verbosity
 from testutils import make_test_path
@@ -110,8 +110,7 @@ saveddata_subdirs = [
     "inference2c",
     "inference3",
     "masks",
-    "heatmaps1",
-    "heatmaps2",
+    "heatmaps",
     "print",
     "tmp",
     "utils",

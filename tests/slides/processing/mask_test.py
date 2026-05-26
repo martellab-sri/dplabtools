@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -102,19 +102,32 @@ class TestWSIPolygonMaskStaticMethodCreate(TestCase):
             WSIPolygonMask._create_mask(mask_size, polygons)
 
 
+class TestWSIPolygonMaskJSONPolygons(TestCase):
+    """Tests for reading JSON data."""
+
+    def test_polygon_mask_read_json(self):
+        output_mask = np.full((2560, 3072), False, dtype=bool)
+        output_mask[50:201, 50:101] = True
+        polygon_data = make_test_path("mask/mask.json")
+        wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-clean.tif")
+        mask = WSIPolygonMask(wsi_file=wsi_file_tif, level_or_minsize=0, polygon_data=polygon_data)
+        # compare
+        np.testing.assert_equal(mask.array, output_mask)
+
+
 class TestWSIPolygonMaskSavingFiles(TestCase):
     """Tests for saving files in polygon mask class."""
 
     def test_polygon_mask_saving_files(self):
         poly1 = AnnotationPolygon(points=[(100, 100), (100, 200), (500, 200), (500, 100)], label="")
-        polygons = [poly1]
+        polygon_data = [poly1]
         wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-clean.tif")
         save_dir = make_test_path("saved_data/masks")
         array_file_name = "polygon_mask.npz"
         png_file_name = "polygon_mask.png"
         array_file_path = os.path.join(save_dir, array_file_name)
         png_file_path = os.path.join(save_dir, png_file_name)
-        mask = WSIPolygonMask(wsi_file=wsi_file_tif, level_or_minsize=1, polygons=polygons)
+        mask = WSIPolygonMask(wsi_file=wsi_file_tif, level_or_minsize=1, polygon_data=polygon_data)
         mask.save_array(array_file_path)
         mask.save_png(png_file_path)
         # read saved files
@@ -134,8 +147,8 @@ class TestWSIPolygonMaskSavingOverlay(TestCase):
         wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-clean.tif")
         save_dir = make_test_path("saved_data/masks")
         poly1 = AnnotationPolygon(points=[(128, 64), (128, 256), (512, 256), (512, 64)], label="")
-        polygons = [poly1]
-        mask = WSIPolygonMask(wsi_file=wsi_file_tif, level_or_minsize=1, polygons=polygons)
+        polygon_data = [poly1]
+        mask = WSIPolygonMask(wsi_file=wsi_file_tif, level_or_minsize=1, polygon_data=polygon_data)
         png_file_name = "test_overlay9.png"
         png_file_path = os.path.join(save_dir, png_file_name)
         mask.save_overlay_png(png_file_path)
@@ -721,9 +734,10 @@ class TestWSITissueMaskSavingFiles(TestCase):
 class TestWSITissueMaskSavingOverlay(TestCase):
     """Tests for saving overlays in tissue mask class."""
 
-    wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-clean.tif")
-    save_dir = make_test_path("saved_data/masks")
-    mask = WSITissueMask(wsi_file=wsi_file_tif, level_or_minsize=2)
+    def setUp(self):
+        wsi_file_tif = make_test_path("wsi/board-multi-layer-no-compression-mpp-clean.tif")
+        self.save_dir = make_test_path("saved_data/masks")
+        self.mask = WSITissueMask(wsi_file=wsi_file_tif, level_or_minsize=2)
 
     def test_tissue_mask_saving_overlay1(self):
         # default params

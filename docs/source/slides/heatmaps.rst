@@ -1,14 +1,14 @@
-=======
-Heatmap
-=======
+========
+Heatmaps
+========
 
 ``dplabtools`` offers a dedicated heatmap class for visualizing WSI inference results performed by the ``WSIInference``
 class.
 
 ``WSIHeatmap`` class features include:
 
-* Configurable color or transparency for image background.
 * Configurable color map, data range, and transparency for visualized data.
+* Configurable color or transparency for image background.
 * Saving in different image formats, along with embedded resolution information.
 * Saving as overlays with a cut-off point.
 * Support for custom drawing functions for labels or watermarks added to saved images.
@@ -22,8 +22,8 @@ Assuming that the variable ``inference`` represents a ``WSIInference`` object:
 
         from dplabtools.slides.processing import WSIHeatmap
 
-        heatmap = WSIHeatmap(heatmap_data=inference.classes_array[0])
-        heatmap.save_png("heatmap1.png")
+        heatmap = WSIHeatmap(heatmap_data=inference.classes_array[0], wsi_file=None)
+        heatmap.save_image("heatmap1.png")
 
 Output (heatmap1.png):
 
@@ -46,7 +46,7 @@ Class details
 
 .. warning::
 
-    When generating heatmaps for a larger collection of images in one experiment, a data range should be specified
+    When generating heatmaps for a larger collection of images in one experiment, a color map range should be specified
     (using ``vmin`` and ``vmax``), otherwise the same color will represent different values for different images.
 
 Examples
@@ -88,8 +88,9 @@ using ``save_png``:
         font = ImageFont.truetype(font_path, size)
         drawing_conext.text((x, y), label, font=font, fill=(0,0,0))
 
-    heatmap = WSIHeatmap(heatmap_data=inference.classes_array[0], alpha=1, background_color="yellow")
-    heatmap.save_png("heatmap6.png", draw_fn=draw_function, draw_args=(50, 50, "Image label", 300))
+    heatmap = WSIHeatmap(heatmap_data=inference.classes_array[0], wsi_file=None,
+                         alpha=1, background_color="yellow")
+    heatmap.save_image("heatmap6.png", draw_fn=draw_function, draw_args=(50, 50, "Image label", 300))
 
 Output:
 

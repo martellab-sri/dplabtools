@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -31,9 +31,9 @@ def setup(app):
 
 
 project = "Digital Pathology Lab Tools"
-copyright = "2024 Sunnybrook Research Institute"
+copyright = "2024-2026 Sunnybrook Research Institute"
 author = "Sunnybrook Research Institute"
-release = "0.0.4"
+release = "0.0.5"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

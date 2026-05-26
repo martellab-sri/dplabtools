@@ -12,7 +12,7 @@ patch extraction and heatmap generation.
 * Support for single and multi resolution patches using dedicated :doc:`/slides/datasets`.
 * Support for multi class model output.
 * Configurable GPU/CPU processing.
-* Inference output integrated with the :doc:`/slides/heatmap` class.
+* Inference output integrated with the :doc:`/slides/heatmaps` class.
 * Ability to save results as images, also containing embedded resolution information.
 * Parallelization based on PyTorch DataLoaders.
 
@@ -50,6 +50,7 @@ The full inference process consists of the following steps:
 4. Initializing PyTorch model/classifier
 5. Creating WSIInference object
 6. Processing WSI dataset
+7. Handling inference output
 
 .. code-block:: python
 
@@ -72,15 +73,23 @@ The full inference process consists of the following steps:
     classifier = get_classifier()
 
     # Step 5
-    inference = WSIInference(model=model, classifier=classifier, level_or_minsize=0, num_classes=2)
+    inference = WSIInference(model=model, classifier=classifier, level_or_minsize=2,
+                             num_classes=2, num_workers=6, batch_size=128)
 
     # Step 6
     inference.process_dataset(dataset)
 
+    # Step 7
+    print(inference.classes_array)
+
 .. note::
 
-    When processing multiple WSIs in one go, to adhere to performance, steps 4 and 5 should be performed only once 
+    When processing multiple WSIs in one go, to adhere to performance, steps 4 and 5 should be performed only once
     (rather than executed separately for each WSI).
+
+.. warning::
+    When running inference with ``num_workers=0``, the corresponding WSI dataset class must be created with ``zero_workers=True``:
+    :ref:`wsidataset-common-parameters-label`.
 
 
 Model initialization checklist
@@ -103,18 +112,8 @@ Model initialization checklist
         ...
         return model
 
-* Some PyTorch models must be set in evaluation mode when running the inference, this should be set inside ``get_model``
-  by calling ``eval()``:
-
-
-  .. code-block:: python
-
-    def get_model():
-        model = MyPyTorchModel()
-        model.load_state_dict(torch.load(MODEL_PATH))
-        model.eval()
-        ...
-        return model
+  .. note::
+      ``model.eval()`` will be called automatically during the inference process.
 
 * When using CUDA processing (``WSIInference`` default mode), the model should be loaded into GPU memory inside
   ``get_model`` by calling ``cuda()``:
@@ -138,6 +137,9 @@ Model initialization checklist
         model.load_state_dict(torch.load(MODEL_PATH, map_location="cpu"))
         ...
         return model
+
+* If data processed during inference requires prior transformations, those transformations should be specified
+  in the corresponding WSI dataset class (parameter ``transform_fn``): :ref:`wsidataset-common-parameters-label`.
 
 .. note::
 
@@ -167,7 +169,10 @@ output, wrapped in ``get_classifier`` function:
 
     classifier = get_classifier()
 
-In cases the when the classifier is not desirable its value should be set to `None`.
+Additional notes:
+
+* When the classifier is not desirable, its value should be set to ``None``.
+* When the classifier needs to call ``.eval()``, that call should be made manually.
 
 
 Class details

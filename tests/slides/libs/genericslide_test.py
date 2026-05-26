@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -2449,3 +2449,31 @@ class TestGenericSlidePublicMethods(TestCase):
         output_property = "None"
         result_property = wsi_slide_tif.get_property("tiff.ResolutionUnit")
         self.assertEqual(result_property.upper(), output_property.upper())
+
+
+class TestGenericSlideContextManager(TestCase):
+    """Tests for the context manager interface.
+
+    Pay attention to Python warnings as well.
+    """
+
+    def setUp(self):
+        self.wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+
+    def test_context_manager1(self):
+        with GenericSlide(wsi_file=self.wsi_file) as slide:
+            img = slide.get_region((10, 10), 0, (20, 20))
+        self.assertTrue(img)
+
+
+class TestGenericSlideStrRepr(TestCase):
+    """Tests for str/repr."""
+
+    def setUp(self):
+        self.wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+
+    def test_str_repr1(self):
+        with GenericSlide(wsi_file=self.wsi_file) as slide:
+            str1 = str(slide)
+            str2 = repr(slide)
+        self.assertNotEqual(str1, str2)

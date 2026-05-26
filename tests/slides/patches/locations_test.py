@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -218,14 +218,10 @@ class TestPatchesBaseStaticMethods(TestCase):
         self.assertIsInstance(result_polygons[0], Polygon)
         self.assertIsInstance(result_polygons[1], Polygon)
         # fail on invalid buffer list
-        polygon_points = [[(779, 652), (779, 653), (779, 653), (779, 652), (779, 652)]]
+        polygon_points = [(779, 652), (779, 653), (779, 653), (779, 652), (779, 652)]
         polygons = [AnnotationPolygon(points=polygon_points, label="label1")]
         buffer_list = [0, 1]
         with self.assertRaises(IndexError):
-            PatchesTestMock._get_shapely_polygons(polygons, buffer_list, wsi_name)
-        # fail on empty (area=0) polygon
-        buffer_list = [0]
-        with self.assertRaises(ValueError):
             PatchesTestMock._get_shapely_polygons(polygons, buffer_list, wsi_name)
 
     def test__create_valid_polygon(self):
@@ -1505,7 +1501,7 @@ class TestPatchesBaseStaticMethodsPolygonChecks(TestCase):
         poly7 = Polygon([(3400, 50), (3400, 200), (3900, 200), (3900, 50)])
         poly8 = Polygon(
             [(3600, 50), (3600, 200), (4100, 200), (4100, 50)],
-            holes=[[(3650, 300), (3650, 330), (3700, 330), (3700, 300)]],
+            holes=[[(3650, 100), (3650, 130), (3700, 130), (3700, 100)]],
         )
         # neither contained nor overlapping
         poly9 = Polygon(
@@ -1717,7 +1713,7 @@ class TestPatchesBaseStaticMethodsPolygonChecks(TestCase):
             [(100, 100), (100, 300), (300, 300), (300, 100)],
             holes=[
                 [(200, 200), (200, 250), (250, 250), (250, 200)],
-                [(15, 20), (15, 25), (25, 25), (25, 20)],
+                [(150, 150), (150, 170), (170, 170), (170, 150)],
             ],
         )
         shapely_polygons = [poly1, poly2]

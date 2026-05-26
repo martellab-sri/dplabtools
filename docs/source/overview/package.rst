@@ -17,7 +17,7 @@ Main features
 * Efficient :doc:`/slides/extractors` methods for calculated patches.
 * Support for :ref:`misc-mrp-label` across the whole package.
 * :doc:`/slides/inference` class capable of running trained models on WSIs.
-* Integrated :doc:`/slides/heatmap` class for visualizing inference results.
+* Integrated :doc:`/slides/heatmaps` class for visualizing inference results.
 * Support for the most popular WSI :doc:`/slides/annotations` types.
 * Specialized :doc:`/slides/pools` for parallel WSI processing.
 * Extensive but not exhausting documentation :-)
@@ -38,13 +38,20 @@ To install any previous/specific version:
 
     pip install dplabtools==X.Y.Z
 
-All required dependencies will be installed automatically apart from PyTorch, which is expected to be installed
-manually, if PyTorch dependable ``dplabtools`` classes are planned to be used.
+All required dependencies will be installed automatically, apart from PyTorch, which should be installed manually
+if ``dplabtools`` classes that depend on it are to be used. In that case, it is recommended that PyTorch be installed
+first, followed by ``dplabtools``.
 
 .. note::
 
     To function properly, OpenSlide Python package requires OpenSlide binaries to be installed. This installation 
     process varies between operating systems, more details can be found at `openslide.org <https://openslide.org/>`_.
+
+
+Code repository
+===============
+
+Package ``dplabtools`` is hosted on `GitHub <https://github.com/martellab-sri/dplabtools/>`_.
 
 
 Requirements
@@ -57,8 +64,12 @@ multiprocessing code).
 General requirements:
 
 * Any Linux operating system
-* Currently supported Python versions: 3.8 - 3.11
-* Currently supported PyTorch versions: 1.x
+* Currently supported Python versions: 3.10 - 3.13
+* Currently supported PyTorch versions: 1.x - 2.x
+
+.. note::
+
+   Python **3.14** is not currently supported.
 
 
 Conventions
@@ -84,12 +95,21 @@ The following conventions are used across the package:
   `Matplotlib library. <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
 
 
+Acknowledgements
+================
+Thanks to the following Digital Pathology projects and their maintainers/contributors, whose libraries improved this project:
+
+* `OpenSlide <https://openslide.org/>`_
+* `TiffSlide <https://pypi.org/project/tiffslide/>`_
+* `Paquo <https://pypi.org/project/paquo/>`_
+
+
 License and copyright
 =====================
 
 Package ``dplabtools`` is released under the terms of the Apache 2.0 license available
 `here. <https://www.apache.org/licenses/LICENSE-2.0>`_
 
-Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 
 All trademarks are property of their respective owners.

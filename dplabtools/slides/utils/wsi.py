@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -92,7 +92,7 @@ def compute_wsi_resolution_data(wsi_slide, downsample_factor):
     # 10000 is conversion from microns to centimeters
     mpp_x_scaled = 10000 / (mpp_x_slide * downsample_factor)
     mpp_y_scaled = 10000 / (mpp_y_slide * downsample_factor)
-    resolution_data = (mpp_x_scaled, mpp_y_scaled, "CENTIMETER")
+    resolution_data = ((mpp_x_scaled, mpp_y_scaled), "CENTIMETER")
     return resolution_data
 
 

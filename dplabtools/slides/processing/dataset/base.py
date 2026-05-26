@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -42,7 +42,7 @@ class BaseDataset(ABC, Dataset):
         transform_fn : callable, optional
             A user-defined image transformation that will be called on each patch extracted via ``get_region``,
             this transformation should run its own to-tensor conversion. If no transformation is provided,
-            the image objects will be converted to tensors using `to_tensor` from the `torchvision` package.
+            the image objects will be converted to tensors using ``to_tensor`` from the `torchvision` package.
 
         resampling_mode : str, optional
             One of two supported down/up-sampling methods: ``wsi`` or ``tile``.
@@ -51,7 +51,7 @@ class BaseDataset(ABC, Dataset):
             List of MPP values for ``wsi`` resampling mode.
 
         zero_workers : bool, default=False
-            Set to `True` if dataloaders using the dataset will have `num_workers` set to 0.
+            Set to ``True``, if ``WSIInference`` class will have ``num_workers`` set to 0.
 
         save_patches_dir : str, optional
             Directory for saving the extracted patches, should only be used for troubleshooting inference problems.

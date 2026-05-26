@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -72,7 +72,7 @@ class BasePatches(ABC):
             WSI file name or path.
 
         mask_data : str or object
-            Mask file name or path, NumPy array object, or Pillow image object.
+            NumPy array (file or object), or Pillow image (file or object).
 
         patch_size : int, default=256
             Size of calculated patches.
@@ -230,6 +230,8 @@ class BasePatches(ABC):
         for counter, polygon in enumerate(polygons):
             polygon_buffer = polygon_buffer_list[counter]
             shapely_polygon = BasePatches._create_valid_polygon(polygon, polygon_buffer, wsi_name)
+            # Condition below is impossible to trigger (thus not tested), as in Shapely,
+            # when area is 0, polygon is invalid by definition.
             if shapely_polygon.area == 0:
                 raise ValueError(
                     "%s: Mask level polygon is empty. Recommended actions: increase mask size, "

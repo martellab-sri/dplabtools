@@ -1,6 +1,6 @@
 # This file is part of the Digital Pathology Lab Tools (dplabtools) Python package.
 #
-# Copyright 2024 Sunnybrook Research Institute - All Rights Reserved.
+# Copyright 2024-2026 Sunnybrook Research Institute - All Rights Reserved.
 #
 # You may use, modify and distribute this code under the terms of the Apache 2.0 license provided
 # in the root of this project, also available at: https://www.apache.org/licenses/LICENSE-2.0
@@ -23,8 +23,9 @@ from testutils import make_test_path
 class TestUtilsWsi(TestCase):
     """Tests for functions included in slides.utils.wsi."""
 
-    wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
-    wsi_slide = GenericSlide(wsi_file=wsi_file)
+    def setUp(self):
+        self.wsi_file = make_test_path("wsi/board-multi-layer-no-compression-mpp.tif")
+        self.wsi_slide = GenericSlide(wsi_file=self.wsi_file)
 
     def test_get_wsi_name(self):
         input_string = "/tmp/dir/aaa.txt"
@@ -101,9 +102,9 @@ class TestUtilsWsi(TestCase):
         wsi_file = make_test_path("wsi/TUPAC-TE-234.svs")
         wsi_slide = GenericSlide(wsi_file=wsi_file)
         downsample_factor = wsi_slide.level_downsamples[1]
-        output_tuple = (9920.2783, 9920.2783, "CENTIMETER")
+        output_tuple = ((9920.2783, 9920.2783), "CENTIMETER")
         result_tuple = wsi.compute_wsi_resolution_data(wsi_slide, downsample_factor)
-        result_tuple = (round(result_tuple[0], 4), round(result_tuple[1], 4), result_tuple[2])
+        result_tuple = ((round(result_tuple[0][0], 4), round(result_tuple[0][1], 4)), result_tuple[1])
         self.assertEqual(result_tuple, output_tuple)
 
     @patch("dplabtools.slides.libs.genericslide.GenericSlide._get_mpp_data")
@@ -111,7 +112,7 @@ class TestUtilsWsi(TestCase):
         mock_func.return_value = (0.001, 0.001)
         wsi_slide = GenericSlide(wsi_file=self.wsi_file)
         downsample_factor = 16
-        output_tuple = (625000.0, 625000.0, "CENTIMETER")
+        output_tuple = ((625000.0, 625000.0), "CENTIMETER")
         result_tuple = wsi.compute_wsi_resolution_data(wsi_slide, downsample_factor)
         self.assertEqual(result_tuple, output_tuple)
 
