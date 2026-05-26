@@ -13,10 +13,10 @@ import importlib.metadata
 
 import tomli
 
-pyproject_path = pathlib.Path(__file__).parent / "pyproject.toml"
+pyproject_path = pathlib.Path(__file__).parent.parent / "pyproject.toml"
 
-if (pyproject_path).exists():
-    with open(pyproject_path, "r") as pf:
+if pyproject_path.exists():
+    with open(pyproject_path, "rb") as pf:
         __version__ = tomli.load(pf)["project"]["version"]
 else:
     __version__ = importlib.metadata.version("dplabtools")
